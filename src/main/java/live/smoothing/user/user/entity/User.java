@@ -1,14 +1,11 @@
 package live.smoothing.user.user.entity;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import live.smoothing.user.userauth.entity.UserAuth;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -28,6 +25,9 @@ public class User {
 
     @Column(name = "user_email")
     private String userEmail;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<UserAuth> userAuths = new ArrayList<>();
 
     @Builder
     public User(String userId, String userPassword, String userName, String userEmail) {
