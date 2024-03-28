@@ -1,10 +1,11 @@
 package live.smoothing.user.auth.dto;
 
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UpdateAuthRequest {
     private String authInfo;
 
