@@ -10,6 +10,7 @@ public class AuthResponse {
     private Long authId;
     private String authInfo;
 
-    // Getter, Setter로 메서드 생략
-
+    public AuthResponse(String authInfo) {
+        this.authInfo = authInfo;
+    }
 }
