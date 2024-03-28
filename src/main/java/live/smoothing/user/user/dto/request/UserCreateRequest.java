@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CreateUserRequest {
+public class UserCreateRequest {
 
     private String userId;
     private String userPassword;
@@ -24,6 +24,7 @@ public class CreateUserRequest {
                 .userPassword(userPassword)
                 .userName(userName)
                 .userEmail(userEmail)
+                .deleteState(false)
                 .build();
     }
 }
