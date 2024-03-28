@@ -60,7 +60,7 @@ class AuthControllerTest {
         // given
 
         // when
-        mockMvc.perform(get("/api/auth"))
+        mockMvc.perform(get("/api/auth/list"))
                 .andExpect(status().isOk());
 
         // then
