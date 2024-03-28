@@ -5,7 +5,7 @@ import live.smoothing.user.auth.dto.CreateAuthRequest;
 import live.smoothing.user.auth.dto.UpdateAuthRequest;
 import live.smoothing.user.auth.entity.Auth;
 import live.smoothing.user.auth.repository.AuthRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,14 +13,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
     private final AuthRepository authRepository;
-
-    @Autowired
-    public AuthServiceImpl(AuthRepository authRepository) {
-        this.authRepository = authRepository;
-    }
 
     @Override
     @Transactional
