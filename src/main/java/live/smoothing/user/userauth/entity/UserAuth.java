@@ -18,12 +18,10 @@ public class UserAuth {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("authId")
-    @JoinColumn(name = "auth_id")
     private Auth auth;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
-    @JoinColumn(name = "user_id")
     private User user;
 
     @Getter
@@ -31,7 +29,11 @@ public class UserAuth {
     @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Pk implements Serializable {
+
+        @Column(name = "auth_id")
         private Long authId;
+
+        @Column(name = "user_id")
         private String userId;
     }
 
