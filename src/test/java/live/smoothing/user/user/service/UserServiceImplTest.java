@@ -3,7 +3,7 @@ package live.smoothing.user.user.service;
 
 import live.smoothing.user.auth.entity.Auth;
 import live.smoothing.user.auth.repository.AuthRepository;
-import live.smoothing.user.user.dto.request.CreateUserRequest;
+import live.smoothing.user.user.dto.request.UserCreateRequest;
 import live.smoothing.user.user.entity.User;
 import live.smoothing.user.user.repository.UserRepository;
 import live.smoothing.user.userauth.dto.UserAuthRequest;
@@ -48,9 +48,9 @@ class UserServiceImplTest {
     @DisplayName("유저 생성 테스트")
     void createUserTest() throws Exception {
 
-        Constructor<CreateUserRequest> constructor = CreateUserRequest.class.getDeclaredConstructor();
+        Constructor<UserCreateRequest> constructor = UserCreateRequest.class.getDeclaredConstructor();
         constructor.setAccessible(true);
-        CreateUserRequest userRequest = constructor.newInstance();
+        UserCreateRequest userRequest = constructor.newInstance();
 
         List<UserAuthRequest> userAuths = new ArrayList<>();
         userAuths.add(new UserAuthRequest(1L));
