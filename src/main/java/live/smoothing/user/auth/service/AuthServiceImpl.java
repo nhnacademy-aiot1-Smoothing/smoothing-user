@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -48,5 +51,13 @@ public class AuthServiceImpl implements AuthService {
         Auth auth = authRepository.findById(authId)
                 .orElseThrow(() -> new RuntimeException("인증 ID를 찾을 수 없습니다." + authId));
         authRepository.delete(auth);
+    }
+
+    @Override
+    public List<AuthResponse> getAllAuths() {
+        List<Auth> authList = authRepository.findAll();
+        return authList.stream()
+                .map(auth -> new AuthResponse(auth.getAuthId(), auth.getAuthInfo()))
+                .collect(Collectors.toList());
     }
 }
