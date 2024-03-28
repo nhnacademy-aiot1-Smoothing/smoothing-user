@@ -1,7 +1,8 @@
-package live.smoothing.user.contoller;
+package live.smoothing.user.auth.controller;
 
 import live.smoothing.user.auth.dto.AuthResponse;
 import live.smoothing.user.auth.dto.CreateAuthRequest;
+import live.smoothing.user.auth.dto.UpdateAuthRequest;
 import live.smoothing.user.auth.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,14 +41,14 @@ public class AuthController {
     }
 
     @PutMapping("/{authId}")
-    public ResponseEntity<Void> updateAuth(@PathVariable Long authId, @RequestBody CreateAuthRequest request) {
-        authService.deleteAuth(authId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> updateAuth(@PathVariable Long authId, @RequestBody UpdateAuthRequest request) {
+        authService.updateAuth(authId, request);
+        return ResponseEntity.ok("잘 수정 되었어요!");
     }
 
     @DeleteMapping("/{authId}")
-    public ResponseEntity<Void> deleteAuth(@PathVariable Long authId) {
+    public ResponseEntity<String> deleteAuth(@PathVariable Long authId) {
         authService.deleteAuth(authId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("잘 삭제 되었어요!");
     }
 }
