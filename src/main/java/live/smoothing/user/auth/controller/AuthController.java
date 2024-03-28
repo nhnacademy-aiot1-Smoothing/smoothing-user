@@ -28,7 +28,7 @@ public class AuthController {
         return ResponseEntity.ok(authResponse);
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<AuthResponse>> getAllAuths() {
         List<AuthResponse> authResponses = authService.getAllAuths();
         return ResponseEntity.ok(authResponses);
