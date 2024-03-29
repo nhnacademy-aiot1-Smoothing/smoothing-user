@@ -11,7 +11,7 @@ public interface AuthService {
     void createAuth(CreateAuthRequest request);
 
     AuthResponse getAuth(Long authId);
-    void updateAuth(Long authId, UpdateAuthRequest request);
+    void updateAuth(long authId, UpdateAuthRequest request);
     void deleteAuth(Long authId);
 
     List<AuthResponse> getAllAuths();
