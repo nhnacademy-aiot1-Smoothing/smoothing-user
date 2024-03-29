@@ -26,9 +26,6 @@ public class Auth {
         this.authInfo = authInfo;
     }
 
-    public Auth(long l, String testAuth) {
-    }
-
     public void updateAuthInfo(String authInfo) {
         this.authInfo = authInfo;
     }
