@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserResponseTemplate getUserSimpleInfo(String userId) {
+    public UserResponseTemplate<UserSimpleResponse> getUserSimpleInfo(String userId) {
 
         UserSimpleResponse userSimpleResponse = userRepository.findSimpleByUserId(userId)
                 .orElseThrow(() -> new EntityNotFoundException("엔티티가 존재하지 않습니다."));
@@ -64,12 +64,12 @@ public class UserServiceImpl implements UserService {
                 .map(userAuth -> new AuthResponse(userAuth.getAuth().getAuthId(), userAuth.getAuth().getAuthInfo()))
                 .collect(Collectors.toList());
 
-        return new UserResponseTemplate(userSimpleResponse, authResponses);
+        return new UserResponseTemplate<>(userSimpleResponse, authResponses);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public UserResponseTemplate getUserDetailInfo(String userId) {
+    public UserResponseTemplate<UserDetailResponse> getUserDetailInfo(String userId) {
 
         UserDetailResponse userDetailResponse = userRepository.findDetailByUserId(userId)
                 .orElseThrow(() -> new EntityNotFoundException("엔티티가 존재하지 않습니다."));
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
                 .map(userAuth -> new AuthResponse(userAuth.getAuth().getAuthId(), userAuth.getAuth().getAuthInfo()))
                 .collect(Collectors.toList());
 
-        return new UserResponseTemplate(userDetailResponse, authResponses);
+        return new UserResponseTemplate<>(userDetailResponse, authResponses);
     }
 
     @Override

@@ -6,18 +6,25 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserCreateRequest {
 
-
+    @NotNull
     private String userId;
+
+    @NotNull
     private String userPassword;
+
+    @NotNull
     private String userName;
+
     private String userEmail;
-    private List<UserAuthRequest> userAuths;
+    private List<@Valid UserAuthRequest> userAuths;
 
     public User toEntity(String hashingPw){
         return User.builder()
