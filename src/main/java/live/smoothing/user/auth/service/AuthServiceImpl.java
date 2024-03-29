@@ -38,7 +38,6 @@ public class AuthServiceImpl implements AuthService {
     public void updateAuth(long authId, UpdateAuthRequest request) {
         Auth auth = authRepository.findById(authId)
                 .orElseThrow(() -> new RuntimeException("인증 ID를 찾을 수 업습니다."));
-                    //.orElseThrow(() -> new RuntimeException("인증 Id를 찾을 수 없습니다." + authId));
 
         auth.updateAuthInfo(request.getAuthInfo());
 
