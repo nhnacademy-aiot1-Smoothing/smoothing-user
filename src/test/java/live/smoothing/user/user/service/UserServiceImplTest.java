@@ -62,7 +62,7 @@ class UserServiceImplTest {
         ReflectionTestUtils.setField(userRequest, "userAuths", userAuths);
 
         Auth auth = new Auth("RULE_USER");
-        User user = userRequest.toEntity();
+        User user = userRequest.toEntity(PW);
         user.getUserAuths().add(new UserAuth(auth, user));
 
         // 모의 처리

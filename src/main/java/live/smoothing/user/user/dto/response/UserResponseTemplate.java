@@ -4,15 +4,17 @@ import live.smoothing.user.auth.dto.AuthResponse;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class UserResponseTemplate {
 
     private final Object user;
-    private final List<AuthResponse> auths;
+    private final List<String> auths;
 
     public UserResponseTemplate(Object user, List<AuthResponse> auths) {
         this.user = user;
-        this.auths = auths;
+        this.auths = auths.stream().map(AuthResponse::getAuthInfo)
+                .collect(Collectors.toList());
     }
 }

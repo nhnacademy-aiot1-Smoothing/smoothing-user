@@ -1,11 +1,13 @@
 package live.smoothing.user.user.service;
 
+import live.smoothing.user.adapter.AuthAdapter;
 import live.smoothing.user.auth.dto.AuthResponse;
 import live.smoothing.user.auth.entity.Auth;
 import live.smoothing.user.auth.repository.AuthRepository;
 import live.smoothing.user.user.dto.request.UserCreateRequest;
 import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 import live.smoothing.user.user.dto.request.UserPWModifyRequest;
+import live.smoothing.user.user.dto.response.PasswordDto;
 import live.smoothing.user.user.dto.response.UserDetailResponse;
 import live.smoothing.user.user.dto.response.UserResponseTemplate;
 import live.smoothing.user.user.dto.response.UserSimpleResponse;
@@ -30,12 +32,16 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final AuthRepository authRepository;
     private final UserAuthRepository userAuthRepository;
+    private final AuthAdapter adapter;
 
     @Override
     @Transactional
     public void createUser(UserCreateRequest request) {
 
-        User user = request.toEntity();
+        PasswordDto response = adapter.encodingPassword(new PasswordDto(request.getUserPassword()))
+                .orElseThrow(() -> new RuntimeException("api 요청 실패"));
+
+        User user = request.toEntity(response.getPassword());
 
         for (UserAuthRequest userAuthRequest : request.getUserAuths()) {
             Auth auth = authRepository.getReferenceById(userAuthRequest.getUserAuthId());
@@ -55,7 +61,7 @@ public class UserServiceImpl implements UserService {
         List<UserAuth> auths = userAuthRepository.findByUser_UserId(userId);
 
         List<AuthResponse> authResponses = auths.stream()
-                .map(userAuth -> new AuthResponse(userAuth.getAuth().getAuthInfo()))
+                .map(userAuth -> new AuthResponse(userAuth.getAuth().getAuthId(), userAuth.getAuth().getAuthInfo()))
                 .collect(Collectors.toList());
 
         return new UserResponseTemplate(userSimpleResponse, authResponses);
@@ -71,7 +77,7 @@ public class UserServiceImpl implements UserService {
         List<UserAuth> auths = userAuthRepository.findByUser_UserId(userId);
 
         List<AuthResponse> authResponses = auths.stream()
-                .map(userAuth -> new AuthResponse(userAuth.getAuth().getAuthInfo()))
+                .map(userAuth -> new AuthResponse(userAuth.getAuth().getAuthId(), userAuth.getAuth().getAuthInfo()))
                 .collect(Collectors.toList());
 
         return new UserResponseTemplate(userDetailResponse, authResponses);
