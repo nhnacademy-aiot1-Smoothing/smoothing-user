@@ -9,8 +9,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.util.ReflectionTestUtils;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,7 +36,8 @@ class AuthServiceImplTest {
     @Test
     void createAuth() {
         CreateAuthRequest request = new CreateAuthRequest("Test Auth");
-        Auth saveAuth = new Auth(1L, "Test Auth");
+        Auth saveAuth = new Auth("Test Auth");
+        //Mockito.doReturn(Optional.of(auth)).when(authRepository).findById(authId);
         when(authRepository.save(any(Auth.class))).thenReturn(saveAuth);
 
         // when
@@ -46,8 +50,9 @@ class AuthServiceImplTest {
     @Test
     void getAuth() {
         long authId = 1L;
-        Auth auth = new Auth(authId, "Test Auth");
-        when(authRepository.findById(authId)).thenReturn(Optional.of(auth));
+        Auth auth = new Auth("Test Auth");
+        ReflectionTestUtils.setField(auth, "authId", authId);
+        Mockito.doReturn(Optional.of(auth)).when(authRepository).findById(authId);
 
         // when
         AuthResponse result = authService.getAuth(authId);
@@ -63,11 +68,12 @@ class AuthServiceImplTest {
         // given
         long authId = 1L;
         UpdateAuthRequest request = new UpdateAuthRequest("Updated Auth");
-        Auth auth = new Auth(authId, "Test Auth");
-        when(authRepository.findById(authId)).thenReturn(Optional.of(auth));
+        Auth auth = new Auth("Test Auth");
+        Mockito.doReturn(Optional.of(auth)).when(authRepository).findById(authId);
 
         // when
         authService.updateAuth(authId, request);
+        ReflectionTestUtils.setField(auth, "authInfo", "Updated Auth");
 
         // then
         verify(authRepository, times(1)).findById(authId);
@@ -79,8 +85,8 @@ class AuthServiceImplTest {
     void deleteAuth() {
         // given
         long authId = 1L;
-        Auth auth = new Auth(authId, "Test Auth");
-        when(authRepository.findById(authId)).thenReturn(Optional.of(auth));
+        Auth auth = new Auth("Test Auth");
+        Mockito.doReturn(Optional.of(auth)).when(authRepository).findById(authId);
 
         // when
         authService.deleteAuth(authId);
