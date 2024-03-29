@@ -1,9 +1,11 @@
 package live.smoothing.user.user.service;
 
 
+import live.smoothing.user.adapter.AuthAdapter;
 import live.smoothing.user.auth.entity.Auth;
 import live.smoothing.user.auth.repository.AuthRepository;
 import live.smoothing.user.user.dto.request.UserCreateRequest;
+import live.smoothing.user.user.dto.response.PasswordDto;
 import live.smoothing.user.user.entity.User;
 import live.smoothing.user.user.repository.UserRepository;
 import live.smoothing.user.userauth.dto.UserAuthRequest;
@@ -17,6 +19,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -29,6 +32,10 @@ class UserServiceImplTest {
     String PW = "PW1234";
     String NAME = "U_S_E_R";
     String EMAIL = "user@gmail.com";
+
+
+    @Mock
+    private AuthAdapter authAdapter; // 추가
 
     @Mock
     private UserRepository userRepository;
@@ -64,6 +71,11 @@ class UserServiceImplTest {
         Auth auth = new Auth("RULE_USER");
         User user = userRequest.toEntity(PW);
         user.getUserAuths().add(new UserAuth(auth, user));
+
+        PasswordDto passwordDto = new PasswordDto(PW);
+
+        // 추가
+        Mockito.when(authAdapter.encodingPassword(any())).thenReturn(Optional.of(passwordDto));
 
         // 모의 처리
         Mockito.when(authRepository.getReferenceById(1L)).thenReturn(auth);
