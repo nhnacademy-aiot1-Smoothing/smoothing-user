@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class UserResponseTemplate {
+public class UserResponseTemplate<T> {
 
-    private final Object user;
+    private final T user;
     private final List<String> auths;
 
-    public UserResponseTemplate(Object user, List<AuthResponse> auths) {
+    public UserResponseTemplate(T user, List<AuthResponse> auths) {
         this.user = user;
         this.auths = auths.stream().map(AuthResponse::getAuthInfo)
                 .collect(Collectors.toList());
