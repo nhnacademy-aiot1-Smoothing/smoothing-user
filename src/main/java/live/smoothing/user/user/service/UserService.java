@@ -18,4 +18,8 @@ public interface UserService {
     void modifyUserPassword(String userId, UserPWModifyRequest request);
 
     void deleteUser(String userId);
+
+    UserResponseTemplate getUser(String userId);
+
+
 }
