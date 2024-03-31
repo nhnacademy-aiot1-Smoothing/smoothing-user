@@ -3,15 +3,17 @@ package live.smoothing.user.user.service;
 import live.smoothing.user.user.dto.request.UserCreateRequest;
 import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 import live.smoothing.user.user.dto.request.UserPWModifyRequest;
+import live.smoothing.user.user.dto.response.UserDetailResponse;
 import live.smoothing.user.user.dto.response.UserResponseTemplate;
+import live.smoothing.user.user.dto.response.UserSimpleResponse;
 
 public interface UserService {
 
     void createUser(UserCreateRequest request);
 
-    UserResponseTemplate getUserSimpleInfo(String userId);
+    UserResponseTemplate<UserSimpleResponse> getUserSimpleInfo(String userId);
 
-    UserResponseTemplate getUserDetailInfo(String userId);
+    UserResponseTemplate<UserDetailResponse> getUserDetailInfo(String userId);
 
     void modifyUserInfo(String userId, UserInfoModifyRequest request);
 
