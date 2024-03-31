@@ -57,4 +57,7 @@ public class User {
     public void modifyUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
+
+    public void setUserId(String userId) {
+    }
 }
