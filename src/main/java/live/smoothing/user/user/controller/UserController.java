@@ -41,14 +41,14 @@ public class UserController {
 
     @PatchMapping("/profile")
     public ResponseEntity<String> userInfoModify(@RequestHeader("X-USER-ID") String userId,
-                                                 @RequestBody UserInfoModifyRequest request) {
+                                                 @Valid @RequestBody UserInfoModifyRequest request) {
         userService.modifyUserInfo(userId, request);
         return ResponseEntity.ok("사용자 정보 변경 완료");
     }
 
     @PatchMapping("/profile/password")
     public ResponseEntity<String> userPasswordModify(@RequestHeader("X-USER-ID") String userId,
-                                                     @RequestBody UserPWModifyRequest request) {
+                                                     @Valid @RequestBody UserPWModifyRequest request) {
 
         userService.modifyUserPassword(userId, request);
         return ResponseEntity.ok("사용자 비밀번호 변경 완료");

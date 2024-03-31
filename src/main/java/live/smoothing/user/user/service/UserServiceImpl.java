@@ -1,6 +1,8 @@
 package live.smoothing.user.user.service;
 
 import live.smoothing.user.adapter.AuthAdapter;
+import live.smoothing.user.advice.ErrorCode;
+import live.smoothing.user.advice.exception.ServiceException;
 import live.smoothing.user.auth.dto.AuthResponse;
 import live.smoothing.user.auth.entity.Auth;
 import live.smoothing.user.auth.repository.AuthRepository;
@@ -20,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,8 +39,14 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void createUser(UserCreateRequest request) {
 
+        boolean exists = userRepository.existsById(request.getUserId());
+
+        if(exists){
+            throw new ServiceException(ErrorCode.DUPLICATED_USER);
+        }
+
         PasswordDto response = adapter.encodingPassword(new PasswordDto(request.getUserPassword()))
-                .orElseThrow(() -> new RuntimeException("api 요청 실패"));
+                .orElseThrow(() -> new ServiceException(ErrorCode.ENCODING_FAIL));
 
         User user = request.toEntity(response.getPassword());
 
@@ -56,7 +63,7 @@ public class UserServiceImpl implements UserService {
     public UserResponseTemplate<UserSimpleResponse> getUserSimpleInfo(String userId) {
 
         UserSimpleResponse userSimpleResponse = userRepository.findSimpleByUserId(userId)
-                .orElseThrow(() -> new EntityNotFoundException("엔티티가 존재하지 않습니다."));
+                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
         List<UserAuth> auths = userAuthRepository.findByUser_UserId(userId);
 
@@ -72,7 +79,7 @@ public class UserServiceImpl implements UserService {
     public UserResponseTemplate<UserDetailResponse> getUserDetailInfo(String userId) {
 
         UserDetailResponse userDetailResponse = userRepository.findDetailByUserId(userId)
-                .orElseThrow(() -> new EntityNotFoundException("엔티티가 존재하지 않습니다."));
+                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
         List<UserAuth> auths = userAuthRepository.findByUser_UserId(userId);
 
@@ -87,7 +94,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void modifyUserInfo(String userId, UserInfoModifyRequest request) {
 
-        User user = userRepository.getReferenceById(userId);
+        User user = userRepository.findById(userId)
+                        .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
         Optional.ofNullable(request.getUserName()).ifPresent(user::modifyUserName);
         Optional.ofNullable(request.getUserEmail()).ifPresent(user::modifyUserEmail);
@@ -97,7 +105,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void modifyUserPassword(String userId, UserPWModifyRequest request) {
 
-        User user = userRepository.getReferenceById(userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
         Optional.ofNullable(request.getUserPassword()).ifPresent(user::modifyUserPassword);
     }
@@ -107,7 +116,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(String userId) {
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("엔티티를 삭제할 수 없습니다."));
+                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
         user.setDeleteState(Boolean.TRUE);
     }

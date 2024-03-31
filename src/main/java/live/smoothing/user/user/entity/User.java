@@ -47,14 +47,17 @@ public class User {
     }
 
     public void modifyUserPassword(String userPassword) {
+
         this.userPassword = userPassword;
     }
 
     public void modifyUserName(String userName) {
+
         this.userName = userName;
     }
 
     public void modifyUserEmail(String userEmail) {
+
         this.userEmail = userEmail;
     }
 
