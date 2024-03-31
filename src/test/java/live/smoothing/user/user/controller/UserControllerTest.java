@@ -1,265 +1,201 @@
-/*
 package live.smoothing.user.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import live.smoothing.user.adapter.AuthAdapter;
+import live.smoothing.user.auth.dto.AuthResponse;
 import live.smoothing.user.user.dto.request.UserCreateRequest;
-import live.smoothing.user.user.dto.response.PasswordDto;
-import live.smoothing.user.user.entity.User;
+import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
+import live.smoothing.user.user.dto.request.UserPWModifyRequest;
+import live.smoothing.user.user.dto.response.UserDetailResponse;
+import live.smoothing.user.user.dto.response.UserResponseTemplate;
+import live.smoothing.user.user.dto.response.UserSimpleResponse;
 import live.smoothing.user.user.service.UserService;
+import live.smoothing.user.userauth.dto.UserAuthRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import javax.print.attribute.standard.Media;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-@WebMvcTest(UserController.class)
-class UserControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Mock
-    private UserService userService;
-
-    @Mock
-    private PasswordDto passwordDto;
-
-    @BeforeEach
-    void setup() {
-        MockitoAnnotations.openMocks(this);
-    }
-
-    @Test
-    @DisplayName("유저 생성 API 테스트")
-    void createUser() throws Exception {
-        // given
-        UserCreateRequest request = new UserCreateRequest();
-        request.setUserId("testUser");
-        request.setUserPassword("testPassword");
-        request.setUserName("Test User");
-        request.setUserEmail("test@example.com");
-
-        PasswordDto passwordDto = new PasswordDto("encodedPassword");)
-
-        // when
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/user")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(MockMvcResultMatchers.status().isCreated());
-        // then
-    }
-
-    @Test
-    @DisplayName("특정 유저 조회 API 테스트")
-    void getUserSimpleInfo() throws Exception {
-        // given
-        String userId = "testUser";
-        User user = new User();
-        user.setUserId(userId);
-        when(userService.getUser(userId)).thenReturn(user);
-
-        // when
-        mockMvc.perform(get("/api/users/{userId}", userId))
-                .andExpect(status().isOk());
-
-        // then
-    }
-
-    @Test
-    @DisplayName("유저 정보 수정 API 테스트")
-    void getUserDetailInfo() throws Exception {
-        // given
-        String userId = "testUser";
-
-        // when
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/users/{userId}", userId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"userName\": \"변경 할 이름\", \"userEmail\": \"변경 할 이메일\"}"))
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("사용자 정보 변경 완료."));
-        // then
-    }
-
-    @Test
-    @DisplayName("유저 비밀번호 수정 API 테스트")
-    void userPasswordModify() throws Exception {
-        // given
-        String userId = "testUser";
-        String newPassword = "newTestPassword";
-
-        // when
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/users/{userId}/password", userId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"userPassword\": \"변경 할 비밀번호\"}"))
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("사용자 비밀번호 변경 완료."));
-
-        // then
-    }
-
-
-    @Test
-    @DisplayName("유저 정보 삭제 API 테스트")
-    void userInactive() throws Exception {
-        // given
-        String userId = "testUser";
-
-        // when
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/users/{userId}/inactive", userId))
-                .andExpect(status().isOk());
-        // then
-    }
-}
- */
-
-package live.smoothing.user.user.controller;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import live.smoothing.user.user.dto.request.UserCreateRequest;
-import live.smoothing.user.user.dto.response.PasswordDto;
-import live.smoothing.user.user.entity.User;
-import live.smoothing.user.user.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.http.MediaType;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
 class UserControllerTest {
 
+    String ID = "USER";
+    String PW = "PW12345689";
+    String NAME = "U_S_E_R";
+    String EMAIL = "user@gmail.com";
+    String ROLE_USER = "ROLE_USER";
+    String ROLE_ADMIN = "ROLE_ADMIN";
+
     @Autowired
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
 
-    @Mock
-    private UserService userService;
+    @Autowired
+    ObjectMapper objectMapper;
 
-    @Mock
-    private PasswordDto passwordDto;
+    @MockBean
+    UserService userService;
 
     @BeforeEach
     void setup() {
+
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    @DisplayName("유저 생성 API 테스트")
+    @DisplayName("유저 계정 생성 API 테스트")
     void createUser() throws Exception {
-        // given
-        UserCreateRequest request = new UserCreateRequest();
-        request.setUserId("testUser");
-        request.setUserPassword("testPassword");
-        request.setUserName("Test User");
-        request.setUserEmail("test@example.com");
 
-        User createdUser = new User(); // 가짜 유저 생성
-        ReflectionTestUtils.setField(createdUser, "userId", request.getUserId());
-        ReflectionTestUtils.setField(createdUser, "userPassword", request.getUserPassword());
-        ReflectionTestUtils.setField(createdUser, "userName", request.getUserName());
-        ReflectionTestUtils.setField(createdUser, "userEmail", request.getUserEmail());
+        Constructor<UserCreateRequest> constructor = UserCreateRequest.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        UserCreateRequest userRequest = constructor.newInstance();
 
-        when(userService.createUser(any(UserCreateRequest.class))).thenReturn(new User());
+        List<UserAuthRequest> userAuths = new ArrayList<>();
+        userAuths.add(new UserAuthRequest(1L));
 
-        mockMvc.perform(post("/api/user/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isCreated());
+        ReflectionTestUtils.setField(userRequest, "userId", ID);
+        ReflectionTestUtils.setField(userRequest, "userPassword", PW);
+        ReflectionTestUtils.setField(userRequest, "userName", NAME);
+        ReflectionTestUtils.setField(userRequest, "userEmail", EMAIL);
+        ReflectionTestUtils.setField(userRequest, "userAuths", userAuths);
 
-        // 메소드 호출 검증
-        verify(userService, times(1)).createUser(any(UserCreateRequest.class));
+        String requestJson = objectMapper.writeValueAsString(userRequest);
 
+        doNothing().when(userService).createUser(any(UserCreateRequest.class));
+
+        mockMvc.perform(post("/api/user/signup")
+                        .contentType(APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isCreated())
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
+                .andExpect(jsonPath("$.message").value("유저 회원 가입 완료"));
     }
 
     @Test
-    @DisplayName("특정 유저 조회 API 테스트")
+    @DisplayName("로그인 API 테스트")
     void getUserSimpleInfo() throws Exception {
-        // given
-        String userId = "testUser";
-        User user = new User();
-        user.setUserId(userId);
-        when(userService.getUser(userId)).thenReturn(user);
 
-        // when
-        mockMvc.perform(get("/api/users/{userId}", userId))
-                .andExpect(status().isOk());
+        List<AuthResponse> authResponses = Arrays.asList(
+                new AuthResponse(1L, ROLE_USER),
+                new AuthResponse(2L, ROLE_ADMIN)
+        );
 
-        // then
+        UserResponseTemplate<UserSimpleResponse> mockResponse = new UserResponseTemplate<>(
+                new UserSimpleResponse(ID, PW),
+                authResponses
+        );
+
+        Mockito.when(userService.getUserSimpleInfo(ID)).thenReturn(mockResponse);
+
+        mockMvc.perform(get("/api/user/login")
+                        .header("X-USER-ID", ID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
+                .andExpect(jsonPath("$.user.userId").value(ID))
+                .andExpect(jsonPath("$.user.userPassword").value(PW))
+                .andExpect(jsonPath("$.auths[0]").value(ROLE_USER))
+                .andExpect(jsonPath("$.auths[1]").value(ROLE_ADMIN));
     }
 
     @Test
-    @DisplayName("유저 정보 수정 API 테스트")
+    @DisplayName("유저 정보 조회 API 테스트")
     void getUserDetailInfo() throws Exception {
-        // given
-        String userId = "testUser";
 
-        // when
-        mockMvc.perform(patch("/api/users/{userId}", userId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"userName\": \"변경 할 이름\", \"userEmail\": \"변경 할 이메일\"}"))
+        List<AuthResponse> authResponses = Arrays.asList(
+                new AuthResponse(1L, ROLE_USER),
+                new AuthResponse(2L, ROLE_ADMIN)
+        );
+
+        UserResponseTemplate<UserDetailResponse> mockResponse = new UserResponseTemplate<>(
+                new UserDetailResponse(ID, PW, NAME, EMAIL),
+                authResponses
+        );
+
+        Mockito.when(userService.getUserDetailInfo(ID)).thenReturn(mockResponse);
+
+        mockMvc.perform(get("/api/user/profile")
+                        .header("X-USER-ID", ID))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("사용자 정보 변경 완료."));
-        // then
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
+                .andExpect(jsonPath("$.user.userId").value(ID))
+                .andExpect(jsonPath("$.user.userPassword").value(PW))
+                .andExpect(jsonPath("$.user.userName").value(NAME))
+                .andExpect(jsonPath("$.user.userEmail").value(EMAIL))
+                .andExpect(jsonPath("$.auths[0]").value(ROLE_USER))
+                .andExpect(jsonPath("$.auths[1]").value(ROLE_ADMIN));
     }
 
     @Test
     @DisplayName("유저 비밀번호 수정 API 테스트")
     void userPasswordModify() throws Exception {
-        // given
-        String userId = "testUser";
 
-        // when
-        mockMvc.perform(patch("/api/users/{userId}/password", userId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"userPassword\": \"변경 할 비밀번호\"}"))
+        Constructor<UserPWModifyRequest> constructor = UserPWModifyRequest.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        UserPWModifyRequest request = constructor.newInstance();
+
+        ReflectionTestUtils.setField(request, "userPassword", PW);
+
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        doNothing().when(userService).modifyUserPassword(ID, request);
+
+        mockMvc.perform(patch("/api/user/profile/password")
+                        .header("X-USER-ID", ID)
+                        .contentType(APPLICATION_JSON)
+                        .content(requestJson))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("사용자 비밀번호 변경 완료."));
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
+                .andExpect(jsonPath("$.message").value("유저 비밀번호 변경 완료"));
+    }
 
-        // then
+    @Test
+    @DisplayName("유저 정보 수정 API 테스트")
+    void userInfoModify() throws Exception {
+
+        Constructor<UserInfoModifyRequest> constructor = UserInfoModifyRequest.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        UserInfoModifyRequest request = constructor.newInstance();
+
+        ReflectionTestUtils.setField(request, "userName", NAME);
+        ReflectionTestUtils.setField(request, "userEmail", EMAIL);
+
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        doNothing().when(userService).modifyUserInfo(ID, request);
+
+        mockMvc.perform(patch("/api/user/profile")
+                        .header("X-USER-ID", ID)
+                        .contentType(APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
+                .andExpect(jsonPath("$.message").value("유저 정보 변경 완료"));
     }
 
 
     @Test
     @DisplayName("유저 정보 삭제 API 테스트")
     void userInactive() throws Exception {
-        // given
-        String userId = "testUser";
 
-        // when
-        mockMvc.perform(delete("/api/users/{userId}/inactive", userId))
-                .andExpect(status().isOk());
-        // then
+        mockMvc.perform(delete("/api/user/inactive")
+                        .header("X-USER-ID", ID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
+                .andExpect(jsonPath("$.message").value("유저 비활성화 완료"));
     }
 }
