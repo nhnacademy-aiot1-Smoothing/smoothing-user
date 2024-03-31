@@ -137,7 +137,6 @@ class UserControllerTest {
 package live.smoothing.user.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import live.smoothing.user.adapter.AuthAdapter;
 import live.smoothing.user.user.dto.request.UserCreateRequest;
 import live.smoothing.user.user.dto.response.PasswordDto;
 import live.smoothing.user.user.entity.User;
@@ -145,27 +144,17 @@ import live.smoothing.user.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import javax.print.attribute.standard.Media;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -190,11 +179,11 @@ class UserControllerTest {
     @DisplayName("유저 생성 API 테스트")
     void createUser() throws Exception {
         // given
-//        UserCreateRequest request = new UserCreateRequest();
-//        request.setUserId("testUser");
-//        request.setUserPassword("testPassword");
-//        request.setUserName("Test User");
-//        request.setUserEmail("test@example.com");
+        UserCreateRequest request = new UserCreateRequest();
+        request.setUserId("testUser");
+        request.setUserPassword("testPassword");
+        request.setUserName("Test User");
+        request.setUserEmail("test@example.com");
 
         User createdUser = new User(); // 가짜 유저 생성
         ReflectionTestUtils.setField(createdUser, "userId", request.getUserId());
