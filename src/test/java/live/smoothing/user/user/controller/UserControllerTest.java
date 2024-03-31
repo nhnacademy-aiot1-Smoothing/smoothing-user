@@ -202,7 +202,6 @@ class UserControllerTest {
         ReflectionTestUtils.setField(createdUser, "userName", request.getUserName());
         ReflectionTestUtils.setField(createdUser, "userEmail", request.getUserEmail());
 
-
         when(userService.createUser(any(UserCreateRequest.class))).thenReturn(new User());
 
         mockMvc.perform(post("/api/user/")
