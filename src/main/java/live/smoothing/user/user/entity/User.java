@@ -60,7 +60,4 @@ public class User {
 
         this.userEmail = userEmail;
     }
-
-    public void setUserId(String userId) {
-    }
 }
