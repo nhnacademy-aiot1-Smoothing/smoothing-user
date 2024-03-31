@@ -21,5 +21,4 @@ public interface UserService {
 
     UserResponseTemplate getUser(String userId);
 
-
 }
