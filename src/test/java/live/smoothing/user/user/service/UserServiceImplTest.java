@@ -9,7 +9,6 @@ import live.smoothing.user.user.dto.response.PasswordDto;
 import live.smoothing.user.user.entity.User;
 import live.smoothing.user.user.repository.UserRepository;
 import live.smoothing.user.userauth.dto.UserAuthRequest;
-import live.smoothing.user.userauth.entity.UserAuth;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,18 +32,17 @@ class UserServiceImplTest {
     String NAME = "U_S_E_R";
     String EMAIL = "user@gmail.com";
 
+    @Mock
+    AuthAdapter authAdapter;
 
     @Mock
-    private AuthAdapter authAdapter; // 추가
+    UserRepository userRepository;
 
     @Mock
-    private UserRepository userRepository;
-
-    @Mock
-    private AuthRepository authRepository;
+    AuthRepository authRepository;
 
     @InjectMocks
-    private UserServiceImpl userService;
+    UserServiceImpl userService;
 
     @BeforeEach
     void setUp() {
@@ -68,16 +66,11 @@ class UserServiceImplTest {
         ReflectionTestUtils.setField(userRequest, "userEmail", EMAIL);
         ReflectionTestUtils.setField(userRequest, "userAuths", userAuths);
 
-        Auth auth = new Auth("RULE_USER");
-        User user = userRequest.toEntity(PW);
-        user.getUserAuths().add(new UserAuth(auth, user));
-
         PasswordDto passwordDto = new PasswordDto(PW);
-
-        // 추가
-        Mockito.when(authAdapter.encodingPassword(any())).thenReturn(Optional.of(passwordDto));
+        Auth auth = new Auth("RULE_USER");
 
         // 모의 처리
+        Mockito.when(authAdapter.encodingPassword(any())).thenReturn(Optional.of(passwordDto));
         Mockito.when(authRepository.getReferenceById(1L)).thenReturn(auth);
 
         // 실제 메소드 실행

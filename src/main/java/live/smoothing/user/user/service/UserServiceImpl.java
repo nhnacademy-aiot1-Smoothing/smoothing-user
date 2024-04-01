@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
         List<UserAuth> auths = userAuthRepository.findByUser_UserId(userId);
 
         List<AuthResponse> authResponses = auths.stream()
-                .map(userAuth -> new AuthResponse(userAuth.getAuth().getAuthId(), userAuth.getAuth().getAuthInfo()))
+                .map(userAuth -> new AuthResponse(userAuth.getAuth().getAuthInfo()))
                 .collect(Collectors.toList());
 
         return new UserResponseTemplate<>(userSimpleResponse, authResponses);
@@ -108,7 +108,10 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        Optional.ofNullable(request.getUserPassword()).ifPresent(user::modifyUserPassword);
+        PasswordDto response = adapter.encodingPassword(new PasswordDto(request.getUserPassword()))
+                .orElseThrow(() -> new ServiceException(ErrorCode.ENCODING_FAIL));
+
+        user.modifyUserPassword(response.getPassword());
     }
 
     @Override

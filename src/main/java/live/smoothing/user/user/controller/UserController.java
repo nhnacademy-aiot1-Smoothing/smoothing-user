@@ -3,11 +3,13 @@ package live.smoothing.user.user.controller;
 import live.smoothing.user.user.dto.request.UserCreateRequest;
 import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 import live.smoothing.user.user.dto.request.UserPWModifyRequest;
+import live.smoothing.user.common.dto.MessageResponse;
 import live.smoothing.user.user.dto.response.UserDetailResponse;
 import live.smoothing.user.user.dto.response.UserResponseTemplate;
 import live.smoothing.user.user.dto.response.UserSimpleResponse;
 import live.smoothing.user.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,10 +23,10 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> createUser(@Valid @RequestBody UserCreateRequest request) {
+    public ResponseEntity<MessageResponse> createUser(@Valid @RequestBody UserCreateRequest request) {
 
         userService.createUser(request);
-        return ResponseEntity.ok("사용자 회원 가입 완료");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("유저 회원 가입 완료"));
     }
 
     @GetMapping("/login")
@@ -40,24 +42,24 @@ public class UserController {
     }
 
     @PatchMapping("/profile")
-    public ResponseEntity<String> userInfoModify(@RequestHeader("X-USER-ID") String userId,
+    public ResponseEntity<MessageResponse> userInfoModify(@RequestHeader("X-USER-ID") String userId,
                                                  @Valid @RequestBody UserInfoModifyRequest request) {
         userService.modifyUserInfo(userId, request);
-        return ResponseEntity.ok("사용자 정보 변경 완료");
+        return ResponseEntity.ok(new MessageResponse("유저 정보 변경 완료"));
     }
 
     @PatchMapping("/profile/password")
-    public ResponseEntity<String> userPasswordModify(@RequestHeader("X-USER-ID") String userId,
+    public ResponseEntity<MessageResponse> userPasswordModify(@RequestHeader("X-USER-ID") String userId,
                                                      @Valid @RequestBody UserPWModifyRequest request) {
 
         userService.modifyUserPassword(userId, request);
-        return ResponseEntity.ok("사용자 비밀번호 변경 완료");
+        return ResponseEntity.ok(new MessageResponse("유저 비밀번호 변경 완료"));
     }
 
     @DeleteMapping("/inactive")
-    public ResponseEntity<String> userInactive(@RequestHeader("X-USER-ID") String userId){
+    public ResponseEntity<MessageResponse> userInactive(@RequestHeader("X-USER-ID") String userId){
 
         userService.deleteUser(userId);
-        return ResponseEntity.ok("사용자 비활성화 완료");
+        return ResponseEntity.ok(new MessageResponse("유저 비활성화 완료"));
     }
 }

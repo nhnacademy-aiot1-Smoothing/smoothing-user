@@ -13,23 +13,24 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class AuthServiceImplTest {
 
     @Mock
-    private AuthRepository authRepository;
+    AuthRepository authRepository;
 
     @InjectMocks
-    private AuthServiceImpl authService;
+    AuthServiceImpl authService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
+
         MockitoAnnotations.openMocks(this);
     }
 
@@ -37,7 +38,7 @@ class AuthServiceImplTest {
     void createAuth() {
         CreateAuthRequest request = new CreateAuthRequest("Test Auth");
         Auth saveAuth = new Auth("Test Auth");
-        //Mockito.doReturn(Optional.of(auth)).when(authRepository).findById(authId);
+
         when(authRepository.save(any(Auth.class))).thenReturn(saveAuth);
 
         // when
@@ -94,7 +95,4 @@ class AuthServiceImplTest {
         // then
         verify(authRepository, times(1)).delete(auth);
     }
-
-
-
 }
