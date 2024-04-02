@@ -9,12 +9,10 @@ logging:
 spring:
   application:
     name: user-service
-
-  profiles:
-    active: dev
-
   lifecycle:
     timeout-per-shutdown-phase: 30s
+  profiles:
+    active: prod
 
   jpa:
     open-in-view: false
@@ -31,9 +29,9 @@ spring:
       enabled: true
 
 server:
-  port: 8200
   shutdown: graceful
   servlet:
     encoding:
       force: true
       charset: UTF-8
+  port: 8003
