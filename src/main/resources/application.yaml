@@ -9,9 +9,10 @@ logging:
 spring:
   application:
     name: user-service
-
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
   profiles:
-    active: dev
+    active: prod
 
   jpa:
     open-in-view: false
@@ -34,13 +35,3 @@ server:
       force: true
       charset: UTF-8
   port: 8003
-
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://admin:admin@localhost:8004/eureka/
-
-
-

@@ -16,12 +16,14 @@ public class UserAuth {
     @EmbeddedId
     private Pk pk;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("authId")
+    @JoinColumn(name = "auth_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Auth auth;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @Getter
@@ -30,10 +32,7 @@ public class UserAuth {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Pk implements Serializable {
 
-        @Column(name = "auth_id")
         private Long authId;
-
-        @Column(name = "user_id")
         private String userId;
     }
 
