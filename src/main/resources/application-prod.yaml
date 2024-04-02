@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    dbcp2:
+      url: jdbc:mysql://133.186.244.96:3306/nhn_academy_15
+      username: nhn_academy_15
+      password: BuqF!9]bMt)HzXRw
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      test-on-borrow: true
+      validation-query: select 1
+      initial-size: 2
+      max-idle: 2
+      max-total: 2
+      min-idle: 2
+      max-wait-millis: 2000
+
+    type: org.apache.commons.dbcp2.BasicDataSource
+
+  jpa:
+    database: MYSQL
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: validate
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://admin:admin@133.186.210.43:8004/eureka/
