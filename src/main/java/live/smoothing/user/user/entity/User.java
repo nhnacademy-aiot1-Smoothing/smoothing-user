@@ -1,6 +1,6 @@
 package live.smoothing.user.user.entity;
 
-import live.smoothing.user.userauth.entity.UserAuth;
+import live.smoothing.user.userrole.entity.UserRole;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Where;
@@ -35,7 +35,7 @@ public class User {
     private boolean deleteState;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<UserAuth> userAuths = new ArrayList<>();
+    private List<UserRole> userRoles = new ArrayList<>();
 
     @Builder
     public User(String userId, String userPassword, String userName, String userEmail, boolean deleteState) {

@@ -3,11 +3,11 @@ Content-Type: application/json
 
 {
   "userId": "www980304",
-  "userPassword": "sudra0375",
+  "userPassword": "1234567890",
   "userName": "배범익",
   "userEmail": "www980304@gmail.com",
-  "userAuths": [
-    {"userAuthId": 1}
+  "userRoles": [
+    {"userRoleId": 1}
   ]
 }
 
@@ -51,25 +51,25 @@ X-USER-ID: user2
 Accept: application/json
 
 ###
-POST http://localhost:8003/api/auth
+POST http://localhost:8003/api/role
 Content-Type: application/json
 
 {
-  "authInfo": "ROLE_ADMIN"
+  "roleInfo": "ROLE_ADMIN"
 }
 
 ###
-GET http://localhost:8003/api/auth
+GET http://localhost:8003/api/role
 Accept: application/json
 
 ###
-DELETE http://localhost:8003/api/auth/6
+DELETE http://localhost:8003/api/role/6
 Accept: application/json
 
 ###
-PUT http://localhost:8003/api/auth/1
+PUT http://localhost:8003/api/role/1
 Content-Type: application/json
 
 {
-  "authInfo": "ROLE_USER"
+  "roleInfo": "ROLE_USER"
 }

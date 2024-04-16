@@ -1,6 +1,6 @@
 package live.smoothing.user.user.dto.response;
 
-import live.smoothing.user.auth.dto.AuthResponse;
+import live.smoothing.user.role.dto.RoleResponse;
 import lombok.Getter;
 
 import java.util.List;
@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 public class UserResponseTemplate<T> {
 
     private final T user;
-    private final List<String> auths;
+    private final List<String> roles;
 
-    public UserResponseTemplate(T user, List<AuthResponse> auths) {
+    public UserResponseTemplate(T user, List<RoleResponse> auths) {
         this.user = user;
-        this.auths = auths.stream().map(AuthResponse::getAuthInfo)
+        this.roles = auths.stream().map(RoleResponse::getRoleInfo)
                 .collect(Collectors.toList());
     }
 }

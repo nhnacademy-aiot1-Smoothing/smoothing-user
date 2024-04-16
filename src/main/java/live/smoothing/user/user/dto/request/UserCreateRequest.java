@@ -1,7 +1,7 @@
 package live.smoothing.user.user.dto.request;
 
 import live.smoothing.user.user.entity.User;
-import live.smoothing.user.userauth.dto.UserAuthRequest;
+import live.smoothing.user.userrole.dto.UserRoleRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +33,7 @@ public class UserCreateRequest {
 
     @NotNull
     @Size(min = 1, message = "최소 하나의 권한을 선택해야 합니다")
-    private List<@Valid UserAuthRequest> userAuths;
+    private List<@Valid UserRoleRequest> userRoles;
 
     public User toEntity(String hashingPw){
         return User.builder()

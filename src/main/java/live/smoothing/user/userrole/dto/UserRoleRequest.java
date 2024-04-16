@@ -1,4 +1,4 @@
-package live.smoothing.user.userauth.dto;
+package live.smoothing.user.userrole.dto;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -8,13 +8,13 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserAuthRequest {
+public class UserRoleRequest {
 
     @NotNull
-    private Long userAuthId;
+    private Long userRoleId;
 
-    public UserAuthRequest(Long userAuthId) {
+    public UserRoleRequest(Long userRoleId) {
 
-        this.userAuthId = userAuthId;
+        this.userRoleId = userRoleId;
     }
 }

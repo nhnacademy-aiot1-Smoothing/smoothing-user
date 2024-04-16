@@ -1,6 +1,6 @@
-package live.smoothing.user.userauth.entity;
+package live.smoothing.user.userrole.entity;
 
-import live.smoothing.user.auth.entity.Auth;
+import live.smoothing.user.role.entity.Role;
 import live.smoothing.user.user.entity.User;
 import lombok.*;
 
@@ -9,17 +9,17 @@ import java.io.Serializable;
 
 @Getter
 @Entity
-@Table(name = "user_auths")
+@Table(name = "user_roles")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserAuth {
+public class UserRole {
 
     @EmbeddedId
     private Pk pk;
 
-    @MapsId("authId")
-    @JoinColumn(name = "auth_id")
+    @MapsId("roleId")
+    @JoinColumn(name = "role_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Auth auth;
+    private Role role;
 
     @MapsId("userId")
     @JoinColumn(name = "user_id")
@@ -32,13 +32,13 @@ public class UserAuth {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Pk implements Serializable {
 
-        private Long authId;
+        private Long roleId;
         private String userId;
     }
 
-    public UserAuth(Auth auth, User user) {
-        this.auth = auth;
+    public UserRole(Role role, User user) {
+        this.role = role;
         this.user = user;
-        this.pk = new Pk(auth.getAuthId(), user.getUserId());
+        this.pk = new Pk(role.getRoleId(), user.getUserId());
     }
 }

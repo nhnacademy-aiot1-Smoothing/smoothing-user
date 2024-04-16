@@ -3,9 +3,9 @@ package live.smoothing.user.user.service;
 import live.smoothing.user.adapter.AuthAdapter;
 import live.smoothing.user.advice.ErrorCode;
 import live.smoothing.user.advice.exception.ServiceException;
-import live.smoothing.user.auth.dto.AuthResponse;
-import live.smoothing.user.auth.entity.Auth;
-import live.smoothing.user.auth.repository.AuthRepository;
+import live.smoothing.user.role.dto.RoleResponse;
+import live.smoothing.user.role.entity.Role;
+import live.smoothing.user.role.repository.RoleRepository;
 import live.smoothing.user.user.dto.request.UserCreateRequest;
 import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 import live.smoothing.user.user.dto.request.UserPWModifyRequest;
@@ -15,9 +15,9 @@ import live.smoothing.user.user.dto.response.UserResponseTemplate;
 import live.smoothing.user.user.dto.response.UserSimpleResponse;
 import live.smoothing.user.user.entity.User;
 import live.smoothing.user.user.repository.UserRepository;
-import live.smoothing.user.userauth.dto.UserAuthRequest;
-import live.smoothing.user.userauth.entity.UserAuth;
-import live.smoothing.user.userauth.repository.UserAuthRepository;
+import live.smoothing.user.userrole.dto.UserRoleRequest;
+import live.smoothing.user.userrole.entity.UserRole;
+import live.smoothing.user.userrole.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +31,8 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final AuthRepository authRepository;
-    private final UserAuthRepository userAuthRepository;
+    private final RoleRepository roleRepository;
+    private final UserRoleRepository userRoleRepository;
     private final AuthAdapter adapter;
 
     @Override
@@ -50,10 +50,10 @@ public class UserServiceImpl implements UserService {
 
         User user = request.toEntity(response.getPassword());
 
-        for (UserAuthRequest userAuthRequest : request.getUserAuths()) {
-            Auth auth = authRepository.getReferenceById(userAuthRequest.getUserAuthId());
-            UserAuth userAuth = new UserAuth(auth, user);
-            user.getUserAuths().add(userAuth);
+        for (UserRoleRequest userRoleRequest : request.getUserRoles()) {
+            Role role = roleRepository.getReferenceById(userRoleRequest.getUserRoleId());
+            UserRole userRole = new UserRole(role, user);
+            user.getUserRoles().add(userRole);
         }
         userRepository.save(user);
     }
@@ -65,13 +65,13 @@ public class UserServiceImpl implements UserService {
         UserSimpleResponse userSimpleResponse = userRepository.findSimpleByUserId(userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        List<UserAuth> auths = userAuthRepository.findByUser_UserId(userId);
+        List<UserRole> roles = userRoleRepository.findByUser_UserId(userId);
 
-        List<AuthResponse> authResponses = auths.stream()
-                .map(userAuth -> new AuthResponse(userAuth.getAuth().getAuthInfo()))
+        List<RoleResponse> roleResponse = roles.stream()
+                .map(userRole -> new RoleResponse(userRole.getRole().getRoleInfo()))
                 .collect(Collectors.toList());
 
-        return new UserResponseTemplate<>(userSimpleResponse, authResponses);
+        return new UserResponseTemplate<>(userSimpleResponse, roleResponse);
     }
 
     @Override
@@ -81,13 +81,13 @@ public class UserServiceImpl implements UserService {
         UserDetailResponse userDetailResponse = userRepository.findDetailByUserId(userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        List<UserAuth> auths = userAuthRepository.findByUser_UserId(userId);
+        List<UserRole> roles = userRoleRepository.findByUser_UserId(userId);
 
-        List<AuthResponse> authResponses = auths.stream()
-                .map(userAuth -> new AuthResponse(userAuth.getAuth().getAuthId(), userAuth.getAuth().getAuthInfo()))
+        List<RoleResponse> roleResponse = roles.stream()
+                .map(userRole -> new RoleResponse(userRole.getRole().getRoleId(), userRole.getRole().getRoleInfo()))
                 .collect(Collectors.toList());
 
-        return new UserResponseTemplate<>(userDetailResponse, authResponses);
+        return new UserResponseTemplate<>(userDetailResponse, roleResponse);
     }
 
     @Override

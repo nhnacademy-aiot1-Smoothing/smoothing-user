@@ -1,7 +1,7 @@
 package live.smoothing.user.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import live.smoothing.user.auth.dto.AuthResponse;
+import live.smoothing.user.role.dto.RoleResponse;
 import live.smoothing.user.user.dto.request.UserCreateRequest;
 import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 import live.smoothing.user.user.dto.request.UserPWModifyRequest;
@@ -9,7 +9,7 @@ import live.smoothing.user.user.dto.response.UserDetailResponse;
 import live.smoothing.user.user.dto.response.UserResponseTemplate;
 import live.smoothing.user.user.dto.response.UserSimpleResponse;
 import live.smoothing.user.user.service.UserService;
-import live.smoothing.user.userauth.dto.UserAuthRequest;
+import live.smoothing.user.userrole.dto.UserRoleRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -65,14 +65,14 @@ class UserControllerTest {
         constructor.setAccessible(true);
         UserCreateRequest userRequest = constructor.newInstance();
 
-        List<UserAuthRequest> userAuths = new ArrayList<>();
-        userAuths.add(new UserAuthRequest(1L));
+        List<UserRoleRequest> userRoles = new ArrayList<>();
+        userRoles.add(new UserRoleRequest(1L));
 
         ReflectionTestUtils.setField(userRequest, "userId", ID);
         ReflectionTestUtils.setField(userRequest, "userPassword", PW);
         ReflectionTestUtils.setField(userRequest, "userName", NAME);
         ReflectionTestUtils.setField(userRequest, "userEmail", EMAIL);
-        ReflectionTestUtils.setField(userRequest, "userAuths", userAuths);
+        ReflectionTestUtils.setField(userRequest, "userRoles", userRoles);
 
         String requestJson = objectMapper.writeValueAsString(userRequest);
 
@@ -90,14 +90,14 @@ class UserControllerTest {
     @DisplayName("로그인 API 테스트")
     void getUserSimpleInfo() throws Exception {
 
-        List<AuthResponse> authResponses = Arrays.asList(
-                new AuthResponse(1L, ROLE_USER),
-                new AuthResponse(2L, ROLE_ADMIN)
+        List<RoleResponse> roleRespons = Arrays.asList(
+                new RoleResponse(1L, ROLE_USER),
+                new RoleResponse(2L, ROLE_ADMIN)
         );
 
         UserResponseTemplate<UserSimpleResponse> mockResponse = new UserResponseTemplate<>(
                 new UserSimpleResponse(ID, PW),
-                authResponses
+                roleRespons
         );
 
         Mockito.when(userService.getUserSimpleInfo(ID)).thenReturn(mockResponse);
@@ -108,22 +108,22 @@ class UserControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
                 .andExpect(jsonPath("$.user.userId").value(ID))
                 .andExpect(jsonPath("$.user.userPassword").value(PW))
-                .andExpect(jsonPath("$.auths[0]").value(ROLE_USER))
-                .andExpect(jsonPath("$.auths[1]").value(ROLE_ADMIN));
+                .andExpect(jsonPath("$.roles[0]").value(ROLE_USER))
+                .andExpect(jsonPath("$.roles[1]").value(ROLE_ADMIN));
     }
 
     @Test
     @DisplayName("유저 정보 조회 API 테스트")
     void getUserDetailInfo() throws Exception {
 
-        List<AuthResponse> authResponses = Arrays.asList(
-                new AuthResponse(1L, ROLE_USER),
-                new AuthResponse(2L, ROLE_ADMIN)
+        List<RoleResponse> roleRespons = Arrays.asList(
+                new RoleResponse(1L, ROLE_USER),
+                new RoleResponse(2L, ROLE_ADMIN)
         );
 
         UserResponseTemplate<UserDetailResponse> mockResponse = new UserResponseTemplate<>(
                 new UserDetailResponse(ID, PW, NAME, EMAIL),
-                authResponses
+                roleRespons
         );
 
         Mockito.when(userService.getUserDetailInfo(ID)).thenReturn(mockResponse);
@@ -136,8 +136,8 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.user.userPassword").value(PW))
                 .andExpect(jsonPath("$.user.userName").value(NAME))
                 .andExpect(jsonPath("$.user.userEmail").value(EMAIL))
-                .andExpect(jsonPath("$.auths[0]").value(ROLE_USER))
-                .andExpect(jsonPath("$.auths[1]").value(ROLE_ADMIN));
+                .andExpect(jsonPath("$.roles[0]").value(ROLE_USER))
+                .andExpect(jsonPath("$.roles[1]").value(ROLE_ADMIN));
     }
 
     @Test

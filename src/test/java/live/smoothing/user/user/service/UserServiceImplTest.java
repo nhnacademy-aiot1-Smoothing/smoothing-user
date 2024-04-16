@@ -2,13 +2,13 @@ package live.smoothing.user.user.service;
 
 
 import live.smoothing.user.adapter.AuthAdapter;
-import live.smoothing.user.auth.entity.Auth;
-import live.smoothing.user.auth.repository.AuthRepository;
+import live.smoothing.user.role.entity.Role;
+import live.smoothing.user.role.repository.RoleRepository;
 import live.smoothing.user.user.dto.request.UserCreateRequest;
 import live.smoothing.user.user.dto.response.PasswordDto;
 import live.smoothing.user.user.entity.User;
 import live.smoothing.user.user.repository.UserRepository;
-import live.smoothing.user.userauth.dto.UserAuthRequest;
+import live.smoothing.user.userrole.dto.UserRoleRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ class UserServiceImplTest {
     UserRepository userRepository;
 
     @Mock
-    AuthRepository authRepository;
+    RoleRepository roleRepository;
 
     @InjectMocks
     UserServiceImpl userService;
@@ -57,21 +57,21 @@ class UserServiceImplTest {
         constructor.setAccessible(true);
         UserCreateRequest userRequest = constructor.newInstance();
 
-        List<UserAuthRequest> userAuths = new ArrayList<>();
-        userAuths.add(new UserAuthRequest(1L));
+        List<UserRoleRequest> userRoles = new ArrayList<>();
+        userRoles.add(new UserRoleRequest(1L));
 
         ReflectionTestUtils.setField(userRequest, "userId", ID);
         ReflectionTestUtils.setField(userRequest, "userPassword", PW);
         ReflectionTestUtils.setField(userRequest, "userName", NAME);
         ReflectionTestUtils.setField(userRequest, "userEmail", EMAIL);
-        ReflectionTestUtils.setField(userRequest, "userAuths", userAuths);
+        ReflectionTestUtils.setField(userRequest, "userRoles", userRoles);
 
         PasswordDto passwordDto = new PasswordDto(PW);
-        Auth auth = new Auth("RULE_USER");
+        Role role = new Role("ROLE_USER");
 
         // 모의 처리
         Mockito.when(authAdapter.encodingPassword(any())).thenReturn(Optional.of(passwordDto));
-        Mockito.when(authRepository.getReferenceById(1L)).thenReturn(auth);
+        Mockito.when(roleRepository.getReferenceById(1L)).thenReturn(role);
 
         // 실제 메소드 실행
         userService.createUser(userRequest);
