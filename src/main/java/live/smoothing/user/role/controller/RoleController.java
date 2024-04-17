@@ -39,7 +39,7 @@ public class RoleController {
     }
 
     @PostMapping
-    public ResponseEntity<MessageResponse> createAuth(@Valid @RequestBody CreateRoleRequest request) {
+    public ResponseEntity<MessageResponse> createRole(@Valid @RequestBody CreateRoleRequest request) {
 
         roleService.createRole(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("권한 정보 생성 완료"));

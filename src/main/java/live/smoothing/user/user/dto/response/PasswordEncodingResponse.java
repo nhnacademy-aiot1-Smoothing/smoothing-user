@@ -8,13 +8,13 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PasswordDto {
+public class PasswordEncodingResponse {
 
     @NotNull
-    String password;
+    String encodedPassword;
 
-    public PasswordDto(String password) {
+    public PasswordEncodingResponse(String encodedPassword) {
 
-        this.password = password;
+        this.encodedPassword = encodedPassword;
     }
 }

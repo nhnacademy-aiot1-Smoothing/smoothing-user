@@ -1,0 +1,28 @@
+### 권한 생성
+POST http://localhost:8003/api/role
+Content-Type: application/json
+
+{
+  "roleInfo": "ROLE_ADMIN"
+}
+
+### 현재 생성되어 있는 권한 목록 조회
+GET http://localhost:8003/api/role/list
+Accept: application/json
+
+### 권한 조회
+GET http://localhost:8003/api/role/1
+Accept: application/json
+
+### 권한이름 수정
+PUT http://localhost:8003/api/role/1
+Content-Type: application/json
+
+{
+  "roleInfo": "ROLE_USER"
+}
+
+### 권한 삭제
+DELETE http://localhost:8003/api/role/1
+Accept: application/json
+

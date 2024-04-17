@@ -13,32 +13,21 @@ import java.io.Serializable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserRole {
 
-    @EmbeddedId
-    private Pk pk;
+    @Id
+    @Column(name = "user_role_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userRoleId;
 
-    @MapsId("roleId")
     @JoinColumn(name = "role_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Role role;
 
-    @MapsId("userId")
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @Getter
-    @Embeddable
-    @AllArgsConstructor
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class Pk implements Serializable {
-
-        private Long roleId;
-        private String userId;
-    }
-
     public UserRole(Role role, User user) {
         this.role = role;
         this.user = user;
-        this.pk = new Pk(role.getRoleId(), user.getUserId());
     }
 }

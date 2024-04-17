@@ -6,14 +6,13 @@ import live.smoothing.user.advice.exception.ServiceException;
 import live.smoothing.user.role.dto.RoleResponse;
 import live.smoothing.user.role.entity.Role;
 import live.smoothing.user.role.repository.RoleRepository;
+import live.smoothing.user.user.dto.request.PasswordEncodingRequest;
 import live.smoothing.user.user.dto.request.UserCreateRequest;
 import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 import live.smoothing.user.user.dto.request.UserPWModifyRequest;
-import live.smoothing.user.user.dto.response.PasswordDto;
-import live.smoothing.user.user.dto.response.UserDetailResponse;
-import live.smoothing.user.user.dto.response.UserResponseTemplate;
-import live.smoothing.user.user.dto.response.UserSimpleResponse;
+import live.smoothing.user.user.dto.response.*;
 import live.smoothing.user.user.entity.User;
+import live.smoothing.user.user.entity.UserState;
 import live.smoothing.user.user.repository.UserRepository;
 import live.smoothing.user.userrole.dto.UserRoleRequest;
 import live.smoothing.user.userrole.entity.UserRole;
@@ -45,16 +44,16 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(ErrorCode.DUPLICATED_USER);
         }
 
-        PasswordDto response = adapter.encodingPassword(new PasswordDto(request.getUserPassword()))
+        PasswordEncodingResponse response = adapter.encodingPassword(new PasswordEncodingRequest(request.getUserPassword()))
                 .orElseThrow(() -> new ServiceException(ErrorCode.ENCODING_FAIL));
 
-        User user = request.toEntity(response.getPassword());
+        User user = request.toEntity(response.getEncodedPassword());
 
-        for (UserRoleRequest userRoleRequest : request.getUserRoles()) {
-            Role role = roleRepository.getReferenceById(userRoleRequest.getUserRoleId());
-            UserRole userRole = new UserRole(role, user);
-            user.getUserRoles().add(userRole);
-        }
+//        for (UserRoleRequest userRoleRequest : request.getUserRoles()) {
+//            Role role = roleRepository.getReferenceById(userRoleRequest.getUserRoleId());
+//            UserRole userRole = new UserRole(role, user);
+//            user.getUserRoles().add(userRole);
+//        }
         userRepository.save(user);
     }
 
@@ -108,10 +107,10 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        PasswordDto response = adapter.encodingPassword(new PasswordDto(request.getUserPassword()))
+        PasswordEncodingResponse response = adapter.encodingPassword(new PasswordEncodingRequest(request.getUserPassword()))
                 .orElseThrow(() -> new ServiceException(ErrorCode.ENCODING_FAIL));
 
-        user.modifyUserPassword(response.getPassword());
+        user.modifyUserPassword(response.getEncodedPassword());
     }
 
     @Override
@@ -121,6 +120,6 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        user.setDeleteState(Boolean.TRUE);
+        user.modifyUserState(UserState.WITHDRAWAL);
     }
 }

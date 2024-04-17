@@ -12,9 +12,9 @@ public class UserResponseTemplate<T> {
     private final T user;
     private final List<String> roles;
 
-    public UserResponseTemplate(T user, List<RoleResponse> auths) {
+    public UserResponseTemplate(T user, List<RoleResponse> roles) {
         this.user = user;
-        this.roles = auths.stream().map(RoleResponse::getRoleInfo)
+        this.roles = roles.stream().map(RoleResponse::getRoleInfo)
                 .collect(Collectors.toList());
     }
 }

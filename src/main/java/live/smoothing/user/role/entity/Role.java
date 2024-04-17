@@ -26,7 +26,7 @@ public class Role {
         this.roleInfo = roleInfo;
     }
 
-    public void updateRoleInfo(String roleInfo) {
+    public void modifyRoleInfo(String roleInfo) {
         this.roleInfo = roleInfo;
     }
 }

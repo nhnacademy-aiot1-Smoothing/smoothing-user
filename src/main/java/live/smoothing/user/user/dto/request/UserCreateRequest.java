@@ -1,14 +1,17 @@
 package live.smoothing.user.user.dto.request;
 
 import live.smoothing.user.user.entity.User;
+import live.smoothing.user.user.entity.UserState;
 import live.smoothing.user.userrole.dto.UserRoleRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -27,21 +30,19 @@ public class UserCreateRequest {
     @Size(max = 30, message = "최대 30자 까지 입니다")
     private String userName;
 
+    @Email
     @NotNull
-    @Size(max = 100, message = "최대 100자 까지 입니다")
     private String userEmail;
 
-    @NotNull
-    @Size(min = 1, message = "최소 하나의 권한을 선택해야 합니다")
-    private List<@Valid UserRoleRequest> userRoles;
-
-    public User toEntity(String hashingPw){
+    public User toEntity(String userPassword){
         return User.builder()
                 .userId(userId)
-                .userPassword(hashingPw)
+                .userPassword(userPassword)
                 .userName(userName)
                 .userEmail(userEmail)
-                .deleteState(false)
+                .userState(UserState.DISAPPROVAL)
+                .userPoint(0L)
+                .lastAccess(LocalDateTime.now())
                 .build();
     }
 }

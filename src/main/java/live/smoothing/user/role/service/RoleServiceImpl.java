@@ -49,7 +49,7 @@ public class RoleServiceImpl implements RoleService {
         Role role = roleRepository.findById(roleId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.ROLE_NOT_FOUND));
 
-        role.updateRoleInfo(request.getRoleInfo());
+        role.modifyRoleInfo(request.getRoleInfo());
 
         roleRepository.save(role);
     }
