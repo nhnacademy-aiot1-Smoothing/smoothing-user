@@ -18,16 +18,17 @@ public class UserRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userRoleId;
 
+    @ManyToOne
     @JoinColumn(name = "role_id")
-    @ManyToOne(fetch = FetchType.LAZY)
     private Role role;
 
+    @ManyToOne
     @JoinColumn(name = "user_id")
-    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    public UserRole(Role role, User user) {
-        this.role = role;
+    public UserRole(User user, Role role) {
+
         this.user = user;
+        this.role = role;
     }
 }

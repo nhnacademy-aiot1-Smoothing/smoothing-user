@@ -3,18 +3,19 @@ package live.smoothing.user.user.service;
 import live.smoothing.user.adapter.AuthAdapter;
 import live.smoothing.user.advice.ErrorCode;
 import live.smoothing.user.advice.exception.ServiceException;
-import live.smoothing.user.role.dto.RoleResponse;
-import live.smoothing.user.role.entity.Role;
+import live.smoothing.user.role.dto.response.RoleResponse;
 import live.smoothing.user.role.repository.RoleRepository;
 import live.smoothing.user.user.dto.request.PasswordEncodingRequest;
 import live.smoothing.user.user.dto.request.UserCreateRequest;
 import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 import live.smoothing.user.user.dto.request.UserPWModifyRequest;
-import live.smoothing.user.user.dto.response.*;
+import live.smoothing.user.user.dto.response.PasswordEncodingResponse;
+import live.smoothing.user.user.dto.response.UserDetailResponse;
+import live.smoothing.user.user.dto.response.UserResponseTemplate;
+import live.smoothing.user.user.dto.response.UserSimpleResponse;
 import live.smoothing.user.user.entity.User;
 import live.smoothing.user.user.entity.UserState;
 import live.smoothing.user.user.repository.UserRepository;
-import live.smoothing.user.userrole.dto.UserRoleRequest;
 import live.smoothing.user.userrole.entity.UserRole;
 import live.smoothing.user.userrole.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
@@ -49,11 +50,6 @@ public class UserServiceImpl implements UserService {
 
         User user = request.toEntity(response.getEncodedPassword());
 
-//        for (UserRoleRequest userRoleRequest : request.getUserRoles()) {
-//            Role role = roleRepository.getReferenceById(userRoleRequest.getUserRoleId());
-//            UserRole userRole = new UserRole(role, user);
-//            user.getUserRoles().add(userRole);
-//        }
         userRepository.save(user);
     }
 

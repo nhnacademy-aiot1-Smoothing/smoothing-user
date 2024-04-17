@@ -6,6 +6,14 @@ Content-Type: application/json
   "roleInfo": "ROLE_ADMIN"
 }
 
+### 권한 생성
+POST http://localhost:8003/api/role
+Content-Type: application/json
+
+{
+  "roleInfo": "ROLE_USER"
+}
+
 ### 현재 생성되어 있는 권한 목록 조회
 GET http://localhost:8003/api/role/list
 Accept: application/json

@@ -1,8 +1,8 @@
 package live.smoothing.user.role.controller;
 
-import live.smoothing.user.role.dto.RoleResponse;
-import live.smoothing.user.role.dto.CreateRoleRequest;
-import live.smoothing.user.role.dto.UpdateRoleRequest;
+import live.smoothing.user.role.dto.response.RoleResponse;
+import live.smoothing.user.role.dto.request.CreateRoleRequest;
+import live.smoothing.user.role.dto.request.UpdateRoleRequest;
 import live.smoothing.user.role.service.RoleService;
 import live.smoothing.user.common.dto.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;

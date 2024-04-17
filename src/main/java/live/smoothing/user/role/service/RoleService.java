@@ -1,9 +1,9 @@
 package live.smoothing.user.role.service;
 
 
-import live.smoothing.user.role.dto.RoleResponse;
-import live.smoothing.user.role.dto.CreateRoleRequest;
-import live.smoothing.user.role.dto.UpdateRoleRequest;
+import live.smoothing.user.role.dto.response.RoleResponse;
+import live.smoothing.user.role.dto.request.CreateRoleRequest;
+import live.smoothing.user.role.dto.request.UpdateRoleRequest;
 
 import java.util.List;
 

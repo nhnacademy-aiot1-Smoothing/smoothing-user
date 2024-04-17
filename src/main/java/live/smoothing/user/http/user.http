@@ -37,7 +37,7 @@ Content-Type: application/json
 
 ###
 PATCH http://localhost:8003/api/user/profile/password
-X-USER-ID: user1
+X-USER-ID: admin
 Content-Type: application/json
 
 {

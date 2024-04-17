@@ -1,6 +1,6 @@
 package live.smoothing.user.user.dto.response;
 
-import live.smoothing.user.role.dto.RoleResponse;
+import live.smoothing.user.role.dto.response.RoleResponse;
 import lombok.Getter;
 
 import java.util.List;

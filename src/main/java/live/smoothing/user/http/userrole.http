@@ -1,0 +1,28 @@
+### 회원 승인 시 권한 설정
+POST http://localhost:8003/api/userRole
+Content-Type: application/json
+
+{
+  "userId": "admin",
+  "roleId": 1
+}
+
+### userId로 권한 목록 조회
+GET http://localhost:8003/api/userRole/list?userId=admin
+Accept: application/json
+
+### 회원 권한 수정
+PUT http://localhost:8003/api/userRole
+Content-Type: application/json
+
+{
+  "userId": "admin",
+  "roleId": 1
+}
+
+### 회원 권한 삭제
+DELETE http://localhost:8003/api/userRole/1
+Accept: application/json
+
+
+

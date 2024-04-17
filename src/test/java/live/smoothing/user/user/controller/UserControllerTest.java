@@ -1,7 +1,7 @@
 //package live.smoothing.user.user.controller;
 //
 //import com.fasterxml.jackson.databind.ObjectMapper;
-//import live.smoothing.user.role.dto.RoleResponse;
+//import live.smoothing.user.role.dto.response.RoleResponse;
 //import live.smoothing.user.user.dto.request.UserCreateRequest;
 //import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 //import live.smoothing.user.user.dto.request.UserPWModifyRequest;

@@ -1,4 +1,4 @@
-package live.smoothing.user.role.dto;
+package live.smoothing.user.role.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

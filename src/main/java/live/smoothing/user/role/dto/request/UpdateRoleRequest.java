@@ -1,4 +1,4 @@
-package live.smoothing.user.role.dto;
+package live.smoothing.user.role.dto.request;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,13 +9,13 @@ import javax.validation.constraints.Size;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CreateRoleRequest {
+public class UpdateRoleRequest {
 
     @NotNull
     @Size(max = 30, message = "최대 30자 까지 입니다")
     private String roleInfo;
 
-    public CreateRoleRequest(String roleInfo) {
+    public UpdateRoleRequest(String roleInfo) {
         this.roleInfo = roleInfo;
     }
 }

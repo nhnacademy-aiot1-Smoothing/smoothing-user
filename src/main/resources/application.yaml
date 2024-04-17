@@ -10,7 +10,7 @@ spring:
   application:
     name: user-service
 #  lifecycle:
-#    timeout-per-shutdown-phase: 30000s
+#    timeout-per-shutdown-phase: 30s
   profiles:
     active: dev
 
