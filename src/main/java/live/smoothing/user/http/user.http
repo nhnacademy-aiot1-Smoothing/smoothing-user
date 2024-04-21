@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "userId": "admin",
-  "userPassword": "12345678901",
+  "userPassword": "1234512345",
   "userName": "관리자",
   "userEmail": "cs.smoothing@gmail.com"
 }
@@ -15,27 +15,27 @@ X-USER-ID: admin
 Accept: application/json
 
 
-###
+###  로그인 요청이 오면 회원 정보(아이디, 비밀번호, 권한)을 조회
 GET http://localhost:8003/api/user/login
-X-USER-ID: user1
+X-USER-ID: admin
 Accept: application/json
 
-###
+### 회원 정보 상세 조회
 GET http://localhost:8003/api/user/profile
-X-USER-ID: user2
+X-USER-ID: admin
 Accept: application/json
 
-###
+### 회원 정보(이름, 이메일) 수정
 PATCH http://localhost:8003/api/user/profile
-X-USER-ID: user3
+X-USER-ID: admin
 Content-Type: application/json
 
 {
-  "userName": "",
+  "userName": "관리자",
   "userEmail": "user@naver.com"
 }
 
-###
+### 회원 비밀번호 수정
 PATCH http://localhost:8003/api/user/profile/password
 X-USER-ID: admin
 Content-Type: application/json
@@ -44,7 +44,7 @@ Content-Type: application/json
   "userPassword": "432112312312"
 }
 
-###
-PATCH http://localhost:8003/api/user/activate
-X-USER-ID: user2
-Accept: application/json
+####
+#PATCH http://localhost:8003/api/user/activate
+#X-USER-ID: user2
+#Accept: application/json

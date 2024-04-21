@@ -1,5 +1,5 @@
 ### 권한 생성
-POST http://localhost:8003/api/role
+POST http://localhost:8003/api/user/role
 Content-Type: application/json
 
 {
@@ -7,7 +7,7 @@ Content-Type: application/json
 }
 
 ### 권한 생성
-POST http://localhost:8003/api/role
+POST http://localhost:8003/api/user/role
 Content-Type: application/json
 
 {
@@ -15,15 +15,15 @@ Content-Type: application/json
 }
 
 ### 현재 생성되어 있는 권한 목록 조회
-GET http://localhost:8003/api/role/list
+GET http://localhost:8003/api/user/role/list
 Accept: application/json
 
 ### 권한 조회
-GET http://localhost:8003/api/role/1
+GET http://localhost:8003/api/user/role/1
 Accept: application/json
 
 ### 권한이름 수정
-PUT http://localhost:8003/api/role/1
+PUT http://localhost:8003/api/user/role/1
 Content-Type: application/json
 
 {
@@ -31,6 +31,6 @@ Content-Type: application/json
 }
 
 ### 권한 삭제
-DELETE http://localhost:8003/api/role/1
+DELETE http://localhost:8003/api/user/role/1
 Accept: application/json
 
