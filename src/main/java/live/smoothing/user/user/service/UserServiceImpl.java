@@ -3,36 +3,38 @@ package live.smoothing.user.user.service;
 import live.smoothing.user.adapter.AuthAdapter;
 import live.smoothing.user.advice.ErrorCode;
 import live.smoothing.user.advice.exception.ServiceException;
-import live.smoothing.user.auth.dto.AuthResponse;
-import live.smoothing.user.auth.entity.Auth;
-import live.smoothing.user.auth.repository.AuthRepository;
-import live.smoothing.user.user.dto.request.UserCreateRequest;
-import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
-import live.smoothing.user.user.dto.request.UserPWModifyRequest;
-import live.smoothing.user.user.dto.response.PasswordDto;
+import live.smoothing.user.role.dto.response.RoleResponse;
+import live.smoothing.user.role.repository.RoleRepository;
+import live.smoothing.user.user.dto.request.*;
+import live.smoothing.user.user.dto.response.PasswordEncodingResponse;
 import live.smoothing.user.user.dto.response.UserDetailResponse;
 import live.smoothing.user.user.dto.response.UserResponseTemplate;
 import live.smoothing.user.user.dto.response.UserSimpleResponse;
 import live.smoothing.user.user.entity.User;
+import live.smoothing.user.user.entity.UserState;
 import live.smoothing.user.user.repository.UserRepository;
-import live.smoothing.user.userauth.dto.UserAuthRequest;
-import live.smoothing.user.userauth.entity.UserAuth;
-import live.smoothing.user.userauth.repository.UserAuthRepository;
+import live.smoothing.user.userrole.entity.UserRole;
+import live.smoothing.user.userrole.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final AuthRepository authRepository;
-    private final UserAuthRepository userAuthRepository;
+    private final RoleRepository roleRepository;
+    private final UserRoleRepository userRoleRepository;
     private final AuthAdapter adapter;
 
     @Override
@@ -45,16 +47,11 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(ErrorCode.DUPLICATED_USER);
         }
 
-        PasswordDto response = adapter.encodingPassword(new PasswordDto(request.getUserPassword()))
+        PasswordEncodingResponse response = adapter.encodingPassword(new PasswordEncodingRequest(request.getUserPassword()))
                 .orElseThrow(() -> new ServiceException(ErrorCode.ENCODING_FAIL));
 
-        User user = request.toEntity(response.getPassword());
+        User user = request.toEntity(response.getEncodedPassword());
 
-        for (UserAuthRequest userAuthRequest : request.getUserAuths()) {
-            Auth auth = authRepository.getReferenceById(userAuthRequest.getUserAuthId());
-            UserAuth userAuth = new UserAuth(auth, user);
-            user.getUserAuths().add(userAuth);
-        }
         userRepository.save(user);
     }
 
@@ -65,13 +62,13 @@ public class UserServiceImpl implements UserService {
         UserSimpleResponse userSimpleResponse = userRepository.findSimpleByUserId(userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        List<UserAuth> auths = userAuthRepository.findByUser_UserId(userId);
+        List<UserRole> roles = userRoleRepository.findByUser_UserId(userId);
 
-        List<AuthResponse> authResponses = auths.stream()
-                .map(userAuth -> new AuthResponse(userAuth.getAuth().getAuthInfo()))
+        List<RoleResponse> roleResponse = roles.stream()
+                .map(userRole -> new RoleResponse(userRole.getRole().getRoleInfo()))
                 .collect(Collectors.toList());
 
-        return new UserResponseTemplate<>(userSimpleResponse, authResponses);
+        return new UserResponseTemplate<>(userSimpleResponse, roleResponse);
     }
 
     @Override
@@ -81,13 +78,13 @@ public class UserServiceImpl implements UserService {
         UserDetailResponse userDetailResponse = userRepository.findDetailByUserId(userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        List<UserAuth> auths = userAuthRepository.findByUser_UserId(userId);
+        List<UserRole> roles = userRoleRepository.findByUser_UserId(userId);
 
-        List<AuthResponse> authResponses = auths.stream()
-                .map(userAuth -> new AuthResponse(userAuth.getAuth().getAuthId(), userAuth.getAuth().getAuthInfo()))
+        List<RoleResponse> roleResponse = roles.stream()
+                .map(userRole -> new RoleResponse(userRole.getRole().getRoleId(), userRole.getRole().getRoleInfo()))
                 .collect(Collectors.toList());
 
-        return new UserResponseTemplate<>(userDetailResponse, authResponses);
+        return new UserResponseTemplate<>(userDetailResponse, roleResponse);
     }
 
     @Override
@@ -108,10 +105,10 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        PasswordDto response = adapter.encodingPassword(new PasswordDto(request.getUserPassword()))
+        PasswordEncodingResponse response = adapter.encodingPassword(new PasswordEncodingRequest(request.getUserPassword()))
                 .orElseThrow(() -> new ServiceException(ErrorCode.ENCODING_FAIL));
 
-        user.modifyUserPassword(response.getPassword());
+        user.modifyUserPassword(response.getEncodedPassword());
     }
 
     @Override
@@ -121,6 +118,22 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        user.setDeleteState(Boolean.TRUE);
+        user.modifyUserState(UserState.WITHDRAWAL);
+    }
+
+    @Override
+    public boolean isCorrectUserPassword(String userId, UserPasswordRequest request) {
+
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+
+        String requestPassword = request.getUserPassword();
+        String userPassword = user.getUserPassword();
+
+
+        return passwordEncoder.matches(requestPassword, userPassword);
     }
 }

@@ -4,6 +4,7 @@ import live.smoothing.user.user.dto.request.UserCreateRequest;
 import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 import live.smoothing.user.user.dto.request.UserPWModifyRequest;
 import live.smoothing.user.common.dto.MessageResponse;
+import live.smoothing.user.user.dto.request.UserPasswordRequest;
 import live.smoothing.user.user.dto.response.UserDetailResponse;
 import live.smoothing.user.user.dto.response.UserResponseTemplate;
 import live.smoothing.user.user.dto.response.UserSimpleResponse;
@@ -61,5 +62,15 @@ public class UserController {
 
         userService.deleteUser(userId);
         return ResponseEntity.ok(new MessageResponse("유저 비활성화 완료"));
+    }
+
+    @PostMapping("/password")
+    public ResponseEntity<MessageResponse> verifyUserPassword(@RequestHeader("X-USER-ID") String userId, @RequestBody UserPasswordRequest request) {
+
+        if (userService.isCorrectUserPassword(userId, request)) {
+            return ResponseEntity.ok(new MessageResponse("비밀번호 확인 완료"));
+        }
+
+        return ResponseEntity.badRequest().body(new MessageResponse("비말번호 불일치"));
     }
 }
