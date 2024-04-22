@@ -6,6 +6,7 @@ import live.smoothing.user.userrole.dto.request.UserRoleModifyRequest;
 import live.smoothing.user.userrole.dto.response.UserRoleResponse;
 import live.smoothing.user.userrole.service.UserRoleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class UserRoleController {
     @PostMapping
     public ResponseEntity<MessageResponse> createUserRole(@RequestBody UserRoleCreateRequest request) {
 
-        return ResponseEntity.ok().body(userRoleService.createUserRole(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userRoleService.createUserRole(request));
     }
 
     @GetMapping("/list")
