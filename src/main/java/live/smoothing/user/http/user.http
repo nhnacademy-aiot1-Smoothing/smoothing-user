@@ -9,6 +9,15 @@ Content-Type: application/json
   "userEmail": "cs.smoothing@gmail.com"
 }
 
+### 회원 비밀번호 확인
+POST http://localhost:8003/api/user/password
+X-USER-ID: admin
+Content-Type: application/json
+
+{
+  "userPassword" : "1234512345"
+}
+
 ### 회원 탈퇴
 DELETE http://localhost:8003/api/user/inactive
 X-USER-ID: admin

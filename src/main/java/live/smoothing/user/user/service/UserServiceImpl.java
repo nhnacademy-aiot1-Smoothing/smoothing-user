@@ -5,10 +5,7 @@ import live.smoothing.user.advice.ErrorCode;
 import live.smoothing.user.advice.exception.ServiceException;
 import live.smoothing.user.role.dto.response.RoleResponse;
 import live.smoothing.user.role.repository.RoleRepository;
-import live.smoothing.user.user.dto.request.PasswordEncodingRequest;
-import live.smoothing.user.user.dto.request.UserCreateRequest;
-import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
-import live.smoothing.user.user.dto.request.UserPWModifyRequest;
+import live.smoothing.user.user.dto.request.*;
 import live.smoothing.user.user.dto.response.PasswordEncodingResponse;
 import live.smoothing.user.user.dto.response.UserDetailResponse;
 import live.smoothing.user.user.dto.response.UserResponseTemplate;
@@ -19,13 +16,18 @@ import live.smoothing.user.user.repository.UserRepository;
 import live.smoothing.user.userrole.entity.UserRole;
 import live.smoothing.user.userrole.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -117,5 +119,21 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
         user.modifyUserState(UserState.WITHDRAWAL);
+    }
+
+    @Override
+    public boolean isCorrectUserPassword(String userId, UserPasswordRequest request) {
+
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+
+        String requestPassword = request.getUserPassword();
+        String userPassword = user.getUserPassword();
+
+
+        return passwordEncoder.matches(requestPassword, userPassword);
     }
 }
