@@ -4,12 +4,8 @@ import live.smoothing.user.adapter.AuthAdapter;
 import live.smoothing.user.advice.ErrorCode;
 import live.smoothing.user.advice.exception.ServiceException;
 import live.smoothing.user.role.dto.response.RoleResponse;
-import live.smoothing.user.role.repository.RoleRepository;
 import live.smoothing.user.user.dto.request.*;
-import live.smoothing.user.user.dto.response.PasswordEncodingResponse;
-import live.smoothing.user.user.dto.response.UserDetailResponse;
-import live.smoothing.user.user.dto.response.UserResponseTemplate;
-import live.smoothing.user.user.dto.response.UserSimpleResponse;
+import live.smoothing.user.user.dto.response.*;
 import live.smoothing.user.user.entity.User;
 import live.smoothing.user.user.entity.UserState;
 import live.smoothing.user.user.repository.UserRepository;
@@ -23,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -33,7 +28,6 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
     private final AuthAdapter adapter;
 

@@ -8,7 +8,11 @@ Content-Type: application/json
 }
 
 ### userId로 권한 목록 조회
-GET http://localhost:8003/api/user/userRole/list?userId=admin
+GET http://localhost:8003/api/user/userRole/list?userId=hozzik
+Accept: application/json
+
+### roleId로 userId 목록 조회
+GET http://localhost:8003/api/user/userRole/list/roleId/1
 Accept: application/json
 
 ### 회원 권한 수정
