@@ -1,4 +1,4 @@
-package live.smoothing.user.user.service;
+package live.smoothing.user.user.service.impl;
 
 import live.smoothing.user.adapter.AuthAdapter;
 import live.smoothing.user.advice.ErrorCode;
@@ -13,6 +13,7 @@ import live.smoothing.user.user.dto.response.UserSimpleResponse;
 import live.smoothing.user.user.entity.User;
 import live.smoothing.user.user.entity.UserState;
 import live.smoothing.user.user.repository.UserRepository;
+import live.smoothing.user.user.service.UserService;
 import live.smoothing.user.userrole.entity.UserRole;
 import live.smoothing.user.userrole.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void deleteUser(String userId) {
+    public void deleteUser(String userId) { // 회원 탈퇴
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
