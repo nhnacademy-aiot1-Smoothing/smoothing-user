@@ -16,6 +16,7 @@ public class UpdateRoleRequest {
     private String roleInfo;
 
     public UpdateRoleRequest(String roleInfo) {
+
         this.roleInfo = roleInfo;
     }
 }

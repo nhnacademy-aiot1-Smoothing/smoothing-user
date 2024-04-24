@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
         boolean exists = userRepository.existsById(request.getUserId());
 
-        if(exists){
+        if(exists) {
             throw new ServiceException(ErrorCode.DUPLICATED_USER);
         }
 
@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
     public void modifyUserInfo(String userId, UserInfoModifyRequest request) {
 
         User user = userRepository.findById(userId)
-                        .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
         Optional.ofNullable(request.getUserName()).ifPresent(user::modifyUserName);
         Optional.ofNullable(request.getUserEmail()).ifPresent(user::modifyUserEmail);

@@ -44,21 +44,22 @@ public class UserController {
 
     @PatchMapping("/profile")
     public ResponseEntity<MessageResponse> userInfoModify(@RequestHeader("X-USER-ID") String userId,
-                                                 @Valid @RequestBody UserInfoModifyRequest request) {
+                                                          @Valid @RequestBody UserInfoModifyRequest request) {
+
         userService.modifyUserInfo(userId, request);
         return ResponseEntity.ok(new MessageResponse("유저 정보 변경 완료"));
     }
 
     @PatchMapping("/profile/password")
     public ResponseEntity<MessageResponse> userPasswordModify(@RequestHeader("X-USER-ID") String userId,
-                                                     @Valid @RequestBody UserPWModifyRequest request) {
+                                                              @Valid @RequestBody UserPWModifyRequest request) {
 
         userService.modifyUserPassword(userId, request);
         return ResponseEntity.ok(new MessageResponse("유저 비밀번호 변경 완료"));
     }
 
     @DeleteMapping("/inactive")
-    public ResponseEntity<MessageResponse> userInactive(@RequestHeader("X-USER-ID") String userId){
+    public ResponseEntity<MessageResponse> userInactive(@RequestHeader("X-USER-ID") String userId) {
 
         userService.deleteUser(userId);
         return ResponseEntity.ok(new MessageResponse("유저 비활성화 완료"));
@@ -67,7 +68,7 @@ public class UserController {
     @PostMapping("/password")
     public ResponseEntity<MessageResponse> verifyUserPassword(@RequestHeader("X-USER-ID") String userId, @RequestBody UserPasswordRequest request) {
 
-        if (userService.isCorrectUserPassword(userId, request)) {
+        if(userService.isCorrectUserPassword(userId, request)) {
             return ResponseEntity.ok(new MessageResponse("비밀번호 확인 완료"));
         }
 

@@ -79,12 +79,12 @@ public class UserRoleServiceImpl implements UserRoleService {
 
         List<UserRole> userRoles = userRoleRepository.findByRole_RoleId(roleId);
         Optional<Role> optionalRole = roleRepository.findById(roleId);
+
         String roleInfo = optionalRole.map(Role::getRoleInfo).orElse("Role not found");
         List<String> userIds = userRoles.stream()
                 .map(userRole -> userRole.getUser().getUserId())
                 .collect(Collectors.toList());
-        System.out.println(new UserIdListResponse(roleInfo, userIds).getUserIds());
-        System.out.println(new UserIdListResponse(roleInfo, userIds).getRole());
+
         return new UserIdListResponse(roleInfo, userIds);
     }
 

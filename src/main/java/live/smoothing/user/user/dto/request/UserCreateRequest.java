@@ -31,7 +31,8 @@ public class UserCreateRequest {
     @NotNull
     private String userEmail;
 
-    public User toEntity(String userPassword){
+    public User toEntity(String userPassword) {
+
         return User.builder()
                 .userId(userId)
                 .userPassword(userPassword)
