@@ -21,6 +21,7 @@ public class RoleController {
 
     @Autowired
     public RoleController(RoleService roleService) {
+
         this.roleService = roleService;
     }
 
@@ -47,7 +48,7 @@ public class RoleController {
 
     @PutMapping("/{roleId}")
     public ResponseEntity<MessageResponse> updateRole(@PathVariable Long roleId,
-                                             @Valid @RequestBody UpdateRoleRequest request) {
+                                                      @Valid @RequestBody UpdateRoleRequest request) {
 
         roleService.updateRole(roleId, request);
         return ResponseEntity.ok(new MessageResponse("권한명 수정 완료"));

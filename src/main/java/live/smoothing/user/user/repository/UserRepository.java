@@ -12,5 +12,4 @@ public interface UserRepository extends JpaRepository<User, String> {
     Optional<UserSimpleResponse> findSimpleByUserId(String userId);
 
     Optional<UserDetailResponse> findDetailByUserId(String userId);
-
 }

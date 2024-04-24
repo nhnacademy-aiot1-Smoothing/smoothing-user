@@ -9,6 +9,7 @@ import live.smoothing.user.user.entity.User;
 import live.smoothing.user.user.repository.UserRepository;
 import live.smoothing.user.userrole.dto.request.UserRoleCreateRequest;
 import live.smoothing.user.userrole.dto.request.UserRoleModifyRequest;
+import live.smoothing.user.userrole.dto.response.UserIdListResponse;
 import live.smoothing.user.userrole.dto.response.UserRoleResponse;
 import live.smoothing.user.userrole.entity.UserRole;
 import live.smoothing.user.userrole.repository.UserRoleRepository;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -70,6 +72,20 @@ public class UserRoleServiceImpl implements UserRoleService {
         return userRoles.stream()
                 .map(userRole -> new UserRoleResponse(userRole.getUser().getUserId(), userRole.getRole().getRoleInfo()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserIdListResponse getUserIdsByRoleId(Long roleId) {
+
+        List<UserRole> userRoles = userRoleRepository.findByRole_RoleId(roleId);
+        Optional<Role> optionalRole = roleRepository.findById(roleId);
+
+        String roleInfo = optionalRole.map(Role::getRoleInfo).orElse("Role not found");
+        List<String> userIds = userRoles.stream()
+                .map(userRole -> userRole.getUser().getUserId())
+                .collect(Collectors.toList());
+
+        return new UserIdListResponse(roleInfo, userIds);
     }
 
     @Override
