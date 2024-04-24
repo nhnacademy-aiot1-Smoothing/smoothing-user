@@ -4,11 +4,11 @@ Content-Type: application/json
 
 {
   "userId": "admin",
-  "roleId": 3
+  "roleIds": [1, 2]
 }
 
 ### userId로 권한 목록 조회
-GET http://localhost:8003/api/user/userRole/list?userId=admin
+GET http://localhost:8003/api/user/userRole/list?userId=user1
 Accept: application/json
 
 ### 회원 권한 수정
@@ -16,8 +16,8 @@ PUT http://localhost:8003/api/user/userRole
 Content-Type: application/json
 
 {
-  "userId": "admin",
-  "roleId": 2
+  "userId": "user1",
+  "roleIds": [1]
 }
 
 ### 회원 권한 삭제

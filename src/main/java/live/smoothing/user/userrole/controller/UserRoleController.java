@@ -22,7 +22,8 @@ public class UserRoleController {
     @PostMapping
     public ResponseEntity<MessageResponse> createUserRole(@RequestBody UserRoleCreateRequest request) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(userRoleService.createUserRole(request));
+        userRoleService.createUserRole(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("회원 권한 설정 완료"));
     }
 
     @GetMapping("/list")
@@ -34,12 +35,14 @@ public class UserRoleController {
     @PutMapping
     public ResponseEntity<MessageResponse> modifyUserRole(@RequestBody UserRoleModifyRequest request) {
 
-        return ResponseEntity.ok().body(userRoleService.modifyUserRole(request));
+        userRoleService.modifyUserRole(request);
+        return ResponseEntity.ok().body(new MessageResponse("회원 권한 수정 완료"));
     }
 
     @DeleteMapping("/{userRoleId}")
     public ResponseEntity<MessageResponse> deleteUserRole(@PathVariable("userRoleId") Long userRoleId) {
 
-        return ResponseEntity.ok().body(userRoleService.deleteUserRole(userRoleId));
+        userRoleService.deleteUserRole(userRoleId);
+        return ResponseEntity.ok().body(new MessageResponse("회원 권한 삭제 완료"));
     }
 }

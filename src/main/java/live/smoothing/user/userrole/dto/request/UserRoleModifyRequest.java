@@ -4,16 +4,19 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserRoleModifyRequest {
 
     private String userId;
-    private Long roleId;
+    private List<Long> roleIds;
 
-    public UserRoleModifyRequest(String userId, Long roleId) {
+
+    public UserRoleModifyRequest(String userId, List<Long> roleIds) {
 
         this.userId = userId;
-        this.roleId = roleId;
+        this.roleIds = roleIds;
     }
 }

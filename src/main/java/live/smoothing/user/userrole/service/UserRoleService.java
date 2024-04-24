@@ -9,12 +9,12 @@ import java.util.List;
 
 public interface UserRoleService {
 
-    MessageResponse createUserRole(UserRoleCreateRequest request);
+    void createUserRole(UserRoleCreateRequest request);
 
-    MessageResponse modifyUserRole(UserRoleModifyRequest request);
+    void modifyUserRole(UserRoleModifyRequest request);
 
     List<UserRoleResponse> getUserRolesByUserId(String userId);
 
-    MessageResponse deleteUserRole(Long userRoleId);
+    void deleteUserRole(Long userRoleId);
 
 }
