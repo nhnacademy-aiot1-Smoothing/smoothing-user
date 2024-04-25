@@ -17,8 +17,9 @@ public enum ErrorCode {
     DUPLICATED_USER(HttpStatus.CONFLICT, "이미 등록된 유저 입니다."),
 
     // API 요청 ERROR
-    ENCODING_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "PW 인코딩 실패.");
+    ENCODING_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "PW 인코딩 실패."),
 
+    ATTENDANCE_ALREADY_CHECKED(HttpStatus.BAD_REQUEST, "이미 출석체크 되었습니다.");
 
     private final HttpStatus status;
     private final String message;
