@@ -9,7 +9,7 @@ public interface PointService {
 
     void createPoint(PointRegisterRequest request);
 
-    List<PointDetailResponse> getPointDetails(Long userId);
+    List<PointDetailResponse> getPointDetails(String userId);
 
-    Long getBalance();
+    Long getBalance(String userId);
 }
