@@ -39,6 +39,7 @@ public class User {
 
     @Builder
     public User(String userId, String userPassword, String userName, String userEmail, UserState userState, Long userPoint, LocalDateTime lastAccess) {
+
         this.userId = userId;
         this.userPassword = userPassword;
         this.userName = userName;

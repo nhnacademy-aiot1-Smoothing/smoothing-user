@@ -26,7 +26,7 @@ public class RoleServiceImpl implements RoleService {
 
         boolean exists = roleRepository.existsByRoleInfo(request.getRoleInfo());
 
-        if (exists) {
+        if(exists) {
             throw new ServiceException(ErrorCode.DUPLICATED_ROLE);
         }
         roleRepository.save(new Role(request.getRoleInfo()));
@@ -67,6 +67,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional(readOnly = true)
     public List<RoleResponse> getAllRoles() {
+
         List<Role> roleList = roleRepository.findAll();
         return roleList.stream()
                 .map(role -> new RoleResponse(role.getRoleId(), role.getRoleInfo()))

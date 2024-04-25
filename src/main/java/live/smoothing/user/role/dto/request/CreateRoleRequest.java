@@ -16,6 +16,7 @@ public class CreateRoleRequest {
     private String roleInfo;
 
     public CreateRoleRequest(String roleInfo) {
+
         this.roleInfo = roleInfo;
     }
 }

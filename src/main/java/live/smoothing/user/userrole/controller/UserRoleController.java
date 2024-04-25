@@ -3,6 +3,7 @@ package live.smoothing.user.userrole.controller;
 import live.smoothing.user.common.dto.MessageResponse;
 import live.smoothing.user.userrole.dto.request.UserRoleCreateRequest;
 import live.smoothing.user.userrole.dto.request.UserRoleModifyRequest;
+import live.smoothing.user.userrole.dto.response.UserIdListResponse;
 import live.smoothing.user.userrole.dto.response.UserRoleResponse;
 import live.smoothing.user.userrole.service.UserRoleService;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,13 @@ public class UserRoleController {
         return ResponseEntity.ok().body(new MessageResponse("회원 권한 수정 완료"));
     }
 
-    @DeleteMapping("/{userRoleId}")
+    @GetMapping("/list/roleId/{roleId}")
+    public ResponseEntity<UserIdListResponse> getUserIdsByRoleName(@PathVariable("roleId") Long roleId) {
+
+        return ResponseEntity.ok().body(userRoleService.getUserIdsByRoleId(roleId));
+    }
+
+    @DeleteMapping("/list")
     public ResponseEntity<MessageResponse> deleteUserRole(@PathVariable("userRoleId") Long userRoleId) {
 
         userRoleService.deleteUserRole(userRoleId);

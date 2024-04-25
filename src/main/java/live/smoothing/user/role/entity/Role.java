@@ -23,10 +23,12 @@ public class Role {
     private String roleInfo;
 
     public Role(String roleInfo) {
+
         this.roleInfo = roleInfo;
     }
 
     public void modifyRoleInfo(String roleInfo) {
+
         this.roleInfo = roleInfo;
     }
 }
