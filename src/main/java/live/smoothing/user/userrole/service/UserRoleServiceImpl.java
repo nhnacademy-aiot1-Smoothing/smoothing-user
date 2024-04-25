@@ -29,34 +29,34 @@ public class UserRoleServiceImpl implements UserRoleService {
     private final UserRoleRepository userRoleRepository;
 
     @Override
-    public MessageResponse createUserRole(UserRoleCreateRequest request) { // 이건 맨 처음 회원 승인 할 때만 쓸 듯
+    public void createUserRole(UserRoleCreateRequest request) { // 이건 맨 처음 회원 승인 할 때만 쓸 듯
 
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        Role role = roleRepository.findById(request.getRoleId())
-                .orElseThrow(() -> new ServiceException(ErrorCode.ROLE_NOT_FOUND));
+        for (Long roleId : request.getRoleIds()) {
+            Role role = roleRepository.findById(roleId)
+                    .orElseThrow(() -> new ServiceException(ErrorCode.ROLE_NOT_FOUND));
 
-        userRoleRepository.save(new UserRole(user, role));
-
-        return new MessageResponse("회원 권한 설정 완료");
+            userRoleRepository.save(new UserRole(user, role));
+        }
     }
 
     @Override
-    public MessageResponse modifyUserRole(UserRoleModifyRequest request) { // 회원 목록페이지에서 권한 변경할 때 사용
+    public void modifyUserRole(UserRoleModifyRequest request) { // 회원 목록페이지에서 권한 변경할 때 사용
 
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        Role role = roleRepository.findById(request.getRoleId())
-                .orElseThrow(() -> new ServiceException(ErrorCode.ROLE_NOT_FOUND));
+        for (Long roleId : request.getRoleIds()) {
+            Role role = roleRepository.findById(roleId)
+                    .orElseThrow(() -> new ServiceException(ErrorCode.ROLE_NOT_FOUND));
 
-        List<UserRole> userRoles = userRoleRepository.findByUser_UserId(request.getUserId());
-        userRoleRepository.deleteAll(userRoles);
+            List<UserRole> userRoles = userRoleRepository.findByUser_UserId(request.getUserId());
+            userRoleRepository.deleteAll(userRoles);
 
-        userRoleRepository.save(new UserRole(user, role));
-
-        return new MessageResponse("회원 권한 수정 완료");
+            userRoleRepository.save(new UserRole(user, role));
+        }
     }
 
     @Override
@@ -89,10 +89,8 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public MessageResponse deleteUserRole(Long userRoleId) {
+    public void deleteUserRole(Long userRoleId) {
 
         userRoleRepository.deleteById(userRoleId);
-
-        return new MessageResponse("회원 권한 삭제 완료");
     }
 }

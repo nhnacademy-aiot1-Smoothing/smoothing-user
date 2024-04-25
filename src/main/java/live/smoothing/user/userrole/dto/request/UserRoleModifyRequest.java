@@ -1,19 +1,17 @@
 package live.smoothing.user.userrole.dto.request;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserRoleModifyRequest {
 
     private String userId;
-    private Long roleId;
-
-    public UserRoleModifyRequest(String userId, Long roleId) {
-
-        this.userId = userId;
-        this.roleId = roleId;
-    }
+    private List<Long> roleIds;
 }

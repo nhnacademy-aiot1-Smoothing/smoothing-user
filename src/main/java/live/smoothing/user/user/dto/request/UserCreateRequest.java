@@ -38,7 +38,7 @@ public class UserCreateRequest {
                 .userPassword(userPassword)
                 .userName(userName)
                 .userEmail(userEmail)
-                .userState(UserState.DISAPPROVAL)
+                .userState(UserState.NOT_APPROVED)
                 .userPoint(0L)
                 .lastAccess(LocalDateTime.now())
                 .build();

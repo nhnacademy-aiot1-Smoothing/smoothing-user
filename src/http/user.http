@@ -3,9 +3,9 @@ POST http://localhost:8003/api/user/signup
 Content-Type: application/json
 
 {
-  "userId": "admin",
+  "userId": "user1",
   "userPassword": "1234512345",
-  "userName": "관리자",
+  "userName": "유저",
   "userEmail": "cs.smoothing@gmail.com"
 }
 
@@ -31,7 +31,7 @@ Accept: application/json
 
 ### 회원 정보 상세 조회
 GET http://localhost:8003/api/user/profile
-X-USER-ID: admin
+X-USER-ID: user1
 Accept: application/json
 
 ### 회원 정보(이름, 이메일) 수정

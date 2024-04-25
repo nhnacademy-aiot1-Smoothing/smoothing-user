@@ -10,14 +10,14 @@ import java.util.List;
 
 public interface UserRoleService {
 
-    MessageResponse createUserRole(UserRoleCreateRequest request);
+    void createUserRole(UserRoleCreateRequest request);
 
-    MessageResponse modifyUserRole(UserRoleModifyRequest request);
+    void modifyUserRole(UserRoleModifyRequest request);
 
     List<UserRoleResponse> getUserRolesByUserId(String userId);
 
     UserIdListResponse getUserIdsByRoleId(Long roleId);
 
-    MessageResponse deleteUserRole(Long userRoleId);
+    void deleteUserRole(Long userRoleId);
 
 }
