@@ -100,7 +100,7 @@ class UserRoleControllerTest {
 
         Long userRoleId = 1L;
 
-        mockMvc.perform(delete("/api/user/userRole/{userRoleId}", userRoleId))
+        mockMvc.perform(delete("/api/user/userRole/delete/{userRoleId}", userRoleId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.message").value(("회원 권한 삭제 완료")));

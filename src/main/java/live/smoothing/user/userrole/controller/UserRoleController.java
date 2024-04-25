@@ -46,7 +46,7 @@ public class UserRoleController {
         return ResponseEntity.ok().body(userRoleService.getUserIdsByRoleId(roleId));
     }
 
-    @DeleteMapping("/list")
+    @DeleteMapping("/delete/{userRoleId}")
     public ResponseEntity<MessageResponse> deleteUserRole(@PathVariable("userRoleId") Long userRoleId) {
 
         userRoleService.deleteUserRole(userRoleId);
