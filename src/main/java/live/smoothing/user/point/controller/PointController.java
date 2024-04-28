@@ -32,14 +32,14 @@ public class PointController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("포인트 적립 완료"));
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<PointDetailResponse>> getPointDetails(@PathVariable String userId) {
+    @GetMapping
+    public ResponseEntity<List<PointDetailResponse>> getPointDetails(@RequestHeader("X-USER-ID") String userId) {
 
         return ResponseEntity.ok(pointService.getPointDetails(userId));
     }
 
-    @GetMapping("/balance/{userId}")
-    public ResponseEntity<Long> getBalance(@PathVariable String userId) {
+    @GetMapping("/balance")
+    public ResponseEntity<Long> getBalance(@RequestHeader("X-USER-ID") String userId) {
 
         return ResponseEntity.ok(pointService.getBalance(userId));
     }

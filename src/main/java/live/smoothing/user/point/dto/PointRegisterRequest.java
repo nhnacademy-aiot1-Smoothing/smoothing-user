@@ -9,7 +9,6 @@ import lombok.*;
 @NoArgsConstructor
 public class PointRegisterRequest {
 
-    private Long pointDetailId;
     private String userId;
     private Long pointDetailAmount;
     private PointDetailType pointDetailType;
