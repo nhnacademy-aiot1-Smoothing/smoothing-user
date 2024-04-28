@@ -48,7 +48,6 @@ public class PointServiceImpl implements PointService {
         return pointDetails.stream()
                 .map(pointDetail -> new PointDetailResponse(
                         pointDetail.getPointDetailId(),
-                        userId,
                         pointDetail.getPointDetailAmount(),
                         pointDetail.getPointDetailType(),
                         pointDetail.getPointRecordDate()

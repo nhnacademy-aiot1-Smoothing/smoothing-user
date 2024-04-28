@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class PointDetailResponse {
     private Long pointDetailId;
-    private String userId;
     private Long pointDetailAmount;
     private PointDetailType pointDetailType;
     private LocalDateTime pointRecordDate;
