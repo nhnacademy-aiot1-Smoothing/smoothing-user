@@ -16,7 +16,7 @@ public class Attendance {
     @Id
     @Column(name = "attendance_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int attendanceId;
+    private Long attendanceId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
