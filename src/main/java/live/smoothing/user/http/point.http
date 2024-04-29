@@ -1,0 +1,19 @@
+### 포인트 생성
+POST http://localhost:8003/api/user/point
+Content-Type: application/json
+
+{
+  "userId": "hani",
+  "pointDetailAmount": "15300",
+  "pointDetailType": "USAGE"
+}
+
+### 포인트 상세내역 조회
+GET http://localhost:8003/api/user/point
+X-USER-ID: hani
+Accept: application/json
+
+### 포인트 잔액 조회
+GET http://localhost:8003/api/user/point/balance
+X-USER-ID: hani
+Accept: application/json
