@@ -28,10 +28,17 @@ public class PointServiceImpl implements PointService {
 
         User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        Long accumulatedPoints = pointRepository.sumAccumulatedPointByUser(user);
-        Long usedPoints = pointRepository.sumUsedPointByUser(user);
+        if (request.getPointDetailType() == PointDetailType.USAGE && request.getPointDetailAmount() >= 0) {
+            throw new ServiceException(ErrorCode.INVALID_POINT_AMOUNT);
+        }
 
-        if (request.getPointDetailType() == PointDetailType.USAGE && request.getPointDetailAmount() > accumulatedPoints - usedPoints) {
+        if (request.getPointDetailType() != PointDetailType.USAGE && request.getPointDetailAmount() <= 0) {
+            throw new ServiceException(ErrorCode.INVALID_POINT_AMOUNT);
+        }
+
+        Long balance = pointRepository.sumAccumulatedAndUsedPointByUser(user);
+
+        if (request.getPointDetailType() == PointDetailType.USAGE && -(request.getPointDetailAmount()) > balance) {
             throw new ServiceException(ErrorCode.INSUFFICIENT_BALANCE);
         }
 
@@ -60,9 +67,8 @@ public class PointServiceImpl implements PointService {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        Long accumulatedPoints = pointRepository.sumAccumulatedPointByUser(user);
-        Long usedPoints = pointRepository.sumUsedPointByUser(user);
+        Long balance = pointRepository.sumAccumulatedAndUsedPointByUser(user);
 
-        return accumulatedPoints - usedPoints;
+        return balance;
     }
 }
