@@ -39,13 +39,16 @@ class UserApprovalServiceImplTest {
     @DisplayName("회원 승인 요청 목록 조회 테스트")
     void waitingUserList() {
 
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
+//        Pageable pageable = Pageable.ofSize(10).withPage(0);
+
+        int page = 0;
+        int size = 10;
 
         Page<WaitingUser> waitingUserPage = mock(Page.class);
 
-        when(userRepository.findWaitingUsers(pageable)).thenReturn(waitingUserPage);
+        when(userRepository.findWaitingUsers(page, size)).thenReturn(waitingUserPage);
 
-        Page<WaitingUser> waitingUserList = userApprovalService.waitingUserList(pageable);
+        Page<WaitingUser> waitingUserList = userApprovalService.waitingUserList(page, size);
 
         assertEquals(waitingUserPage, waitingUserList);
     }

@@ -41,10 +41,15 @@ class UserApprovalControllerTest {
     @DisplayName("회원 승인 요청 목록 조회 테스트")
     void getWaitingUserList() throws Exception {
 
-        Page<WaitingUser> waitingUserPage = new PageImpl<>(Collections.emptyList());
-        when(userApprovalService.waitingUserList(any(Pageable.class))).thenReturn(waitingUserPage);
+        int page = 0;
+        int size = 10;
 
-        mockMvc.perform(get("/api/user/waitingUserList"))
+        Page<WaitingUser> waitingUserPage = new PageImpl<>(Collections.emptyList());
+        when(userApprovalService.waitingUserList(page, size)).thenReturn(waitingUserPage);
+
+        mockMvc.perform(get("/api/user/waitingUserList")
+                        .param("page", String.valueOf(page))
+                        .param("size", String.valueOf(size)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.content").isArray())
