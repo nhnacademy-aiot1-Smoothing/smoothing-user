@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -44,16 +45,16 @@ class UserApprovalControllerTest {
         int page = 0;
         int size = 10;
 
-        Page<WaitingUser> waitingUserPage = new PageImpl<>(Collections.emptyList());
-        when(userApprovalService.waitingUserList(page, size)).thenReturn(waitingUserPage);
+        List<WaitingUser> waitingUserList = Collections.emptyList();
+        when(userApprovalService.waitingUserList(page, size)).thenReturn(waitingUserList);
 
         mockMvc.perform(get("/api/user/waitingUserList")
                         .param("page", String.valueOf(page))
                         .param("size", String.valueOf(size)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.content").isArray())
-                .andExpect(jsonPath("$.content").isEmpty());
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$").isEmpty());
     }
 
     @Test
