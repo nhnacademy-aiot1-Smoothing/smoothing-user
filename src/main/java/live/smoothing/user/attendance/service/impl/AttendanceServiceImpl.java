@@ -23,12 +23,13 @@ public class AttendanceServiceImpl implements AttendanceService {
     private final AttendanceRepository attendanceRepository;
 
     @Override
-    public UserAttendanceResponse getUserAttendance(String userId) {
+    public UserAttendanceResponse getUserAttendance(String userId, int year, int month) {
 
         List<Attendance> attendanceList = attendanceRepository.findByUser_UserId(userId);
 
         List<LocalDate> attendanceDateList = attendanceList.stream()
                 .map(Attendance::getAttendanceDate)
+                .filter(date -> date.getYear() == year && date.getMonthValue() == month)
                 .collect(Collectors.toList());
 
         return new UserAttendanceResponse(userId, attendanceDateList);

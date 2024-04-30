@@ -14,10 +14,12 @@ public class UserAttendanceController {
 
     private final AttendanceService attendanceService;
 
-    @GetMapping("/list") // userId로 출석 일자 가져옴
-    public ResponseEntity<UserAttendanceResponse> getAttendanceList(@RequestHeader("X-USER-ID") String userId) {
+    @GetMapping("/list/{year}/{month}") // userId로 출석 일자 가져옴
+    public ResponseEntity<UserAttendanceResponse> getAttendanceList(@RequestHeader("X-USER-ID") String userId,
+                                                                    @PathVariable("year") int year,
+                                                                    @PathVariable("month") int month) {
 
-        return ResponseEntity.ok().body(attendanceService.getUserAttendance(userId));
+        return ResponseEntity.ok().body(attendanceService.getUserAttendance(userId, year, month));
     }
 
     @PostMapping// 출석체크
