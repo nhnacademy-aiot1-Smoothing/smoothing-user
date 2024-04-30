@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface UserApprovalService {
 
-    Page<WaitingUser> waitingUserList(Pageable pageable);
+    Page<WaitingUser> waitingUserList(int page, int size);
 
     void approve(UserRoleCreateRequest request);
 

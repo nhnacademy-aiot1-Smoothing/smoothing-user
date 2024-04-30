@@ -6,7 +6,6 @@ import live.smoothing.user.user.service.UserApprovalService;
 import live.smoothing.user.userrole.dto.request.UserRoleCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +18,10 @@ public class UserApprovalController {
     private final UserApprovalService userApprovalService;
 
     @GetMapping("/waitingUserList")
-    public ResponseEntity<Page<WaitingUser>> getWaitingUserList(Pageable pageable) {
+    public ResponseEntity<Page<WaitingUser>> getWaitingUserList(@RequestParam("page")int page,
+                                                                @RequestParam("size") int size) {
 
-        return ResponseEntity.ok().body(userApprovalService.waitingUserList(pageable));
+        return ResponseEntity.ok().body(userApprovalService.waitingUserList(page, size));
     }
 
     @PutMapping("/approve")

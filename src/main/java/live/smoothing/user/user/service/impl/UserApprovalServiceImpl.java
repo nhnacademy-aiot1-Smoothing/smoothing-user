@@ -21,9 +21,9 @@ public class UserApprovalServiceImpl implements UserApprovalService {
     private final UserRepository userRepository;
     private final UserRoleService userRoleService;
     @Override
-    public Page<WaitingUser> waitingUserList(Pageable pageable) {
+    public Page<WaitingUser> waitingUserList(int page, int size) {
 
-        return userRepository.findWaitingUsers(pageable);
+        return userRepository.findWaitingUsers(page, size);
     }
 
     @Override

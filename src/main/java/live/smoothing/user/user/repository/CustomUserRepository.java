@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface CustomUserRepository {
 
-    Page<WaitingUser> findWaitingUsers(Pageable pageable);
+    Page<WaitingUser> findWaitingUsers(int page, int size);
 }

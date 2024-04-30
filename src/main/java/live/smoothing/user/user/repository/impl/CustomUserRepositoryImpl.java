@@ -8,7 +8,7 @@ import live.smoothing.user.user.repository.CustomUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
     private final JPAQueryFactory factory;
 
     @Override
-    public Page<WaitingUser> findWaitingUsers(Pageable pageable) {
+    public Page<WaitingUser> findWaitingUsers(int page, int size) {
 
         List<WaitingUser> waitingUserList = factory
                 .select(Projections.constructor(WaitingUser.class,
@@ -31,8 +31,8 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
                         user.lastAccess))
                 .from(user)
                 .where(user.userState.eq(UserState.NOT_APPROVED))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .offset((long) page * size)
+                .limit(size)
                 .orderBy(user.lastAccess.asc())
                 .fetch();
 
@@ -41,6 +41,6 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
                 .where(user.userState.eq(UserState.NOT_APPROVED))
                 .fetchCount();
 
-        return new PageImpl<>(waitingUserList, pageable, totalCount);
+        return new PageImpl<>(waitingUserList, PageRequest.of(page, size), totalCount);
     }
 }
