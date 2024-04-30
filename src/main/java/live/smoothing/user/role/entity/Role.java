@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 @Getter
 @Entity
-@DynamicUpdate
 @Table(name = "roles")
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 여기서 protected
 public class Role {

@@ -3,15 +3,12 @@ package live.smoothing.user.organization.entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 
 @Entity
 @Getter
-@DynamicUpdate
 @Table(name = "organization")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Organization {
@@ -25,4 +22,18 @@ public class Organization {
 
     @Column(name = "location")
     private String location;
+
+    public Organization(String organizationName, String business, String location) {
+
+        this.organizationName = organizationName;
+        this.business = business;
+        this.location = location;
+    }
+
+    public void modifyOrganization(String organizationName, String business, String location) {
+
+        this.organizationName = organizationName;
+        this.business = business;
+        this.location = location;
+    }
 }

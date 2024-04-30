@@ -1,0 +1,23 @@
+### 조직 생성
+POST http://localhost:8003/api/organization
+Content-Type: application/json
+
+{
+  "organizationName": "조직",
+  "business": "hello",
+  "location": "good"
+}
+
+### 현재 생성되어 있는 조직 조회
+GET http://localhost:8003/api/organization
+Accept: application/json
+
+### 권한이름 수정
+PUT http://localhost:8003/api/organization/조직
+Content-Type: application/json
+
+{
+  "organizationName": "바꿈",
+  "business": "hello",
+  "location": "good"
+}

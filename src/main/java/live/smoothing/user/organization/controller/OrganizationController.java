@@ -2,8 +2,8 @@ package live.smoothing.user.organization.controller;
 
 import live.smoothing.user.common.dto.MessageResponse;
 import live.smoothing.user.organization.dto.OrganizationRegisterRequest;
-import live.smoothing.user.organization.dto.OrganizationResponse;
 import live.smoothing.user.organization.dto.OrganizationUpdateRequest;
+import live.smoothing.user.organization.entity.Organization;
 import live.smoothing.user.organization.service.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,10 +25,10 @@ public class OrganizationController {
     }
 
     @GetMapping
-    public ResponseEntity<OrganizationResponse> getOrganization() {
+    public ResponseEntity<Organization> getOrganization() {
 
-        OrganizationResponse organizationResponse = organizationService.getOrganization();
-        return ResponseEntity.ok(organizationResponse);
+        Organization organization = organizationService.getOrganization();
+        return ResponseEntity.ok(organization);
     }
 
     @PostMapping
@@ -38,10 +38,10 @@ public class OrganizationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("조직 생성 완료"));
     }
 
-    @PutMapping
-    public ResponseEntity<MessageResponse> updateOrganization(@Valid @RequestBody OrganizationUpdateRequest request) {
+    @PutMapping("/{organizationName}")
+    public ResponseEntity<MessageResponse> updateOrganization(@Valid @RequestBody OrganizationUpdateRequest request, @PathVariable String organizationName) {
 
-        organizationService.updateOrganization(request);
+        organizationService.updateOrganization(organizationName, request);
         return ResponseEntity.ok(new MessageResponse("조직 수정 완료"));
     }
 }

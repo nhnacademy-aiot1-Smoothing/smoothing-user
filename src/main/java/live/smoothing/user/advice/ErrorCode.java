@@ -21,8 +21,11 @@ public enum ErrorCode {
 
     // POINT 서비스 ERROR
     INSUFFICIENT_BALANCE(HttpStatus.FORBIDDEN, "포인트 잔액이 부족합니다."),
-    INVALID_POINT_AMOUNT(HttpStatus.BAD_REQUEST, "포인트 값이 유효하지 않습니다.");
+    INVALID_POINT_AMOUNT(HttpStatus.BAD_REQUEST, "포인트 값이 유효하지 않습니다."),
 
+    // Organization 서비스 ERROR
+    MULTIPLE_ORGANIZATION_NOT_ALLOWED(HttpStatus.FORBIDDEN, "조직이 이미 등록 되어 있습니다."),
+    ORGANIZATION_NOT_FOUND(HttpStatus.NOT_FOUND, "조직을 찾을 수 없습니다.");
     private final HttpStatus status;
     private final String message;
 }

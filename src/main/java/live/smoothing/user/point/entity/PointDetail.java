@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@DynamicUpdate
 @Table(name = "point_details")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PointDetail {
