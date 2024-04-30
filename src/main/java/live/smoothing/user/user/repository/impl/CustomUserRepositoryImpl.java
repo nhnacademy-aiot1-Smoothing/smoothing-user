@@ -6,9 +6,6 @@ import live.smoothing.user.user.dto.WaitingUser;
 import live.smoothing.user.user.entity.UserState;
 import live.smoothing.user.user.repository.CustomUserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,7 +19,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
     private final JPAQueryFactory factory;
 
     @Override
-    public Page<WaitingUser> findWaitingUsers(int page, int size) {
+    public List<WaitingUser> findWaitingUsers(int page, int size) {
 
         List<WaitingUser> waitingUserList = factory
                 .select(Projections.constructor(WaitingUser.class,
@@ -36,11 +33,6 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
                 .orderBy(user.lastAccess.asc())
                 .fetch();
 
-        long totalCount = factory
-                .selectFrom(user)
-                .where(user.userState.eq(UserState.NOT_APPROVED))
-                .fetchCount();
-
-        return new PageImpl<>(waitingUserList, PageRequest.of(page, size), totalCount);
+        return waitingUserList;
     }
 }
