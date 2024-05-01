@@ -133,11 +133,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserNameResponse getUserName(String userId) {
+    public String getUserName(String userId) {
 
-        UserNameResponse userNameResponse = userRepository.findUserNameByUserId(userId)
+        UserNameResponse response = userRepository.findUserNameByUserId(userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        return userNameResponse;
+        return response.getUserName();
     }
 }

@@ -77,7 +77,7 @@ public class UserController {
     }
 
     @GetMapping("/profile/name")
-    public ResponseEntity<UserNameResponse> getUserName(@RequestHeader("X-USER-ID") String userId) {
+    public ResponseEntity<String> getUserName(@RequestHeader("X-USER-ID") String userId) {
 
         return ResponseEntity.ok(userService.getUserName(userId));
     }

@@ -25,5 +25,5 @@ public interface UserService {
 
     boolean isCorrectUserPassword(String userId, UserPasswordRequest request);
 
-    UserNameResponse getUserName(String userId);
+    String getUserName(String userId);
 }
