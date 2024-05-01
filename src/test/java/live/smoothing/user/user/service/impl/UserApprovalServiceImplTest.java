@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,15 +40,16 @@ class UserApprovalServiceImplTest {
     @DisplayName("회원 승인 요청 목록 조회 테스트")
     void waitingUserList() {
 
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
+        int page = 0;
+        int size = 10;
 
-        Page<WaitingUser> waitingUserPage = mock(Page.class);
+        List<WaitingUser> waitingUserList = Collections.emptyList();
 
-        when(userRepository.findWaitingUsers(pageable)).thenReturn(waitingUserPage);
+        when(userRepository.findWaitingUsers(page, size)).thenReturn(waitingUserList);
 
-        Page<WaitingUser> waitingUserList = userApprovalService.waitingUserList(pageable);
+        List<WaitingUser> result = userApprovalService.waitingUserList(page, size);
 
-        assertEquals(waitingUserPage, waitingUserList);
+        assertEquals(waitingUserList, result);
     }
 
 

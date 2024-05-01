@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserApprovalServiceImpl implements UserApprovalService {
@@ -21,10 +23,17 @@ public class UserApprovalServiceImpl implements UserApprovalService {
     private final UserRepository userRepository;
     private final UserRoleService userRoleService;
     @Override
-    public Page<WaitingUser> waitingUserList(Pageable pageable) {
+    public List<WaitingUser> waitingUserList(int page, int size) {
 
-        return userRepository.findWaitingUsers(pageable);
+        return userRepository.findWaitingUsers(page, size);
     }
+
+    @Override
+    public List<WaitingUser> waitingUserList() {
+
+        return userRepository.findWaitingUsers();
+    }
+
 
     @Override
     public void approve(UserRoleCreateRequest request) {
