@@ -18,11 +18,17 @@ public class UserApprovalController {
 
     private final UserApprovalService userApprovalService;
 
-    @GetMapping("/waitingUserList")
+    @GetMapping("/paging/waitingUserList")
     public ResponseEntity<List<WaitingUser>> getWaitingUserList(@RequestParam("page")int page,
                                                                 @RequestParam("size") int size) {
 
         return ResponseEntity.ok().body(userApprovalService.waitingUserList(page, size));
+    }
+
+    @GetMapping("/waitingUserList")
+    public ResponseEntity<List<WaitingUser>> getWaitingUserList() {
+
+        return ResponseEntity.ok().body(userApprovalService.waitingUserList());
     }
 
     @PutMapping("/approve")

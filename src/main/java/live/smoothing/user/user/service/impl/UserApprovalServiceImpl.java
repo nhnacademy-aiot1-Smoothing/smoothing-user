@@ -29,6 +29,13 @@ public class UserApprovalServiceImpl implements UserApprovalService {
     }
 
     @Override
+    public List<WaitingUser> waitingUserList() {
+
+        return userRepository.findWaitingUsers();
+    }
+
+
+    @Override
     public void approve(UserRoleCreateRequest request) {
 
         User user = userRepository.findById(request.getUserId())

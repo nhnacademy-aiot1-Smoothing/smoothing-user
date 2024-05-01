@@ -35,4 +35,18 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
 
         return waitingUserList;
     }
+
+    @Override
+    public List<WaitingUser> findWaitingUsers() {
+
+        return factory
+                .select(Projections.constructor(WaitingUser.class,
+                        user.userId,
+                        user.userName,
+                        user.lastAccess))
+                .from(user)
+                .where(user.userState.eq(UserState.NOT_APPROVED))
+                .orderBy(user.lastAccess.asc())
+                .fetch();
+    }
 }
