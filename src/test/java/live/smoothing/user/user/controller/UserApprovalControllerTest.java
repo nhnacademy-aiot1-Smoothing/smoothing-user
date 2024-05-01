@@ -48,7 +48,7 @@ class UserApprovalControllerTest {
         List<WaitingUser> waitingUserList = Collections.emptyList();
         when(userApprovalService.waitingUserList(page, size)).thenReturn(waitingUserList);
 
-        mockMvc.perform(get("/api/user/waitingUserList")
+        mockMvc.perform(get("/api/user/paging/waitingUserList")
                         .param("page", String.valueOf(page))
                         .param("size", String.valueOf(size)))
                 .andExpect(status().isOk())
