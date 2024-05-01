@@ -131,4 +131,13 @@ public class UserServiceImpl implements UserService {
 
         return passwordEncoder.matches(requestPassword, userPassword);
     }
+
+    @Override
+    public UserNameResponse getUserName(String userId) {
+
+        UserNameResponse userNameResponse = userRepository.findUserNameByUserId(userId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+
+        return userNameResponse;
+    }
 }

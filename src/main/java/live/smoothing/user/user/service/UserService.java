@@ -5,6 +5,7 @@ import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 import live.smoothing.user.user.dto.request.UserPWModifyRequest;
 import live.smoothing.user.user.dto.request.UserPasswordRequest;
 import live.smoothing.user.user.dto.response.UserDetailResponse;
+import live.smoothing.user.user.dto.response.UserNameResponse;
 import live.smoothing.user.user.dto.response.UserResponseTemplate;
 import live.smoothing.user.user.dto.response.UserSimpleResponse;
 
@@ -23,4 +24,6 @@ public interface UserService {
     void deleteUser(String userId);
 
     boolean isCorrectUserPassword(String userId, UserPasswordRequest request);
+
+    UserNameResponse getUserName(String userId);
 }
