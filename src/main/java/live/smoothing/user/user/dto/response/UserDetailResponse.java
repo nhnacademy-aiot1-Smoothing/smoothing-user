@@ -17,5 +17,4 @@ public class UserDetailResponse {
     private final UserState userState;
     private final Long userPoint;
     private final LocalDateTime lastAccess;
-
 }

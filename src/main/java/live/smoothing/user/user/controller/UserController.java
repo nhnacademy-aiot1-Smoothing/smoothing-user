@@ -6,6 +6,7 @@ import live.smoothing.user.user.dto.request.UserPWModifyRequest;
 import live.smoothing.user.common.dto.MessageResponse;
 import live.smoothing.user.user.dto.request.UserPasswordRequest;
 import live.smoothing.user.user.dto.response.UserDetailResponse;
+import live.smoothing.user.user.dto.response.UserNameResponse;
 import live.smoothing.user.user.dto.response.UserResponseTemplate;
 import live.smoothing.user.user.dto.response.UserSimpleResponse;
 import live.smoothing.user.user.service.UserService;
@@ -73,5 +74,11 @@ public class UserController {
         }
 
         return ResponseEntity.badRequest().body(new MessageResponse("비말번호 불일치"));
+    }
+
+    @GetMapping("/profile/name")
+    public ResponseEntity<String> getUserName(@RequestHeader("X-USER-ID") String userId) {
+
+        return ResponseEntity.ok(userService.getUserName(userId));
     }
 }
