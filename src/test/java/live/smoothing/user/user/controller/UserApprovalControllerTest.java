@@ -9,9 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -46,9 +44,12 @@ class UserApprovalControllerTest {
         int size = 10;
 
         List<WaitingUser> waitingUserList = Collections.emptyList();
-        when(userApprovalService.waitingUserList(page, size)).thenReturn(waitingUserList);
 
-        mockMvc.perform(get("/api/user/paging/waitingUserList")
+        Pageable pageable = PageRequest.of(page, size, Sort.by("lastAccess").ascending());
+
+        when(userApprovalService.waitingUserList(pageable)).thenReturn(waitingUserList);
+
+        mockMvc.perform(get("/api/user/waitingUserList")
                         .param("page", String.valueOf(page))
                         .param("size", String.valueOf(size)))
                 .andExpect(status().isOk())
