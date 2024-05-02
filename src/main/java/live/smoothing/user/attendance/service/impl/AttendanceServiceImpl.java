@@ -25,7 +25,10 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public UserAttendanceResponse getUserAttendance(String userId, int year, int month) {
 
-        List<Attendance> attendanceList = attendanceRepository.findByUser_UserId(userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+
+        List<Attendance> attendanceList = attendanceRepository.findByUser_UserId(user.getUserId());
 
         List<LocalDate> attendanceDateList = attendanceList.stream()
                 .map(Attendance::getAttendanceDate)
