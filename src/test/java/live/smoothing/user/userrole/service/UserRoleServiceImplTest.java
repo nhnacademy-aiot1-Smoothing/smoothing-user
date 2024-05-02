@@ -1,13 +1,13 @@
 package live.smoothing.user.userrole.service;
 
 
+import live.smoothing.user.role.dto.response.RoleResponse;
 import live.smoothing.user.role.entity.Role;
 import live.smoothing.user.role.repository.RoleRepository;
 import live.smoothing.user.user.entity.User;
 import live.smoothing.user.user.repository.UserRepository;
 import live.smoothing.user.userrole.dto.request.UserRoleCreateRequest;
 import live.smoothing.user.userrole.dto.request.UserRoleModifyRequest;
-import live.smoothing.user.userrole.dto.response.UserRoleResponse;
 import live.smoothing.user.userrole.entity.UserRole;
 import live.smoothing.user.userrole.repository.UserRoleRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -99,9 +99,8 @@ class UserRoleServiceImplTest {
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
         when(userRoleRepository.findByUser_UserId(userId)).thenReturn(userRoles);
 
-        List<UserRoleResponse> responses = userRoleService.getUserRolesByUserId(userId);
+        List<RoleResponse> responses = userRoleService.getUserRolesByUserId(userId);
 
-        assertEquals(userId, responses.get(0).getUserId());
         assertEquals("ROLE_USER", responses.get(0).getRoleInfo());
     }
 

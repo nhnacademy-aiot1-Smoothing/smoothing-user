@@ -2,7 +2,7 @@ package live.smoothing.user.userrole.service;
 
 import live.smoothing.user.advice.ErrorCode;
 import live.smoothing.user.advice.exception.ServiceException;
-import live.smoothing.user.common.dto.MessageResponse;
+import live.smoothing.user.role.dto.response.RoleResponse;
 import live.smoothing.user.role.entity.Role;
 import live.smoothing.user.role.repository.RoleRepository;
 import live.smoothing.user.user.entity.User;
@@ -10,7 +10,6 @@ import live.smoothing.user.user.repository.UserRepository;
 import live.smoothing.user.userrole.dto.request.UserRoleCreateRequest;
 import live.smoothing.user.userrole.dto.request.UserRoleModifyRequest;
 import live.smoothing.user.userrole.dto.response.UserIdListResponse;
-import live.smoothing.user.userrole.dto.response.UserRoleResponse;
 import live.smoothing.user.userrole.entity.UserRole;
 import live.smoothing.user.userrole.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
@@ -60,17 +59,19 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public List<UserRoleResponse> getUserRolesByUserId(String userId) { // userId로 user 권한들 조회
+    public List<RoleResponse> getUserRolesByUserId(String userId) {
 
         boolean isExists = userRepository.findById(userId).isPresent();
 
         if(!isExists) {
             throw new ServiceException(ErrorCode.USER_NOT_FOUND);
         }
+
         List<UserRole> userRoles = userRoleRepository.findByUser_UserId(userId);
 
         return userRoles.stream()
-                .map(userRole -> new UserRoleResponse(userRole.getUser().getUserId(), userRole.getRole().getRoleInfo()))
+                .map(userRole -> new RoleResponse(userRole.getRole().getRoleId(),
+                        userRole.getRole().getRoleInfo()))
                 .collect(Collectors.toList());
     }
 
