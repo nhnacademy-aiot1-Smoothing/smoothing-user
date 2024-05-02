@@ -6,6 +6,7 @@ import live.smoothing.user.user.dto.WaitingUser;
 import live.smoothing.user.user.entity.UserState;
 import live.smoothing.user.user.repository.CustomUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,25 +20,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
     private final JPAQueryFactory factory;
 
     @Override
-    public List<WaitingUser> findWaitingUsers(int page, int size) {
-
-        List<WaitingUser> waitingUserList = factory
-                .select(Projections.constructor(WaitingUser.class,
-                        user.userId,
-                        user.userName,
-                        user.lastAccess))
-                .from(user)
-                .where(user.userState.eq(UserState.NOT_APPROVED))
-                .offset((long) page * size)
-                .limit(size)
-                .orderBy(user.lastAccess.asc())
-                .fetch();
-
-        return waitingUserList;
-    }
-
-    @Override
-    public List<WaitingUser> findWaitingUsers() {
+    public List<WaitingUser> findWaitingUsers(Pageable pageable) {
 
         return factory
                 .select(Projections.constructor(WaitingUser.class,
@@ -46,6 +29,8 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
                         user.lastAccess))
                 .from(user)
                 .where(user.userState.eq(UserState.NOT_APPROVED))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .orderBy(user.lastAccess.asc())
                 .fetch();
     }

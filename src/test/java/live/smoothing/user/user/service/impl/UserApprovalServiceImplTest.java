@@ -12,8 +12,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.Collections;
 import java.util.List;
@@ -45,9 +46,11 @@ class UserApprovalServiceImplTest {
 
         List<WaitingUser> waitingUserList = Collections.emptyList();
 
-        when(userRepository.findWaitingUsers(page, size)).thenReturn(waitingUserList);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("lastAccess").ascending());
 
-        List<WaitingUser> result = userApprovalService.waitingUserList(page, size);
+        when(userRepository.findWaitingUsers(pageable)).thenReturn(waitingUserList);
+
+        List<WaitingUser> result = userApprovalService.waitingUserList(pageable);
 
         assertEquals(waitingUserList, result);
     }
