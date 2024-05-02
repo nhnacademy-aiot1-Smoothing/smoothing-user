@@ -14,6 +14,7 @@ import live.smoothing.user.userrole.entity.UserRole;
 import live.smoothing.user.userrole.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -139,5 +140,11 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
         return response.getUserName();
+    }
+
+    @Override
+    public List<UserInfoResponse> findAllUsers(Pageable pageable) {
+
+        return userRepository.findAllUsers(pageable);
     }
 }
