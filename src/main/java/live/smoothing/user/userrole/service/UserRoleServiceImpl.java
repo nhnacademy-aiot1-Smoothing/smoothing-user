@@ -14,6 +14,7 @@ import live.smoothing.user.userrole.entity.UserRole;
 import live.smoothing.user.userrole.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,17 +43,17 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
+    @Transactional
     public void modifyUserRole(UserRoleModifyRequest request) { // 회원 목록페이지에서 권한 변경할 때 사용
 
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
+        userRoleRepository.deleteByUser_UserId(user.getUserId());
+
         for (Long roleId : request.getRoleIds()) {
             Role role = roleRepository.findById(roleId)
                     .orElseThrow(() -> new ServiceException(ErrorCode.ROLE_NOT_FOUND));
-
-            List<UserRole> userRoles = userRoleRepository.findByUser_UserIdAndRole_RoleId(request.getUserId(), roleId);
-            userRoleRepository.deleteAll(userRoles);
 
             userRoleRepository.save(new UserRole(user, role));
         }
