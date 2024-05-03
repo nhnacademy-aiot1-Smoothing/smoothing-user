@@ -65,6 +65,13 @@ public class UserController {
         return ResponseEntity.ok(new MessageResponse("유저 비활성화 완료"));
     }
 
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<MessageResponse> deleteUser(@PathVariable("userId") String userId) {
+
+        userService.deleteUser(userId);
+        return ResponseEntity.ok(new MessageResponse("유저 비활성화 완료"));
+    }
+
     @PostMapping("/password")
     public ResponseEntity<MessageResponse> verifyUserPassword(@RequestHeader("X-USER-ID") String userId, @RequestBody UserPasswordRequest request) {
 
