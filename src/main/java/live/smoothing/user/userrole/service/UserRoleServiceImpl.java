@@ -51,7 +51,7 @@ public class UserRoleServiceImpl implements UserRoleService {
             Role role = roleRepository.findById(roleId)
                     .orElseThrow(() -> new ServiceException(ErrorCode.ROLE_NOT_FOUND));
 
-            List<UserRole> userRoles = userRoleRepository.findByUser_UserId(request.getUserId());
+            List<UserRole> userRoles = userRoleRepository.findByUser_UserIdAndRole_RoleId(request.getUserId(), roleId);
             userRoleRepository.deleteAll(userRoles);
 
             userRoleRepository.save(new UserRole(user, role));
