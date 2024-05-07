@@ -154,7 +154,7 @@ class UserControllerTest {
 
         doNothing().when(userService).modifyUserPassword(ID, request);
 
-        mockMvc.perform(patch("/api/user/profile/password")
+        mockMvc.perform(put("/api/user/profile/password")
                         .header("X-USER-ID", ID)
                         .contentType(APPLICATION_JSON)
                         .content(requestJson))
@@ -178,7 +178,7 @@ class UserControllerTest {
 
         doNothing().when(userService).modifyUserInfo(ID, request);
 
-        mockMvc.perform(patch("/api/user/profile")
+        mockMvc.perform(put("/api/user/profile")
                         .header("X-USER-ID", ID)
                         .contentType(APPLICATION_JSON)
                         .content(requestJson))
