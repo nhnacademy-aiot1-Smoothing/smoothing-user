@@ -2,7 +2,7 @@ package live.smoothing.user.userrole.service;
 
 import live.smoothing.user.advice.ErrorCode;
 import live.smoothing.user.advice.exception.ServiceException;
-import live.smoothing.user.common.dto.MessageResponse;
+import live.smoothing.user.role.dto.response.RoleResponse;
 import live.smoothing.user.role.entity.Role;
 import live.smoothing.user.role.repository.RoleRepository;
 import live.smoothing.user.user.entity.User;
@@ -10,11 +10,11 @@ import live.smoothing.user.user.repository.UserRepository;
 import live.smoothing.user.userrole.dto.request.UserRoleCreateRequest;
 import live.smoothing.user.userrole.dto.request.UserRoleModifyRequest;
 import live.smoothing.user.userrole.dto.response.UserIdListResponse;
-import live.smoothing.user.userrole.dto.response.UserRoleResponse;
 import live.smoothing.user.userrole.entity.UserRole;
 import live.smoothing.user.userrole.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,34 +43,36 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
+    @Transactional
     public void modifyUserRole(UserRoleModifyRequest request) { // 회원 목록페이지에서 권한 변경할 때 사용
 
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
+        userRoleRepository.deleteByUser_UserId(user.getUserId());
+
         for (Long roleId : request.getRoleIds()) {
             Role role = roleRepository.findById(roleId)
                     .orElseThrow(() -> new ServiceException(ErrorCode.ROLE_NOT_FOUND));
-
-            List<UserRole> userRoles = userRoleRepository.findByUser_UserId(request.getUserId());
-            userRoleRepository.deleteAll(userRoles);
 
             userRoleRepository.save(new UserRole(user, role));
         }
     }
 
     @Override
-    public List<UserRoleResponse> getUserRolesByUserId(String userId) { // userId로 user 권한들 조회
+    public List<RoleResponse> getUserRolesByUserId(String userId) {
 
         boolean isExists = userRepository.findById(userId).isPresent();
 
         if(!isExists) {
             throw new ServiceException(ErrorCode.USER_NOT_FOUND);
         }
+
         List<UserRole> userRoles = userRoleRepository.findByUser_UserId(userId);
 
         return userRoles.stream()
-                .map(userRole -> new UserRoleResponse(userRole.getUser().getUserId(), userRole.getRole().getRoleInfo()))
+                .map(userRole -> new RoleResponse(userRole.getRole().getRoleId(),
+                        userRole.getRole().getRoleInfo()))
                 .collect(Collectors.toList());
     }
 

@@ -1,10 +1,10 @@
 package live.smoothing.user.userrole.controller;
 
 import live.smoothing.user.common.dto.MessageResponse;
+import live.smoothing.user.role.dto.response.RoleResponse;
 import live.smoothing.user.userrole.dto.request.UserRoleCreateRequest;
 import live.smoothing.user.userrole.dto.request.UserRoleModifyRequest;
 import live.smoothing.user.userrole.dto.response.UserIdListResponse;
-import live.smoothing.user.userrole.dto.response.UserRoleResponse;
 import live.smoothing.user.userrole.service.UserRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ public class UserRoleController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<UserRoleResponse>> getUserRolesByUserId(@RequestParam(name = "userId") String userId) {
+    public ResponseEntity<List<RoleResponse>> getUserRolesByUserId(@RequestParam(name = "userId") String userId) {
 
         return ResponseEntity.ok().body(userRoleService.getUserRolesByUserId(userId));
     }

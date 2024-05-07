@@ -5,17 +5,16 @@ import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 import live.smoothing.user.user.dto.request.UserPWModifyRequest;
 import live.smoothing.user.common.dto.MessageResponse;
 import live.smoothing.user.user.dto.request.UserPasswordRequest;
-import live.smoothing.user.user.dto.response.UserDetailResponse;
-import live.smoothing.user.user.dto.response.UserNameResponse;
-import live.smoothing.user.user.dto.response.UserResponseTemplate;
-import live.smoothing.user.user.dto.response.UserSimpleResponse;
+import live.smoothing.user.user.dto.response.*;
 import live.smoothing.user.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -66,6 +65,13 @@ public class UserController {
         return ResponseEntity.ok(new MessageResponse("유저 비활성화 완료"));
     }
 
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<MessageResponse> deleteUser(@PathVariable("userId") String userId) {
+
+        userService.deleteUser(userId);
+        return ResponseEntity.ok(new MessageResponse("유저 비활성화 완료"));
+    }
+
     @PostMapping("/password")
     public ResponseEntity<MessageResponse> verifyUserPassword(@RequestHeader("X-USER-ID") String userId, @RequestBody UserPasswordRequest request) {
 
@@ -80,5 +86,11 @@ public class UserController {
     public ResponseEntity<String> getUserName(@RequestHeader("X-USER-ID") String userId) {
 
         return ResponseEntity.ok(userService.getUserName(userId));
+    }
+
+    @GetMapping("/userList")
+    public ResponseEntity<List<UserInfoResponse>> getUserList(Pageable pageable) {
+
+        return ResponseEntity.ok().body(userService.findAllUsers(pageable));
     }
 }

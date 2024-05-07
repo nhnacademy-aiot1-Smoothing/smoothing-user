@@ -1,21 +1,13 @@
 package live.smoothing.user.userrole.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import live.smoothing.user.role.entity.Role;
-import live.smoothing.user.role.repository.RoleRepository;
-import live.smoothing.user.user.entity.User;
-import live.smoothing.user.user.repository.UserRepository;
-import live.smoothing.user.user.service.UserApprovalService;
+import live.smoothing.user.role.dto.response.RoleResponse;
 import live.smoothing.user.userrole.dto.request.UserRoleCreateRequest;
 import live.smoothing.user.userrole.dto.request.UserRoleModifyRequest;
-import live.smoothing.user.userrole.dto.response.UserRoleResponse;
-import live.smoothing.user.userrole.entity.UserRole;
-import live.smoothing.user.userrole.repository.UserRoleRepository;
 import live.smoothing.user.userrole.service.UserRoleService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,9 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -67,14 +57,14 @@ class UserRoleControllerTest {
     @DisplayName("특정 사용자의 회원 권한 조회 테스트")
     void getUserRolesByUserId() throws Exception {
 
-        List<UserRoleResponse> userRoleResponses = Collections.singletonList(new UserRoleResponse(userId, "ROLE_USER"));
+        List<RoleResponse> userRoleResponses = Collections.singletonList(new RoleResponse(1L, "ROLE_USER"));
 
         when(userRoleService.getUserRolesByUserId(userId)).thenReturn(userRoleResponses);
 
         mockMvc.perform(get("/api/user/userRole/list?userId=" + userId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$[0].userId").value(userId))
+                .andExpect(jsonPath("$[0].roleId").value(1L))
                 .andExpect(jsonPath("$[0].roleInfo").value("ROLE_USER"));
     }
 
