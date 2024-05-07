@@ -143,6 +143,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserProfileResponse getUserProfile(String userId) {
+
+        UserProfileResponse response = userRepository.findProfileByUserId(userId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+
+        return response;
+    }
+
     public List<UserInfoResponse> findAllUsers(Pageable pageable) {
 
         return userRepository.findAllUsers(pageable);

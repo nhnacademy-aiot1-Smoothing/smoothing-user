@@ -27,5 +27,7 @@ public interface UserService {
 
     String getUserName(String userId);
 
+    UserProfileResponse getUserProfile(String userId);
+
     List<UserInfoResponse> findAllUsers(Pageable pageable);
 }

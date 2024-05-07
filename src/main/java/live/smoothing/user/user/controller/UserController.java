@@ -42,7 +42,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserDetailInfo(userId));
     }
 
-    @PatchMapping("/profile")
+    @PutMapping("/profile")
     public ResponseEntity<MessageResponse> userInfoModify(@RequestHeader("X-USER-ID") String userId,
                                                           @Valid @RequestBody UserInfoModifyRequest request) {
 
@@ -50,7 +50,7 @@ public class UserController {
         return ResponseEntity.ok(new MessageResponse("유저 정보 변경 완료"));
     }
 
-    @PatchMapping("/profile/password")
+    @PutMapping("/profile/password")
     public ResponseEntity<MessageResponse> userPasswordModify(@RequestHeader("X-USER-ID") String userId,
                                                               @Valid @RequestBody UserPWModifyRequest request) {
 
@@ -88,9 +88,16 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserName(userId));
     }
 
+    @GetMapping("/profile/modify")
+    public ResponseEntity<UserProfileResponse> getUserProfile(@RequestHeader("X-USER-ID") String userId) {
+
+        return ResponseEntity.ok(userService.getUserProfile(userId));
+    }
+
     @GetMapping("/userList")
     public ResponseEntity<List<UserInfoResponse>> getUserList(Pageable pageable) {
 
         return ResponseEntity.ok().body(userService.findAllUsers(pageable));
+
     }
 }

@@ -7,7 +7,7 @@ PUT http://localhost:8003/api/user/approve
 Content-Type: application/json
 
 {
-  "userId": "user1",
+  "userId": "user",
   "roleIds": [1, 2]
 }
 
