@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
 
+    void deleteByUser_UserId(String userId);
+
     List<UserRole> findByUser_UserId(String userId);
 
     List<UserRole> findByRole_RoleId(Long roleId);

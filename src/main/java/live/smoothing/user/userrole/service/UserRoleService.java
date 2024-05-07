@@ -1,10 +1,9 @@
 package live.smoothing.user.userrole.service;
 
-import live.smoothing.user.common.dto.MessageResponse;
+import live.smoothing.user.role.dto.response.RoleResponse;
 import live.smoothing.user.userrole.dto.request.UserRoleCreateRequest;
 import live.smoothing.user.userrole.dto.request.UserRoleModifyRequest;
 import live.smoothing.user.userrole.dto.response.UserIdListResponse;
-import live.smoothing.user.userrole.dto.response.UserRoleResponse;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ public interface UserRoleService {
 
     void modifyUserRole(UserRoleModifyRequest request);
 
-    List<UserRoleResponse> getUserRolesByUserId(String userId);
+    List<RoleResponse> getUserRolesByUserId(String userId);
 
     UserIdListResponse getUserIdsByRoleId(Long roleId);
 

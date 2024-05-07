@@ -5,6 +5,9 @@ import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 import live.smoothing.user.user.dto.request.UserPWModifyRequest;
 import live.smoothing.user.user.dto.request.UserPasswordRequest;
 import live.smoothing.user.user.dto.response.*;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -25,4 +28,6 @@ public interface UserService {
     String getUserName(String userId);
 
     UserProfileResponse getUserProfile(String userId);
+
+    List<UserInfoResponse> findAllUsers(Pageable pageable);
 }

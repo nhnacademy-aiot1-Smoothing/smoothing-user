@@ -1,4 +1,4 @@
-package live.smoothing.user.userrole.dto.response;
+package live.smoothing.user.user.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRoleResponse {
+public class UserInfoResponse {
 
     private String userId;
-    private String roleInfo;
+    private String userName;
+    private String userEmail;
 }
