@@ -5,10 +5,7 @@ import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 import live.smoothing.user.user.dto.request.UserPWModifyRequest;
 import live.smoothing.user.common.dto.MessageResponse;
 import live.smoothing.user.user.dto.request.UserPasswordRequest;
-import live.smoothing.user.user.dto.response.UserDetailResponse;
-import live.smoothing.user.user.dto.response.UserNameResponse;
-import live.smoothing.user.user.dto.response.UserResponseTemplate;
-import live.smoothing.user.user.dto.response.UserSimpleResponse;
+import live.smoothing.user.user.dto.response.*;
 import live.smoothing.user.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,7 +40,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserDetailInfo(userId));
     }
 
-    @PatchMapping("/profile")
+    @PutMapping("/profile")
     public ResponseEntity<MessageResponse> userInfoModify(@RequestHeader("X-USER-ID") String userId,
                                                           @Valid @RequestBody UserInfoModifyRequest request) {
 
@@ -51,7 +48,7 @@ public class UserController {
         return ResponseEntity.ok(new MessageResponse("유저 정보 변경 완료"));
     }
 
-    @PatchMapping("/profile/password")
+    @PutMapping("/profile/password")
     public ResponseEntity<MessageResponse> userPasswordModify(@RequestHeader("X-USER-ID") String userId,
                                                               @Valid @RequestBody UserPWModifyRequest request) {
 
@@ -80,5 +77,11 @@ public class UserController {
     public ResponseEntity<String> getUserName(@RequestHeader("X-USER-ID") String userId) {
 
         return ResponseEntity.ok(userService.getUserName(userId));
+    }
+
+    @GetMapping("/profile/modify")
+    public ResponseEntity<UserProfileResponse> getUserProfile(@RequestHeader("X-USER-ID") String userId) {
+
+        return ResponseEntity.ok(userService.getUserProfile(userId));
     }
 }

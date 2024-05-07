@@ -3,7 +3,7 @@ POST http://localhost:8003/api/user/signup
 Content-Type: application/json
 
 {
-  "userId": "user1",
+  "userId": "user",
   "userPassword": "1234512345",
   "userName": "유저",
   "userEmail": "cs.smoothing@gmail.com"
@@ -11,7 +11,7 @@ Content-Type: application/json
 
 ### 회원 비밀번호 확인
 POST http://localhost:8003/api/user/password
-X-USER-ID: admin
+X-USER-ID: hani
 Content-Type: application/json
 
 {
@@ -31,27 +31,33 @@ Accept: application/json
 
 ### 회원 정보 상세 조회
 GET http://localhost:8003/api/user/profile
-X-USER-ID: user1
+X-USER-ID: user
 Accept: application/json
 
+
 ### 회원 정보(이름, 이메일) 수정
-PATCH http://localhost:8003/api/user/profile
-X-USER-ID: admin
+PUT http://localhost:8003/api/user/profile
+X-USER-ID: user
 Content-Type: application/json
 
 {
-  "userName": "관리자",
+  "userName": "제발",
   "userEmail": "user@naver.com"
 }
 
 ### 회원 비밀번호 수정
-PATCH http://localhost:8003/api/user/profile/password
-X-USER-ID: admin
+PUT http://localhost:8003/api/user/profile/password
+X-USER-ID: user
 Content-Type: application/json
 
 {
-  "userPassword": "432112312312"
+  "userPassword": "5432154321"
 }
+
+### 회원 정보 조회 (회원 정보 수정)
+GET http://localhost:8003/api/user/profile/modify
+X-USER-ID: user
+Accept: application/json
 
 ####
 #PATCH http://localhost:8003/api/user/activate

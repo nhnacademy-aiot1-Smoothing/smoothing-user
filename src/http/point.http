@@ -3,9 +3,9 @@ POST http://localhost:8003/api/user/point
 Content-Type: application/json
 
 {
-  "userId": "hani",
+  "userId": "user",
   "pointDetailAmount": "15300",
-  "pointDetailType": "USAGE"
+  "pointDetailType": "ACCUMULATION"
 }
 
 ### 포인트 상세내역 조회

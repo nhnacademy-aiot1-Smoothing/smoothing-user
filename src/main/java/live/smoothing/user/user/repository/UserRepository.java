@@ -2,6 +2,7 @@ package live.smoothing.user.user.repository;
 
 import live.smoothing.user.user.dto.response.UserDetailResponse;
 import live.smoothing.user.user.dto.response.UserNameResponse;
+import live.smoothing.user.user.dto.response.UserProfileResponse;
 import live.smoothing.user.user.dto.response.UserSimpleResponse;
 import live.smoothing.user.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,6 @@ public interface UserRepository extends JpaRepository<User, String>, CustomUserR
     Optional<UserDetailResponse> findDetailByUserId(String userId);
 
     Optional<UserNameResponse> findUserNameByUserId(String userId);
+
+    Optional<UserProfileResponse> findProfileByUserId(String userId);
 }

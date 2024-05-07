@@ -3,7 +3,7 @@ POST http://localhost:8003/api/user/userRole
 Content-Type: application/json
 
 {
-  "userId": "admin",
+  "userId": "user",
   "roleIds": [1, 2]
 }
 
@@ -20,7 +20,7 @@ PUT http://localhost:8003/api/user/userRole
 Content-Type: application/json
 
 {
-  "userId": "user1",
+  "userId": "user",
   "roleIds": [1]
 }
 

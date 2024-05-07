@@ -140,4 +140,12 @@ public class UserServiceImpl implements UserService {
 
         return response.getUserName();
     }
+
+    @Override
+    public UserProfileResponse getUserProfile(String userId) {
+        UserProfileResponse response = userRepository.findProfileByUserId(userId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+
+        return response;
+    }
 }

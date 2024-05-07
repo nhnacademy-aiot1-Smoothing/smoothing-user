@@ -1,5 +1,5 @@
 ### 출석 조회
-GET http://localhost:8003/api/user/attendance/list
+GET http://localhost:8003/api/user/attendance/list/2024/05
 X-USER-ID: user
 Accept: application/json
 
