@@ -1,1 +1,1 @@
-insert into users(user_id, user_password,user_name,user_email,user_state,user_point,last_access) values ('test', '1234', 'test', 'test@test.com', 'ACTIVE', 100, null);
+insert into users(user_id, user_password,user_name,user_email,user_state,user_point,last_access) values ('haha', '1234', 'test', 'test@test.com', 'ACTIVE', 100, null);
