@@ -63,3 +63,6 @@ Accept: application/json
 #PATCH http://localhost:8003/api/user/activate
 #X-USER-ID: user2
 #Accept: application/json
+
+###
+http://localhost:8003/api/user/userList?page=0&size=10
