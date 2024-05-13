@@ -4,6 +4,7 @@ import live.smoothing.user.adapter.AuthAdapter;
 import live.smoothing.user.advice.ErrorCode;
 import live.smoothing.user.advice.exception.ServiceException;
 import live.smoothing.user.role.dto.response.RoleResponse;
+import live.smoothing.user.user.dto.UserInfoListResponse;
 import live.smoothing.user.user.dto.request.*;
 import live.smoothing.user.user.dto.response.*;
 import live.smoothing.user.user.entity.User;
@@ -14,6 +15,7 @@ import live.smoothing.user.userrole.entity.UserRole;
 import live.smoothing.user.userrole.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -151,8 +153,10 @@ public class UserServiceImpl implements UserService {
         return response;
     }
 
-    public List<UserInfoResponse> findAllUsers(Pageable pageable) {
+    @Override
+    public UserInfoListResponse findAllUsers(Pageable pageable) {
 
-        return userRepository.findAllUsers(pageable);
+        Page<UserInfoResponse> userInfos = userRepository.getUserInfos(pageable);
+        return new UserInfoListResponse(userInfos.getContent(),userInfos.getTotalPages());
     }
 }

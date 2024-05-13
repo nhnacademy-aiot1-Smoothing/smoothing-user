@@ -3,6 +3,7 @@ package live.smoothing.user.user.service.impl;
 import live.smoothing.user.advice.ErrorCode;
 import live.smoothing.user.advice.exception.ServiceException;
 import live.smoothing.user.user.dto.WaitingUser;
+import live.smoothing.user.user.dto.WaitingUserListResponse;
 import live.smoothing.user.user.entity.User;
 import live.smoothing.user.user.entity.UserState;
 import live.smoothing.user.user.repository.UserRepository;
@@ -24,9 +25,10 @@ public class UserApprovalServiceImpl implements UserApprovalService {
     private final UserRoleService userRoleService;
 
     @Override
-    public List<WaitingUser> waitingUserList(Pageable pageable) {
+    public WaitingUserListResponse waitingUserList(Pageable pageable) {
 
-        return userRepository.findWaitingUsers(pageable);
+        Page<WaitingUser> waitingUsers = userRepository.getWaitingUsers(pageable);
+        return new WaitingUserListResponse(waitingUsers.getContent(), waitingUsers.getTotalPages());
     }
 
     @Override
