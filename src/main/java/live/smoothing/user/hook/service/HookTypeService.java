@@ -9,7 +9,6 @@ import java.util.List;
 public interface HookTypeService {
 
     HookType getHookType(Integer hookTypeId);
-
     List<HookType> getHookTypes();
     void createHookType(HookTypeCreateRequest request);
     void modifyHookType(Integer hookTypeId, HookTypeModifyRequest request);
