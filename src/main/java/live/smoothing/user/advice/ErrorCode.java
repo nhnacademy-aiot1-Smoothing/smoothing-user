@@ -30,7 +30,9 @@ public enum ErrorCode {
 
     // Hook ERROR
     HOOKTYPE_NOT_FOUND(HttpStatus.NOT_FOUND, "훅 타입을 찾을 수 없습니다."),
-    DUPLICATED_HOOKTYPE(HttpStatus.CONFLICT, "이미 등록된 훅 타입 입니다..");
+    DUPLICATED_HOOKTYPE(HttpStatus.CONFLICT, "이미 등록된 훅 타입 입니다."),
+    HOOK_ALREADY_EXISTS(HttpStatus.CONFLICT, "훅은 한 개만 설정 가능합니다."),
+    HOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "훅을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String message;

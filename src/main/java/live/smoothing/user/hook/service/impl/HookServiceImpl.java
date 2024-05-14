@@ -15,6 +15,8 @@ import live.smoothing.user.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class HookServiceImpl implements HookService {
@@ -28,11 +30,21 @@ public class HookServiceImpl implements HookService {
 
         Hook hook = hookRepository.findByUser_UserId(userId);
 
+        if (Objects.isNull(hook)) {
+            return new UserHookResponse(null, null, null);
+        }
+
         return new UserHookResponse(hook.getHookType().getHookTypeId(), hook.getHookType().getHookTypeName(), hook.getHookUrl());
     }
 
     @Override
     public void createHook(String userId, HookCreateRequest request) {
+
+        boolean exist = hookRepository.existsByUser_UserId(userId);
+
+        if (exist) {
+            throw new ServiceException(ErrorCode.HOOK_ALREADY_EXISTS);
+        }
 
         User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
         HookType hookType = hookTypeRepository.findById(request.getHookTypeId()).orElseThrow(() -> new ServiceException(ErrorCode.HOOKTYPE_NOT_FOUND));
@@ -46,6 +58,11 @@ public class HookServiceImpl implements HookService {
     public void modifyHook(String userId, HookModifyRequest request) {
 
         Hook hook = hookRepository.findByUser_UserId(userId);
+
+        if (Objects.isNull(hook)) {
+            throw new ServiceException(ErrorCode.HOOK_NOT_FOUND);
+        }
+
         HookType hookType = hookTypeRepository.findById(request.getHookTypeId()).orElse(null);
         hook.modifyHookUrl(hookType, request.getHookUrl());
 
@@ -56,6 +73,10 @@ public class HookServiceImpl implements HookService {
     public void deleteHook(String userId) {
 
         Hook hook = hookRepository.findByUser_UserId(userId);
+
+        if (Objects.isNull(hook)) {
+            throw new ServiceException(ErrorCode.HOOK_NOT_FOUND);
+        }
 
         hookRepository.delete(hook);
     }
