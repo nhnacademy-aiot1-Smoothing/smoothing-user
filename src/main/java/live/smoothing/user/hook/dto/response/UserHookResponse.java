@@ -1,6 +1,5 @@
 package live.smoothing.user.hook.dto.response;
 
-import live.smoothing.user.hook.entity.HookType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserHookResponse {
 
-    private HookType hookType;
+    private Integer hookTypeId;
+    private String hookTypeName;
     private String hookUrl;
 }

@@ -28,7 +28,7 @@ public class HookServiceImpl implements HookService {
 
         Hook hook = hookRepository.findByUser_UserId(userId);
 
-        return new UserHookResponse(hook.getHookType(), hook.getHookUrl());
+        return new UserHookResponse(hook.getHookType().getHookTypeId(), hook.getHookType().getHookTypeName(), hook.getHookUrl());
     }
 
     @Override
