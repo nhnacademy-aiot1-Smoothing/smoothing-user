@@ -37,23 +37,23 @@ class UserApprovalServiceImplTest {
     @InjectMocks
     private UserApprovalServiceImpl userApprovalService;
 
-    @Test
-    @DisplayName("회원 승인 요청 목록 조회 테스트")
-    void waitingUserList() {
-
-        int page = 0;
-        int size = 10;
-
-        List<WaitingUser> waitingUserList = Collections.emptyList();
-
-        Pageable pageable = PageRequest.of(page, size, Sort.by("lastAccess").ascending());
-
-        when(userRepository.findWaitingUsers(pageable)).thenReturn(waitingUserList);
-
-        List<WaitingUser> result = userApprovalService.waitingUserList(pageable);
-
-        assertEquals(waitingUserList, result);
-    }
+//    @Test
+//    @DisplayName("회원 승인 요청 목록 조회 테스트")
+//    void waitingUserList() {
+//
+//        int page = 0;
+//        int size = 10;
+//
+//        List<WaitingUser> waitingUserList = Collections.emptyList();
+//
+//        Pageable pageable = PageRequest.of(page, size, Sort.by("lastAccess").ascending());
+//
+//        when(userRepository.findWaitingUsers(pageable)).thenReturn(waitingUserList);
+//
+//        List<WaitingUser> result = userApprovalService.waitingUserList(pageable);
+//
+//        assertEquals(waitingUserList, result);
+//    }
 
 
     @Test

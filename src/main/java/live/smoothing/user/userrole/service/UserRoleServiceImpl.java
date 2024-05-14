@@ -62,18 +62,20 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public List<RoleResponse> getUserRolesByUserId(String userId) {
 
-        boolean isExists = userRepository.findById(userId).isPresent();
+//        boolean isExists = userRepository.findById(userId).isPresent();
+//
+//        if(!isExists) {
+//            throw new ServiceException(ErrorCode.USER_NOT_FOUND);
+//        }
+//
+//        List<UserRole> userRoles = userRoleRepository.findByUser_UserId(userId);
+//
+//        return userRoles.stream()
+//                .map(userRole -> new RoleResponse(userRole.getRole().getRoleId(),
+//                        userRole.getRole().getRoleInfo()))
+//                .collect(Collectors.toList());
 
-        if(!isExists) {
-            throw new ServiceException(ErrorCode.USER_NOT_FOUND);
-        }
-
-        List<UserRole> userRoles = userRoleRepository.findByUser_UserId(userId);
-
-        return userRoles.stream()
-                .map(userRole -> new RoleResponse(userRole.getRole().getRoleId(),
-                        userRole.getRole().getRoleInfo()))
-                .collect(Collectors.toList());
+        return roleRepository.getRoleByUserId(userId);
     }
 
     @Override
