@@ -1,5 +1,6 @@
 package live.smoothing.user.user.controller;
 
+import live.smoothing.user.user.dto.UserInfoListResponse;
 import live.smoothing.user.user.dto.request.UserCreateRequest;
 import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 import live.smoothing.user.user.dto.request.UserPWModifyRequest;
@@ -95,7 +96,7 @@ public class UserController {
     }
 
     @GetMapping("/userList")
-    public ResponseEntity<List<UserInfoResponse>> getUserList(Pageable pageable) {
+    public ResponseEntity<UserInfoListResponse> getUserList(Pageable pageable) {
 
         return ResponseEntity.ok().body(userService.findAllUsers(pageable));
 

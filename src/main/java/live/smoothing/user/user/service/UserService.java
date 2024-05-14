@@ -1,5 +1,6 @@
 package live.smoothing.user.user.service;
 
+import live.smoothing.user.user.dto.UserInfoListResponse;
 import live.smoothing.user.user.dto.request.UserCreateRequest;
 import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 import live.smoothing.user.user.dto.request.UserPWModifyRequest;
@@ -29,5 +30,5 @@ public interface UserService {
 
     UserProfileResponse getUserProfile(String userId);
 
-    List<UserInfoResponse> findAllUsers(Pageable pageable);
+    UserInfoListResponse findAllUsers(Pageable pageable);
 }

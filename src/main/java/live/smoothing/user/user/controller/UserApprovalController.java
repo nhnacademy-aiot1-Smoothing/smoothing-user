@@ -2,6 +2,7 @@ package live.smoothing.user.user.controller;
 
 import live.smoothing.user.common.dto.MessageResponse;
 import live.smoothing.user.user.dto.WaitingUser;
+import live.smoothing.user.user.dto.WaitingUserListResponse;
 import live.smoothing.user.user.service.UserApprovalService;
 import live.smoothing.user.userrole.dto.request.UserRoleCreateRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class UserApprovalController {
     private final UserApprovalService userApprovalService;
 
     @GetMapping("/waitingUserList")
-    public ResponseEntity<List<WaitingUser>> getWaitingUserList(Pageable pageable) {
+    public ResponseEntity<WaitingUserListResponse> getWaitingUserList(Pageable pageable) {
 
         return ResponseEntity.ok().body(userApprovalService.waitingUserList(pageable));
     }

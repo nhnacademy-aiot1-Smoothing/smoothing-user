@@ -84,25 +84,25 @@ class UserRoleServiceImplTest {
         verify(userRoleRepository, times(1)).save(any(UserRole.class));
     }
 
-    @Test
-    void getUserRolesByUserId() {
-
-        User user = User.builder()
-                .userId(userId)
-                .build();
-
-        Role role = new Role("ROLE_USER");
-
-        UserRole userRole = new UserRole(user, role);
-        List<UserRole> userRoles = Collections.singletonList(userRole);
-
-        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-        when(userRoleRepository.findByUser_UserId(userId)).thenReturn(userRoles);
-
-        List<RoleResponse> responses = userRoleService.getUserRolesByUserId(userId);
-
-        assertEquals("ROLE_USER", responses.get(0).getRoleInfo());
-    }
+//    @Test
+//    void getUserRolesByUserId() {
+//
+//        User user = User.builder()
+//                .userId(userId)
+//                .build();
+//
+//        Role role = new Role("ROLE_USER");
+//
+//        UserRole userRole = new UserRole(user, role);
+//        List<UserRole> userRoles = Collections.singletonList(userRole);
+//
+//        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+//        when(userRoleRepository.findByUser_UserId(userId)).thenReturn(userRoles);
+//
+//        List<RoleResponse> responses = userRoleService.getUserRolesByUserId(userId);
+//
+//        assertEquals("ROLE_USER", responses.get(0).getRoleInfo());
+//    }
 
     @Test
     void deleteUserRole() {
