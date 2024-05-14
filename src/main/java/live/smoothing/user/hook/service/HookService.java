@@ -2,11 +2,11 @@ package live.smoothing.user.hook.service;
 
 import live.smoothing.user.hook.dto.request.HookCreateRequest;
 import live.smoothing.user.hook.dto.request.HookModifyRequest;
-import live.smoothing.user.hook.entity.Hook;
+import live.smoothing.user.hook.dto.response.UserHookResponse;
 
 public interface HookService {
 
-    Hook getHook(String userId);
+    UserHookResponse getHook(String userId);
 
     void createHook(String userId, HookCreateRequest request);
 

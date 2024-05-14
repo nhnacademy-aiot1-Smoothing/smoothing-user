@@ -4,6 +4,7 @@ import live.smoothing.user.advice.ErrorCode;
 import live.smoothing.user.advice.exception.ServiceException;
 import live.smoothing.user.hook.dto.request.HookCreateRequest;
 import live.smoothing.user.hook.dto.request.HookModifyRequest;
+import live.smoothing.user.hook.dto.response.UserHookResponse;
 import live.smoothing.user.hook.entity.Hook;
 import live.smoothing.user.hook.entity.HookType;
 import live.smoothing.user.hook.repository.HookRepository;
@@ -18,14 +19,16 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class HookServiceImpl implements HookService {
 
-    private UserRepository userRepository;
-    private HookRepository hookRepository;
-    private HookTypeRepository hookTypeRepository;
+    private final UserRepository userRepository;
+    private final HookRepository hookRepository;
+    private final HookTypeRepository hookTypeRepository;
 
     @Override
-    public Hook getHook(String userId) {
+    public UserHookResponse getHook(String userId) {
 
-        return hookRepository.findByUser_UserId(userId);
+        Hook hook = hookRepository.findByUser_UserId(userId);
+
+        return new UserHookResponse(hook.getHookType(), hook.getHookUrl());
     }
 
     @Override
@@ -43,7 +46,8 @@ public class HookServiceImpl implements HookService {
     public void modifyHook(String userId, HookModifyRequest request) {
 
         Hook hook = hookRepository.findByUser_UserId(userId);
-        hook.modifyHookUrl(request.getHookUrl());
+        HookType hookType = hookTypeRepository.findById(request.getHookTypeId()).orElse(null);
+        hook.modifyHookUrl(hookType, request.getHookUrl());
 
         hookRepository.save(hook);
     }

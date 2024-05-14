@@ -36,8 +36,9 @@ public class Hook {
         this.hookType = hookType;
     }
 
-    public void modifyHookUrl(String hookUrl) {
+    public void modifyHookUrl(HookType hookType, String hookUrl) {
 
+        this.hookType = hookType;
         this.hookUrl = hookUrl;
     }
 }

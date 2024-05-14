@@ -1,0 +1,30 @@
+### 훅 생성
+POST http://localhost:8003/api/user/hook
+X-USER-ID: haha
+Content-Type: application/json
+
+{
+  "hookTypeId": 1,
+  "hookUrl": "https://hook.dooray.com/services/3204376758577275363/3801692507850724435/AiJoXEW8Qoqr11-Br8sPuQ"
+}
+
+### 훅 조회
+GET http://localhost:8003/api/user/hook
+X-USER-ID: haha
+Accept: application/json
+
+### 훅 수정
+PUT http://localhost:8003/api/user/hook
+X-USER-ID: haha
+Content-Type: application/json
+
+{
+  "hookTypeId": 2,
+  "hookUrl": "www"
+}
+
+### 훅 삭제
+DELETE http://localhost:8003/api/user/hook
+X-USER-ID: haha
+Accept: application/json
+
