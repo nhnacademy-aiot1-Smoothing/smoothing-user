@@ -122,17 +122,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isCorrectUserPassword(String userId, UserPasswordRequest request) {
 
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        String requestPassword = request.getUserPassword();
+        String requestPassword = adapter.encodingPassword(new PasswordEncodingRequest(request.getUserPassword())).get().getEncodedPassword();
         String userPassword = user.getUserPassword();
 
 
-        return passwordEncoder.matches(requestPassword, userPassword);
+        return userPassword.equals(requestPassword);
     }
 
     @Override
