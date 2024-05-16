@@ -3,13 +3,15 @@ package live.smoothing.user.hook.controller;
 import live.smoothing.user.common.dto.MessageResponse;
 import live.smoothing.user.hook.dto.request.HookCreateRequest;
 import live.smoothing.user.hook.dto.request.HookModifyRequest;
+import live.smoothing.user.hook.dto.response.HookUrlResponse;
 import live.smoothing.user.hook.dto.response.UserHookResponse;
-import live.smoothing.user.hook.entity.Hook;
 import live.smoothing.user.hook.service.HookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -50,4 +52,9 @@ public class HookController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @GetMapping("/list/{hookTypeId}")
+    public ResponseEntity<List<HookUrlResponse>> getUsersHookList(@PathVariable("hookTypeId") Integer hookTypeId) {
+
+        return ResponseEntity.ok().body(hookService.getUsersHookList(hookTypeId));
+    }
 }

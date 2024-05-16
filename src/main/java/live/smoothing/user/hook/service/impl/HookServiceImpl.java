@@ -4,6 +4,7 @@ import live.smoothing.user.advice.ErrorCode;
 import live.smoothing.user.advice.exception.ServiceException;
 import live.smoothing.user.hook.dto.request.HookCreateRequest;
 import live.smoothing.user.hook.dto.request.HookModifyRequest;
+import live.smoothing.user.hook.dto.response.HookUrlResponse;
 import live.smoothing.user.hook.dto.response.UserHookResponse;
 import live.smoothing.user.hook.entity.Hook;
 import live.smoothing.user.hook.entity.HookType;
@@ -15,6 +16,7 @@ import live.smoothing.user.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -79,5 +81,11 @@ public class HookServiceImpl implements HookService {
         }
 
         hookRepository.delete(hook);
+    }
+
+    @Override
+    public List<HookUrlResponse> getUsersHookList(Integer hookTypeId) {
+
+        return hookRepository.getUsersHookList(hookTypeId);
     }
 }
