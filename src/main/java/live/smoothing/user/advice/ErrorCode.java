@@ -26,7 +26,14 @@ public enum ErrorCode {
 
     // Organization 서비스 ERROR
     MULTIPLE_ORGANIZATION_NOT_ALLOWED(HttpStatus.FORBIDDEN, "조직이 이미 등록 되어 있습니다."),
-    ORGANIZATION_NOT_FOUND(HttpStatus.NOT_FOUND, "조직을 찾을 수 없습니다.");
+    ORGANIZATION_NOT_FOUND(HttpStatus.NOT_FOUND, "조직을 찾을 수 없습니다."),
+
+    // Hook ERROR
+    HOOKTYPE_NOT_FOUND(HttpStatus.NOT_FOUND, "훅 타입을 찾을 수 없습니다."),
+    DUPLICATED_HOOKTYPE(HttpStatus.CONFLICT, "이미 등록된 훅 타입 입니다."),
+    HOOK_ALREADY_EXISTS(HttpStatus.CONFLICT, "훅은 한 개만 설정 가능합니다."),
+    HOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "훅을 찾을 수 없습니다.");
+
     private final HttpStatus status;
     private final String message;
 }
