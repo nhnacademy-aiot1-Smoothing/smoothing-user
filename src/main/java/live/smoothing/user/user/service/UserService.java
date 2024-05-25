@@ -31,4 +31,6 @@ public interface UserService {
     UserProfileResponse getUserProfile(String userId);
 
     UserInfoListResponse findAllUsers(Pageable pageable);
+
+    boolean isExistUser(String userId);
 }

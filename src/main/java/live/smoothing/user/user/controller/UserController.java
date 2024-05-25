@@ -1,12 +1,15 @@
 package live.smoothing.user.user.controller;
 
+import live.smoothing.user.common.dto.MessageResponse;
 import live.smoothing.user.user.dto.UserInfoListResponse;
 import live.smoothing.user.user.dto.request.UserCreateRequest;
 import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 import live.smoothing.user.user.dto.request.UserPWModifyRequest;
-import live.smoothing.user.common.dto.MessageResponse;
 import live.smoothing.user.user.dto.request.UserPasswordRequest;
-import live.smoothing.user.user.dto.response.*;
+import live.smoothing.user.user.dto.response.UserDetailResponse;
+import live.smoothing.user.user.dto.response.UserProfileResponse;
+import live.smoothing.user.user.dto.response.UserResponseTemplate;
+import live.smoothing.user.user.dto.response.UserSimpleResponse;
 import live.smoothing.user.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -100,5 +102,15 @@ public class UserController {
 
         return ResponseEntity.ok().body(userService.findAllUsers(pageable));
 
+    }
+
+    @GetMapping("/existUser")
+    public ResponseEntity<MessageResponse> existUser(@RequestParam("userId") String userId) {
+
+        if (userService.isExistUser(userId)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new MessageResponse("사용 불가능한 아이디입니다."));
+        }
+
+        return ResponseEntity.ok().body(new MessageResponse("사용 가능한 아이디입니다."));
     }
 }
