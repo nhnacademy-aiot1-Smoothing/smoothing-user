@@ -6,10 +6,7 @@ import live.smoothing.user.user.dto.request.UserCreateRequest;
 import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 import live.smoothing.user.user.dto.request.UserPWModifyRequest;
 import live.smoothing.user.user.dto.request.UserPasswordRequest;
-import live.smoothing.user.user.dto.response.UserDetailResponse;
-import live.smoothing.user.user.dto.response.UserProfileResponse;
-import live.smoothing.user.user.dto.response.UserResponseTemplate;
-import live.smoothing.user.user.dto.response.UserSimpleResponse;
+import live.smoothing.user.user.dto.response.*;
 import live.smoothing.user.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -112,5 +109,11 @@ public class UserController {
         }
 
         return ResponseEntity.ok().body(new MessageResponse("사용 가능한 아이디입니다."));
+    }
+
+    @GetMapping("/userState")
+    public ResponseEntity<UserStateResponse> userState(@RequestParam("userId") String userId) {
+
+        return ResponseEntity.ok(userService.getUserState(userId));
     }
 }

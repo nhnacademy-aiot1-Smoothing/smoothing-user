@@ -33,4 +33,6 @@ public interface UserService {
     UserInfoListResponse findAllUsers(Pageable pageable);
 
     boolean isExistUser(String userId);
+
+    UserStateResponse getUserState(String userId);
 }

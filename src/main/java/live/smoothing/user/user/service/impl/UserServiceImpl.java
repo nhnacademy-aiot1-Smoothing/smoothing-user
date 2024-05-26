@@ -160,4 +160,12 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.existsById(userId);
     }
+
+    @Override
+    public UserStateResponse getUserState(String userId) {
+
+        UserState userState = userRepository.getUserState(userId);
+
+        return new UserStateResponse(userState.name());
+    }
 }
