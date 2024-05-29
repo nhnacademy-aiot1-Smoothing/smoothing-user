@@ -79,7 +79,7 @@ public class UserController {
             return ResponseEntity.ok(new MessageResponse("비밀번호 확인 완료"));
         }
 
-        return ResponseEntity.badRequest().body(new MessageResponse("비말번호 불일치"));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("비말번호 불일치"));
     }
 
     @GetMapping("/profile/name")
