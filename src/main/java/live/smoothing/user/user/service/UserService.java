@@ -1,10 +1,7 @@
 package live.smoothing.user.user.service;
 
 import live.smoothing.user.user.dto.UserInfoListResponse;
-import live.smoothing.user.user.dto.request.UserCreateRequest;
-import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
-import live.smoothing.user.user.dto.request.UserPWModifyRequest;
-import live.smoothing.user.user.dto.request.UserPasswordRequest;
+import live.smoothing.user.user.dto.request.*;
 import live.smoothing.user.user.dto.response.*;
 import org.springframework.data.domain.Pageable;
 
@@ -21,6 +18,10 @@ public interface UserService {
     void modifyUserInfo(String userId, UserInfoModifyRequest request);
 
     void modifyUserPassword(String userId, UserPWModifyRequest request);
+
+    void modifyUserEmail(String userId, UserEmailModifyRequest request);
+
+    void modifyUserName(String userId, UserNameModifyRequest request);
 
     void deleteUser(String userId);
 

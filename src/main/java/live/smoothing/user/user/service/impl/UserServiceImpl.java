@@ -108,6 +108,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void modifyUserEmail(String userId, UserEmailModifyRequest request) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+
+        user.modifyUserEmail(request.getUserEmail());
+        userRepository.save(user);
+    }
+
+    @Override
+    public void modifyUserName(String userId, UserNameModifyRequest request) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+
+        user.modifyUserName(request.getUserName());
+        userRepository.save(user);
+    }
+
+    @Override
     @Transactional
     public void deleteUser(String userId) { // 회원 탈퇴
 

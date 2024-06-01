@@ -2,10 +2,7 @@ package live.smoothing.user.user.controller;
 
 import live.smoothing.user.common.dto.MessageResponse;
 import live.smoothing.user.user.dto.UserInfoListResponse;
-import live.smoothing.user.user.dto.request.UserCreateRequest;
-import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
-import live.smoothing.user.user.dto.request.UserPWModifyRequest;
-import live.smoothing.user.user.dto.request.UserPasswordRequest;
+import live.smoothing.user.user.dto.request.*;
 import live.smoothing.user.user.dto.response.*;
 import live.smoothing.user.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -115,5 +112,22 @@ public class UserController {
     public ResponseEntity<UserStateResponse> userState(@RequestParam("userId") String userId) {
 
         return ResponseEntity.ok(userService.getUserState(userId));
+    }
+
+
+    @PutMapping("/modify/userName")
+    public ResponseEntity<MessageResponse> modifyUserName(@RequestHeader("X-USER-ID") String userId, @RequestBody UserNameModifyRequest request) {
+
+        userService.modifyUserName(userId, request);
+
+        return ResponseEntity.ok().body(new MessageResponse("회원 이름 변경 완료"));
+    }
+
+    @PutMapping("/modify/userEmail")
+    public ResponseEntity<MessageResponse> modifyUserEmail(@RequestHeader("X-USER-ID") String userId, @RequestBody UserEmailModifyRequest request) {
+
+        userService.modifyUserEmail(userId, request);
+
+        return ResponseEntity.ok().body(new MessageResponse("회원 이메일 변경 완료"));
     }
 }
