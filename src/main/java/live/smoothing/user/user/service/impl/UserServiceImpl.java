@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -140,14 +142,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isCorrectUserPassword(String userId, UserPasswordRequest request) {
 
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        String requestPassword = adapter.encodingPassword(new PasswordEncodingRequest(request.getUserPassword())).get().getEncodedPassword();
+        String requestPassword = request.getUserPassword();
         String userPassword = user.getUserPassword();
 
-
-        return userPassword.equals(requestPassword);
+        return encoder.matches(requestPassword, userPassword);
     }
 
     @Override
