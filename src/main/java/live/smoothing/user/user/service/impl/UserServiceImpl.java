@@ -110,6 +110,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void modifyUserEmail(String userId, UserEmailModifyRequest request) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+
+        user.modifyUserEmail(request.getUserEmail());
+        userRepository.save(user);
+    }
+
+    @Override
+    public void modifyUserName(String userId, UserNameModifyRequest request) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+
+        user.modifyUserName(request.getUserName());
+        userRepository.save(user);
+    }
+
+    @Override
     @Transactional
     public void deleteUser(String userId) { // 회원 탈퇴
 
@@ -122,14 +142,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isCorrectUserPassword(String userId, UserPasswordRequest request) {
 
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        String requestPassword = adapter.encodingPassword(new PasswordEncodingRequest(request.getUserPassword())).get().getEncodedPassword();
+        String requestPassword = request.getUserPassword();
         String userPassword = user.getUserPassword();
 
-
-        return userPassword.equals(requestPassword);
+        return encoder.matches(requestPassword, userPassword);
     }
 
     @Override
@@ -155,5 +176,19 @@ public class UserServiceImpl implements UserService {
 
         Page<UserInfoResponse> userInfos = userRepository.getUserInfos(pageable);
         return new UserInfoListResponse(userInfos.getContent(),userInfos.getTotalPages());
+    }
+
+    @Override
+    public boolean isExistUser(String userId) {
+
+        return userRepository.existsById(userId);
+    }
+
+    @Override
+    public UserStateResponse getUserState(String userId) {
+
+        UserState userState = userRepository.getUserState(userId);
+
+        return new UserStateResponse(userState.name());
     }
 }

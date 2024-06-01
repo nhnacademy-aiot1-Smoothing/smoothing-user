@@ -1,11 +1,8 @@
 package live.smoothing.user.user.controller;
 
-import live.smoothing.user.user.dto.UserInfoListResponse;
-import live.smoothing.user.user.dto.request.UserCreateRequest;
-import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
-import live.smoothing.user.user.dto.request.UserPWModifyRequest;
 import live.smoothing.user.common.dto.MessageResponse;
-import live.smoothing.user.user.dto.request.UserPasswordRequest;
+import live.smoothing.user.user.dto.UserInfoListResponse;
+import live.smoothing.user.user.dto.request.*;
 import live.smoothing.user.user.dto.response.*;
 import live.smoothing.user.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -80,7 +76,7 @@ public class UserController {
             return ResponseEntity.ok(new MessageResponse("비밀번호 확인 완료"));
         }
 
-        return ResponseEntity.badRequest().body(new MessageResponse("비말번호 불일치"));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("비말번호 불일치"));
     }
 
     @GetMapping("/profile/name")
@@ -100,5 +96,38 @@ public class UserController {
 
         return ResponseEntity.ok().body(userService.findAllUsers(pageable));
 
+    }
+
+    @GetMapping("/existUser")
+    public ResponseEntity<MessageResponse> existUser(@RequestParam("userId") String userId) {
+
+        if (userService.isExistUser(userId)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new MessageResponse("사용 불가능한 아이디입니다."));
+        }
+
+        return ResponseEntity.ok().body(new MessageResponse("사용 가능한 아이디입니다."));
+    }
+
+    @GetMapping("/userState")
+    public ResponseEntity<UserStateResponse> userState(@RequestParam("userId") String userId) {
+
+        return ResponseEntity.ok(userService.getUserState(userId));
+    }
+
+
+    @PutMapping("/modify/userName")
+    public ResponseEntity<MessageResponse> modifyUserName(@RequestHeader("X-USER-ID") String userId, @RequestBody UserNameModifyRequest request) {
+
+        userService.modifyUserName(userId, request);
+
+        return ResponseEntity.ok().body(new MessageResponse("회원 이름 변경 완료"));
+    }
+
+    @PutMapping("/modify/userEmail")
+    public ResponseEntity<MessageResponse> modifyUserEmail(@RequestHeader("X-USER-ID") String userId, @RequestBody UserEmailModifyRequest request) {
+
+        userService.modifyUserEmail(userId, request);
+
+        return ResponseEntity.ok().body(new MessageResponse("회원 이메일 변경 완료"));
     }
 }
