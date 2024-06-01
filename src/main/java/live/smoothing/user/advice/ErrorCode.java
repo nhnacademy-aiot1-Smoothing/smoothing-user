@@ -8,17 +8,31 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
 
-    // Auth 서비스 ERROR
-    AUTH_NOT_FOUND(HttpStatus.NOT_FOUND, "권한 정보를 찾을 수 없습니다"),
-    DUPLICATED_AUTH(HttpStatus.CONFLICT, "이미 등록된 권한명 입니다."),
+    // ROLE 서비스 ERROR
+    ROLE_NOT_FOUND(HttpStatus.NOT_FOUND, "권한 정보를 찾을 수 없습니다"),
+    DUPLICATED_ROLE(HttpStatus.CONFLICT, "이미 등록된 권한명 입니다."),
 
     // USER 서비스 ERROR
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다"),
     DUPLICATED_USER(HttpStatus.CONFLICT, "이미 등록된 유저 입니다."),
 
     // API 요청 ERROR
-    ENCODING_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "PW 인코딩 실패.");
+    ENCODING_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "PW 인코딩 실패."),
 
+    ATTENDANCE_ALREADY_CHECKED(HttpStatus.BAD_REQUEST, "이미 출석체크 되었습니다."),
+    // POINT 서비스 ERROR
+    INSUFFICIENT_BALANCE(HttpStatus.FORBIDDEN, "포인트 잔액이 부족합니다."),
+    INVALID_POINT_AMOUNT(HttpStatus.BAD_REQUEST, "포인트 값이 유효하지 않습니다."),
+
+    // Organization 서비스 ERROR
+    MULTIPLE_ORGANIZATION_NOT_ALLOWED(HttpStatus.FORBIDDEN, "조직이 이미 등록 되어 있습니다."),
+    ORGANIZATION_NOT_FOUND(HttpStatus.NOT_FOUND, "조직을 찾을 수 없습니다."),
+
+    // Hook ERROR
+    HOOKTYPE_NOT_FOUND(HttpStatus.NOT_FOUND, "훅 타입을 찾을 수 없습니다."),
+    DUPLICATED_HOOKTYPE(HttpStatus.CONFLICT, "이미 등록된 훅 타입 입니다."),
+    HOOK_ALREADY_EXISTS(HttpStatus.CONFLICT, "훅은 한 개만 설정 가능합니다."),
+    HOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "훅을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String message;

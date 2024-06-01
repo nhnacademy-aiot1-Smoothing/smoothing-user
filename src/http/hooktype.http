@@ -1,0 +1,36 @@
+### 훅 타입 생성
+POST http://localhost:8003/api/user/hookType
+Content-Type: application/json
+
+{
+  "hookTypeName": "Dooray"
+}
+
+### 훅 타입 생성
+POST http://localhost:8003/api/user/hookType
+Content-Type: application/json
+
+{
+  "hookTypeName": "Kakao"
+}
+
+### 생성되어 있는 훅 타입들 조회
+GET http://localhost:8003/api/user/hookType/list
+Accept: application/json
+
+### 훅 타입 정보 조회
+GET http://localhost:8003/api/user/hookType/1
+Accept: application/json
+
+### 훅 타입 수정
+PUT http://localhost:8003/api/user/hookType/1
+Content-Type: application/json
+
+{
+  "hookTypeName": "두레이"
+}
+
+### 훅 타입 삭제
+DELETE http://localhost:8003/api/user/hookType/1
+Accept: application/json
+

@@ -1,0 +1,68 @@
+### 회원 생성
+POST http://localhost:8003/api/user/signup
+Content-Type: application/json
+
+{
+  "userId": "user",
+  "userPassword": "1234512345",
+  "userName": "유저",
+  "userEmail": "cs.smoothing@gmail.com"
+}
+
+### 회원 비밀번호 확인
+POST http://localhost:8003/api/user/password
+X-USER-ID: hani
+Content-Type: application/json
+
+{
+  "userPassword" : "1234512345"
+}
+
+### 회원 탈퇴
+DELETE http://localhost:8003/api/user/inactive
+X-USER-ID: admin
+Accept: application/json
+
+
+###  로그인 요청이 오면 회원 정보(아이디, 비밀번호, 권한)을 조회
+GET http://localhost:8003/api/user/login
+X-USER-ID: admin
+Accept: application/json
+
+### 회원 정보 상세 조회
+GET http://localhost:8003/api/user/profile
+X-USER-ID: user
+Accept: application/json
+
+
+### 회원 정보(이름, 이메일) 수정
+PUT http://localhost:8003/api/user/profile
+X-USER-ID: user
+Content-Type: application/json
+
+{
+  "userName": "제발",
+  "userEmail": "user@naver.com"
+}
+
+### 회원 비밀번호 수정
+PUT http://localhost:8003/api/user/profile/password
+X-USER-ID: user
+Content-Type: application/json
+
+{
+  "userPassword": "5432154321"
+}
+
+### 회원 정보 조회 (회원 정보 수정)
+GET http://localhost:8003/api/user/profile/modify
+X-USER-ID: user
+Accept: application/json
+
+####
+#PATCH http://localhost:8003/api/user/activate
+#X-USER-ID: user2
+#Accept: application/json
+
+###
+http://localhost:8003/api/user/userList?page=0&size=10

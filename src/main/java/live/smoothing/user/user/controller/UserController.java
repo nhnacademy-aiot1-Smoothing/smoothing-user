@@ -1,19 +1,21 @@
 package live.smoothing.user.user.controller;
 
+import live.smoothing.user.user.dto.UserInfoListResponse;
 import live.smoothing.user.user.dto.request.UserCreateRequest;
 import live.smoothing.user.user.dto.request.UserInfoModifyRequest;
 import live.smoothing.user.user.dto.request.UserPWModifyRequest;
 import live.smoothing.user.common.dto.MessageResponse;
-import live.smoothing.user.user.dto.response.UserDetailResponse;
-import live.smoothing.user.user.dto.response.UserResponseTemplate;
-import live.smoothing.user.user.dto.response.UserSimpleResponse;
+import live.smoothing.user.user.dto.request.UserPasswordRequest;
+import live.smoothing.user.user.dto.response.*;
 import live.smoothing.user.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,25 +43,62 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserDetailInfo(userId));
     }
 
-    @PatchMapping("/profile")
+    @PutMapping("/profile")
     public ResponseEntity<MessageResponse> userInfoModify(@RequestHeader("X-USER-ID") String userId,
-                                                 @Valid @RequestBody UserInfoModifyRequest request) {
+                                                          @Valid @RequestBody UserInfoModifyRequest request) {
+
         userService.modifyUserInfo(userId, request);
         return ResponseEntity.ok(new MessageResponse("유저 정보 변경 완료"));
     }
 
-    @PatchMapping("/profile/password")
+    @PutMapping("/profile/password")
     public ResponseEntity<MessageResponse> userPasswordModify(@RequestHeader("X-USER-ID") String userId,
-                                                     @Valid @RequestBody UserPWModifyRequest request) {
+                                                              @Valid @RequestBody UserPWModifyRequest request) {
 
         userService.modifyUserPassword(userId, request);
         return ResponseEntity.ok(new MessageResponse("유저 비밀번호 변경 완료"));
     }
 
     @DeleteMapping("/inactive")
-    public ResponseEntity<MessageResponse> userInactive(@RequestHeader("X-USER-ID") String userId){
+    public ResponseEntity<MessageResponse> userInactive(@RequestHeader("X-USER-ID") String userId) {
 
         userService.deleteUser(userId);
         return ResponseEntity.ok(new MessageResponse("유저 비활성화 완료"));
+    }
+
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<MessageResponse> deleteUser(@PathVariable("userId") String userId) {
+
+        userService.deleteUser(userId);
+        return ResponseEntity.ok(new MessageResponse("유저 비활성화 완료"));
+    }
+
+    @PostMapping("/password")
+    public ResponseEntity<MessageResponse> verifyUserPassword(@RequestHeader("X-USER-ID") String userId, @RequestBody UserPasswordRequest request) {
+
+        if(userService.isCorrectUserPassword(userId, request)) {
+            return ResponseEntity.ok(new MessageResponse("비밀번호 확인 완료"));
+        }
+
+        return ResponseEntity.badRequest().body(new MessageResponse("비말번호 불일치"));
+    }
+
+    @GetMapping("/profile/name")
+    public ResponseEntity<String> getUserName(@RequestHeader("X-USER-ID") String userId) {
+
+        return ResponseEntity.ok(userService.getUserName(userId));
+    }
+
+    @GetMapping("/profile/modify")
+    public ResponseEntity<UserProfileResponse> getUserProfile(@RequestHeader("X-USER-ID") String userId) {
+
+        return ResponseEntity.ok(userService.getUserProfile(userId));
+    }
+
+    @GetMapping("/userList")
+    public ResponseEntity<UserInfoListResponse> getUserList(Pageable pageable) {
+
+        return ResponseEntity.ok().body(userService.findAllUsers(pageable));
+
     }
 }

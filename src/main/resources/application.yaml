@@ -9,10 +9,10 @@ logging:
 spring:
   application:
     name: user-service
-  lifecycle:
-    timeout-per-shutdown-phase: 30s
+#  lifecycle:
+#    timeout-per-shutdown-phase: 30s
   profiles:
-    active: prod
+    active: dev
 
   jpa:
     open-in-view: false

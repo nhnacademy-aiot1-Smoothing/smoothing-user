@@ -1,6 +1,7 @@
 package live.smoothing.user.adapter;
 
-import live.smoothing.user.user.dto.response.PasswordDto;
+import live.smoothing.user.user.dto.request.PasswordEncodingRequest;
+import live.smoothing.user.user.dto.response.PasswordEncodingResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,5 +13,5 @@ import java.util.Optional;
 public interface AuthAdapter {
 
     @PostMapping
-    Optional<PasswordDto> encodingPassword(@Valid @RequestBody PasswordDto passwordDto);
+    Optional<PasswordEncodingResponse> encodingPassword(@Valid @RequestBody PasswordEncodingRequest request);
 }
