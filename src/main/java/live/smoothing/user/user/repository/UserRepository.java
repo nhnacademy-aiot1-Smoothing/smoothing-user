@@ -3,6 +3,7 @@ package live.smoothing.user.user.repository;
 import live.smoothing.user.user.dto.WaitingUser;
 import live.smoothing.user.user.dto.response.*;
 import live.smoothing.user.user.entity.User;
+import live.smoothing.user.user.entity.UserState;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,4 +26,8 @@ public interface UserRepository extends JpaRepository<User, String>, CustomUserR
 
     @Query("select new live.smoothing.user.user.dto.response.UserInfoResponse(u.userId, u.userName, u.userEmail) from User u where u.userState = live.smoothing.user.user.entity.UserState.APPROVED")
     Page<UserInfoResponse> getUserInfos(Pageable pageable);
+
+    @Query("select u.userState from User u where u.userId = :userId")
+   UserState getUserState(String userId);
+
 }

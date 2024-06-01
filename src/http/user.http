@@ -3,9 +3,9 @@ POST http://localhost:8003/api/user/signup
 Content-Type: application/json
 
 {
-  "userId": "user",
+  "userId": "test",
   "userPassword": "1234512345",
-  "userName": "유저",
+  "userName": "사용자",
   "userEmail": "cs.smoothing@gmail.com"
 }
 
@@ -26,7 +26,7 @@ Accept: application/json
 
 ###  로그인 요청이 오면 회원 정보(아이디, 비밀번호, 권한)을 조회
 GET http://localhost:8003/api/user/login
-X-USER-ID: admin
+X-USER-ID: haha
 Accept: application/json
 
 ### 회원 정보 상세 조회
@@ -56,7 +56,7 @@ Content-Type: application/json
 
 ### 회원 정보 조회 (회원 정보 수정)
 GET http://localhost:8003/api/user/profile/modify
-X-USER-ID: user
+X-USER-ID: admin
 Accept: application/json
 
 ####
@@ -66,3 +66,7 @@ Accept: application/json
 
 ###
 http://localhost:8003/api/user/userList?page=0&size=10
+
+### 아이디 중복 검사
+GET http://localhost:8003/api/user/existUser?userId=haha
+Content-Type: application/json
