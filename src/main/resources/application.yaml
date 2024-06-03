@@ -14,6 +14,12 @@ spring:
   profiles:
     active: dev
 
+  rabbitmq:
+    host: 133.186.247.48
+    port: 5672
+    username: guest
+    password: guest
+
   jpa:
     open-in-view: false
     properties:
@@ -35,3 +41,4 @@ server:
       force: true
       charset: UTF-8
   port: 8003
+

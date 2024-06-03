@@ -3,6 +3,9 @@ package live.smoothing.user.user.service.impl;
 import live.smoothing.user.adapter.AuthAdapter;
 import live.smoothing.user.advice.ErrorCode;
 import live.smoothing.user.advice.exception.ServiceException;
+import live.smoothing.user.rabbitmq.MessageSender;
+import live.smoothing.user.rabbitmq.dto.FcmMessage;
+import live.smoothing.user.rabbitmq.dto.HookMessage;
 import live.smoothing.user.role.dto.response.RoleResponse;
 import live.smoothing.user.user.dto.UserInfoListResponse;
 import live.smoothing.user.user.dto.request.*;
@@ -34,6 +37,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
     private final AuthAdapter adapter;
+    private final MessageSender messageSender;
 
     @Override
     @Transactional
@@ -51,6 +55,10 @@ public class UserServiceImpl implements UserService {
         User user = request.toEntity(response.getEncodedPassword());
 
         userRepository.save(user);
+
+        messageSender.sendMessageToHookQueue(new HookMessage("ROLE_ADMIN", "회원 승인 요청이 있습니다."));
+        messageSender.sendMessageToFcmQueue(new FcmMessage("알림", "회원 승인 요청이 있습니다."));
+
     }
 
     @Override
