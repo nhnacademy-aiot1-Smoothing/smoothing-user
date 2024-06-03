@@ -1,0 +1,37 @@
+GET http://localhost:8003/api/user/webhook/1
+X-USER-ID: haha
+Accept: application/json
+
+###
+GET http://localhost:8003/api/user/webhook
+X-USER-ID: haha
+Accept: application/json
+
+###
+POST http://localhost:8003/api/user/webhook
+X-USER-ID: haha
+Content-Type: application/json
+
+{
+  "hookName": "테스트 훅",
+  "hookTypeId": 1,
+  "hookUrl": "www.smoothing.live",
+  "hookEventIds": [1, 2]
+}
+
+###
+PUT http://localhost:8003/api/user/webhook/1
+X-USER-ID: haha
+Content-Type: application/json
+
+{
+  "hookName": "훅이름 수정",
+  "hookTypeId": 1,
+  "hookUrl": "스무딩.live",
+  "hookEventIds": [1, 2]
+}
+
+###
+DELETE http://localhost:8003/api/user/webhook/1
+X-USER-ID: haha
+Accept: application/json

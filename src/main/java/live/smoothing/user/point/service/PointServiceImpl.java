@@ -71,4 +71,16 @@ public class PointServiceImpl implements PointService {
 
         return balance;
     }
+
+    @Override
+    public void rollbackPoint(String userId, Long pointDetailAmount) {
+
+        User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+
+        PointDetail point = pointRepository.findByUserAndPointDetailAmount(user, pointDetailAmount);
+
+        if (point != null) {
+            pointRepository.delete(point);
+        }
+    }
 }

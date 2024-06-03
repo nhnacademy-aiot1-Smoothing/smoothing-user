@@ -14,4 +14,6 @@ public interface PointRepository extends JpaRepository<PointDetail, Long> {
 
     @Query("SELECT COALESCE(SUM(pd.pointDetailAmount), 0) FROM PointDetail pd WHERE pd.user = :user")
     Long sumAccumulatedAndUsedPointByUser(@Param("user") User user);
+
+    PointDetail findByUserAndPointDetailAmount(User user, Long pointDetail);
 }

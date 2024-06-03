@@ -2,6 +2,7 @@ package live.smoothing.user.user.service.impl;
 
 
 import live.smoothing.user.adapter.AuthAdapter;
+import live.smoothing.user.rabbitmq.MessageSender;
 import live.smoothing.user.role.entity.Role;
 import live.smoothing.user.role.repository.RoleRepository;
 import live.smoothing.user.user.dto.request.UserCreateRequest;
@@ -39,6 +40,9 @@ class UserServiceImplTest {
 
     @Mock
     RoleRepository roleRepository;
+
+    @Mock
+    MessageSender messageSender;
 
     @InjectMocks
     UserServiceImpl userService;

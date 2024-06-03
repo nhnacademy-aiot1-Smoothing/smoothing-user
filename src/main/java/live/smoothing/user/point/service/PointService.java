@@ -12,4 +12,6 @@ public interface PointService {
     List<PointDetailResponse> getPointDetails(String userId);
 
     Long getBalance(String userId);
+
+    void rollbackPoint(String userId, Long pointDetailAmount);
 }
