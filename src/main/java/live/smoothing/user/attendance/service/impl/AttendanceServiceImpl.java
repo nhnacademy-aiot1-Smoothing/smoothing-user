@@ -6,6 +6,9 @@ import live.smoothing.user.attendance.dto.response.UserAttendanceResponse;
 import live.smoothing.user.attendance.entity.Attendance;
 import live.smoothing.user.attendance.repository.AttendanceRepository;
 import live.smoothing.user.attendance.service.AttendanceService;
+import live.smoothing.user.point.dto.PointRegisterRequest;
+import live.smoothing.user.point.entity.PointDetailType;
+import live.smoothing.user.point.service.PointService;
 import live.smoothing.user.user.entity.User;
 import live.smoothing.user.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +24,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     private final UserRepository userRepository;
     private final AttendanceRepository attendanceRepository;
+    private final PointService pointService;
 
     @Override
     public UserAttendanceResponse getUserAttendance(String userId, int year, int month) {
@@ -41,18 +45,27 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public void attendanceCheck(String userId) {
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+        try {
 
-        LocalDate today = LocalDate.now();
-        boolean isChecked = attendanceRepository.existsByUser_UserIdAndAttendanceDate(userId, today);
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-        if (isChecked) {
-            throw new ServiceException(ErrorCode.ATTENDANCE_ALREADY_CHECKED);
+            LocalDate today = LocalDate.now();
+            boolean isChecked = attendanceRepository.existsByUser_UserIdAndAttendanceDate(userId, today);
+
+            if (isChecked) {
+                throw new ServiceException(ErrorCode.ATTENDANCE_ALREADY_CHECKED);
+            }
+
+            Attendance attendance = new Attendance(user, LocalDate.now());
+
+            attendanceRepository.save(attendance);
+
+            PointRegisterRequest request = new PointRegisterRequest(userId, 100L, PointDetailType.ACCUMULATION);
+            pointService.createPoint(request);
+        } catch(ServiceException e) {
+            pointService.rollbackPoint(userId, 100L);
+            throw e;
         }
-
-        Attendance attendance = new Attendance(user, LocalDate.now());
-
-        attendanceRepository.save(attendance);
     }
 }
