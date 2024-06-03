@@ -1,4 +1,6 @@
 spring:
+  rabbitmq:
+    virtual-host: /test
   datasource:
     dbcp2:
       url: jdbc:mysql://133.186.244.96:3306/nhn_academy_15
