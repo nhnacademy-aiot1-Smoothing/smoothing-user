@@ -45,27 +45,21 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public void attendanceCheck(String userId) {
 
-        try {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
-            User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+        LocalDate today = LocalDate.now();
+        boolean isChecked = attendanceRepository.existsByUser_UserIdAndAttendanceDate(userId, today);
 
-            LocalDate today = LocalDate.now();
-            boolean isChecked = attendanceRepository.existsByUser_UserIdAndAttendanceDate(userId, today);
-
-            if (isChecked) {
-                throw new ServiceException(ErrorCode.ATTENDANCE_ALREADY_CHECKED);
-            }
-
-            Attendance attendance = new Attendance(user, LocalDate.now());
-
-            attendanceRepository.save(attendance);
-
-            PointRegisterRequest request = new PointRegisterRequest(userId, 100L, PointDetailType.ACCUMULATION);
-            pointService.createPoint(request);
-        } catch(ServiceException e) {
-            pointService.rollbackPoint(userId, 100L);
-            throw e;
+        if (isChecked) {
+            throw new ServiceException(ErrorCode.ATTENDANCE_ALREADY_CHECKED);
         }
+
+        Attendance attendance = new Attendance(user, LocalDate.now());
+
+        attendanceRepository.save(attendance);
+
+        PointRegisterRequest request = new PointRegisterRequest(userId, 100L, PointDetailType.ACCUMULATION);
+        pointService.createPoint(request);
     }
 }
