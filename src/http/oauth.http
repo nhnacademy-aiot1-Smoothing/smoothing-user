@@ -1,0 +1,6 @@
+GET http://localhost:8003/api/user/oauth/exist?providerName=github&providerKey=1234
+
+###
+
+DELETE http://localhost:8003/api/user/oauth?providerName=github
+X-USER-ID: haha
