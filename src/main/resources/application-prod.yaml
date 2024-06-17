@@ -28,4 +28,4 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://admin:admin@133.186.210.43:8004/eureka/
+      defaultZone: http://admin:admin@eureka-service:8004/eureka/
