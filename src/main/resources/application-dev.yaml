@@ -3,9 +3,9 @@ spring:
     virtual-host: /test
   datasource:
     dbcp2:
-      url: jdbc:mysql://133.186.244.96:3306/nhn_academy_15
-      username: nhn_academy_15
-      password: BuqF!9]bMt)HzXRw
+      url: jdbc:mysql://133.186.241.167:3306/aiot01_smoothing
+      username: aiot01_smoothing
+      password: IYaNXnH)zmhsVe7e
       driver-class-name: com.mysql.cj.jdbc.Driver
       test-on-borrow: true
       validation-query: select 1
